@@ -106,6 +106,7 @@ export interface RoomSettings {
 	mafiaDisabled?: boolean;
 	unoDisabled?: boolean;
 	blackjackDisabled?: boolean;
+	emotesDisabled?: boolean;
 	hangmanDisabled?: boolean;
 	gameNumber?: number;
 	highTraffic?: boolean;
