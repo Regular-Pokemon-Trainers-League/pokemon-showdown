@@ -19730,4 +19730,17 @@ export const Pokedex: {[speciesid: string]: SpeciesData} = {
 		eggGroups: ["Undiscovered"],
 		gen: 5,
 	},
+// MUNDANTON Dex
+	puppyro: {
+		num: -6001,
+		name: "Puppyro",
+		types: ["Normal", "Fire"],
+		baseStats: {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100},
+		abilities: {0: "Levitate"},
+		heightm: 1.5,
+		weightkg: 61,
+		color: "White",
+		eggGroups: ["Undiscovered"],
+		gen: -1,
+	},
 };

@@ -6054,4 +6054,10 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		isNonstandard: "Custom",
 		tier: "Illegal",
 	},
+// Mundanton Dex
+	puppyro: {
+		tier: "Mundanton",
+		doublesTier: "Mundanton",
+		natDexTier: "Mundanton",
+	},
 };
