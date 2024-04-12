@@ -133,7 +133,7 @@ export function generateFormatSchedule() {
 
 export async function getLadderTop(format: string) {
 	try {
-		const results = await Net(`https://${Config.routes.root}/ladder/?format=${toID(format)}&json`).get();
+		const results = await Net(`https://pokemonshowdown.com/ladder/?format=${toID(format)}&json`).get();
 		const reply = JSON.parse(results);
 		return reply.toplist;
 	} catch (e) {
