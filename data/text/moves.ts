@@ -5714,6 +5714,11 @@ export const MovesText: {[k: string]: MoveText} = {
 		desc: "Has a 10% chance to raise the user's Attack, Defense, Special Attack, Special Defense, and Speed by 1 stage.",
 		shortDesc: "10% chance to raise all stats by 1 (not acc/eva).",
 	},
+	silvestronblast: {
+		name: "SILVESTRON Blast",
+		desc: "WARNING: Technique incomplete. Must recharge if used.",
+		shortDesc: "WARNING: Technique incomplete. Must recharge.",
+	},
 	simplebeam: {
 		name: "Simple Beam",
 		desc: "Causes the target's Ability to become Simple. Fails if the target's Ability is As One, Battle Bond, Comatose, Disguise, Gulp Missile, Ice Face, Multitype, Power Construct, RKS System, Schooling, Shields Down, Simple, Stance Change, Tera Shift, Truant, Zen Mode, or Zero to Hero.",

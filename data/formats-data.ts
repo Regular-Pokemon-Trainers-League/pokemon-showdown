@@ -6038,4 +6038,476 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		isNonstandard: "Custom",
 		tier: "Illegal",
 	},
+	lillipupbuff: {
+		isNonstandard: "Past",
+		tier: "Illegal",
+		natDexTier: "LC",
+	},
+	herdierbuff: {
+		isNonstandard: "Past",
+		tier: "Illegal",
+		natDexTier: "NFE",
+	},
+	starlybuff: {
+		tier: "LC",
+	},
+	staraviabuff: {
+		tier: "NFE",
+	},
+	scorbunnybuff: {
+		tier: "LC",
+	},
+	rabootbuff: {
+		tier: "NFE",
+	},
+	tepigbuff: {
+		tier: "LC",
+	},
+	pignitebuff: {
+		tier: "NFE",
+	},
+	mudkipbuff: {
+		tier: "LC",
+	},
+	marshtompbuff: {
+		tier: "NFE",
+	},
+	turtwigbuff: {
+		tier: "LC",
+	},
+	grotlebuff: {
+		tier: "NFE",
+	},
+	snivybuff: {
+		tier: "LC",
+	},
+	servinebuff: {
+		tier: "NFE",
+	},
+	fletchlingbuff: {
+		tier: "LC",
+	},
+	fletchinderbuff: {
+		tier: "NFE",
+	},
+	hoppipbuff: {
+		tier: "LC",
+	},
+	skiploombuff: {
+		tier: "NFE",
+	},
+	grubbinbuff: {
+		tier: "LC",
+	},
+	charjabugbuff: {
+		tier: "NFE",
+	},
+	venipedebuff: {
+		tier: "LC",
+	},
+	whirlipedebuff: {
+		tier: "NFE",
+	},
+	oddishbuff: {
+		tier: "LC",
+	},
+	gloombuff: {
+		tier: "NFE",
+	},
+	nidoranmbuff: {
+		tier: "LC",
+	},
+	nidorinobuff: {
+		tier: "NFE",
+	},
+	giblebuff: {
+		tier: "LC",
+	},
+	gabitebuff: {
+		tier: "NFE",
+	},
+	rhyhornbuff: {
+		tier: "LC",
+	},
+	rhydonbuff: {
+		tier: "NFE",
+	},
+	geodudealolabuff: {
+		tier: "LC",
+	},
+	graveleralolabuff: {
+		tier: "NFE",
+	},
+	sphealbuff: {
+		tier: "LC",
+	},
+	sealeobuff: {
+		tier: "NFE",
+	},
+	frigibaxbuff: {
+		tier: "LC",
+	},
+	arctibaxbuff: {
+		tier: "NFE",
+	},
+	tynamobuff: {
+		tier: "LC",
+	},
+	eelektrikbuff: {
+		tier: "NFE",
+	},
+	jangmoobuff: {
+		tier: "LC",
+	},
+	hakamoobuff: {
+		tier: "NFE",
+	},
+	solosisbuff: {
+		tier: "LC",
+	},
+	duosionbuff: {
+		tier: "NFE",
+	},
+	mimejrbuff: {
+		tier: "LC",
+	},
+	mrmimegalarbuff: {
+		tier: "NFE",
+	},
+	naclibuff: {
+		tier: "LC",
+	},
+	naclstackbuff: {
+		tier: "NFE",
+	},
+	pawmibuff: {
+		tier: "LC",
+	},
+	pawmobuff: {
+		tier: "NFE",
+	},
+	pichubuff: {
+		tier: "LC",
+	},
+	pikachubuff: {
+		tier: "NFE",
+	},
+	aronbuff: {
+		tier: "LC",
+	},
+	laironbuff: {
+		tier: "NFE",
+	},
+	honedgebuff: {
+		tier: "LC",
+	},
+	doubladebuff: {
+		tier: "NFE",
+	},
+	sandilebuff: {
+		tier: "LC",
+	},
+	krokorokbuff: {
+		tier: "NFE",
+	},
+	zigzagoongalarbuff: {
+		tier: "LC",
+	},
+	linoonegalarbuff: {
+		tier: "NFE",
+	},
+	gastlybuff: {
+		tier: "LC",
+	},
+	haunterbuff: {
+		tier: "NFE",
+	},
+	dreepybuff: {
+		tier: "LC",
+	},
+	drakloakbuff: {
+		tier: "NFE",
+	},
+	bagonbuff: {
+		tier: "LC",
+	},
+	shelgonbuff: {
+		tier: "NFE",
+	},
+	dratinibuff: {
+		tier: "LC",
+	},
+	dragonairbuff: {
+		tier: "NFE",
+	},
+	tinkatinkbuff: {
+		tier: "LC",
+	},
+	tinkatuffbuff: {
+		tier: "NFE",
+	},
+	igglybuffbuff: {
+		tier: "LC",
+	},
+	jigglypuffbuff: {
+		tier: "NFE",
+	},
+	oshawottbuff: {
+		tier: "LC",
+	},
+	dewottbuff: {
+		tier: "NFE",
+	},
+	voltorbhisuibuff: {
+		tier: "LC",
+	},
+	koffingbuff: {
+		tier: "LC",
+	},
+	tyroguebuff: {
+		tier: "LC",
+	},
+	combeebuff: {
+		tier: "LC",
+	},
+	goomybuff: {
+		tier: "LC",
+	},
+	bergmitebuff: {
+		tier: "LC",
+	},
+	rowletbuff: {
+		tier: "LC",
+	},
+	littenbuff: {
+		tier: "LC",
+	},
+	pikipekbuff: {
+		tier: "LC",
+	},
+	rockruffbuff: {
+		tier: "LC",
+	},
+	salanditbuff: {
+		tier: "LC",
+	},
+	bounsweetbuff: {
+		tier: "LC",
+	},
+	grookeybuff: {
+		tier: "LC",
+	},
+	sobblebuff: {
+		tier: "LC",
+	},
+	rolycolybuff: {
+		tier: "LC",
+	},
+	applinbuff: {
+		tier: "LC",
+	},
+	toxelbuff: {
+		tier: "LC",
+	},
+	sinisteabuff: {
+		tier: "LC",
+	},
+	hatennabuff: {
+		tier: "LC",
+	},
+	impidimpbuff: {
+		tier: "LC",
+	},
+	milcerybuff: {
+		tier: "LC",
+	},
+	teddiursabuff: {
+		tier: "LC",
+	},
+	sprigatitobuff: {
+		tier: "LC",
+	},
+	fuecocobuff: {
+		tier: "LC",
+	},
+	quaxlybuff: {
+		tier: "LC",
+	},
+	tarountulabuff: {
+		tier: "LC",
+	},
+	charcadetbuff: {
+		tier: "LC",
+	},
+	shroodlebuff: {
+		tier: "LC",
+	},
+	capsakidbuff: {
+		tier: "LC",
+	},
+	rellorbuff: {
+		tier: "LC",
+	},
+	flittlebuff: {
+		tier: "LC",
+	},
+	wiglettbuff: {
+		tier: "LC",
+	},
+	glimmetbuff: {
+		tier: "LC",
+	},
+	mankeybuff: {
+		tier: "LC",
+	},
+	pawniardbuff: {
+		tier: "LC",
+	},
+	gimmighoulbuff: {
+		tier: "LC",
+	},
+	poltchageistbuff: {
+		tier: "LC",
+	},
+	azurillbuff: {
+		tier: "LC",
+	},
+	burmybuff: {
+		tier: "LC",
+	},
+	caterpiebuff: {
+		tier: "LC",
+	},
+	cleffabuff: {
+		tier: "LC",
+	},
+	feebasbuff: {
+		tier: "LC",
+	},
+	happinybuff: {
+		tier: "LC",
+	},
+	hoothootbuff: {
+		tier: "LC",
+	},
+	kricketotbuff: {
+		tier: "LC",
+	},
+	ledybabuff: {
+		tier: "LC",
+	},
+	lotadbuff: {
+		tier: "LC",
+	},
+	magikarpbuff: {
+		tier: "LC",
+	},
+	nickitbuff: {
+		tier: "LC",
+	},
+	nidoranfbuff: {
+		tier: "LC",
+	},
+	nincadabuff: {
+		tier: "LC",
+	},
+	patratbuff: {
+		tier: "LC",
+	},
+	pansagebuff: {
+		tier: "LC",
+	},
+	pansearbuff: {
+		tier: "LC",
+	},
+	panpourbuff: {
+		tier: "LC",
+	},
+	pidgeybuff: {
+		tier: "LC",
+	},
+	pidovebuff: {
+		tier: "LC",
+	},
+	poochyenabuff: {
+		tier: "LC",
+	},
+	raltsbuff: {
+		tier: "LC",
+	},
+	rattatabuff: {
+		tier: "LC",
+	},
+	rattataalolabuff: {
+		tier: "LC",
+	},
+	scatterbugbuff: {
+		tier: "LC",
+	},
+	seedotbuff: {
+		tier: "LC",
+	},
+	sewaddlebuff: {
+		tier: "LC",
+	},
+	skwovetbuff: {
+		tier: "LC",
+	},
+	slakothbuff: {
+		tier: "LC",
+	},
+	slugmabuff: {
+		tier: "LC",
+	},
+	smolivbuff: {
+		tier: "LC",
+	},
+	snoruntbuff: {
+		tier: "LC",
+	},
+	sunkernbuff: {
+		tier: "LC",
+	},
+	tympolebuff: {
+		tier: "LC",
+	},
+	weedlebuff: {
+		tier: "LC",
+	},
+	whismurbuff: {
+		tier: "LC",
+	},
+	wimpodbuff: {
+		tier: "LC",
+	},
+	wooperbuff: {
+		tier: "LC",
+	},
+	wooperpaldeabuff: {
+		tier: "LC",
+	},
+	wurmplebuff: {
+		tier: "LC",
+	},
+	yamperbuff: {
+		tier: "LC",
+	},
+	wynautbuff: {
+		tier: "LC",
+	},
+	beldumbuff: {
+		tier: "LC",
+	},
+	blipbugbuff: {
+		tier: "LC",
+	},
+	slowpokebuff: {
+		tier: "LC",
+	},
+	slowpokegalarbuff: {
+		tier: "LC",
+	},
+	snombuff: {
+		tier: "Uber",
+	},
 };

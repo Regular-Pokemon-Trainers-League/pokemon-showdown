@@ -17095,6 +17095,23 @@ export const Moves: {[moveid: string]: MoveData} = {
 		type: "Bug",
 		contestType: "Beautiful",
 	},
+	silvestronblast: {
+		num: 1000,
+		accuracy: 100,
+		basePower: 160,
+		category: "Special",
+		name: "SILVESTRON Blast",
+		pp: 10,
+		priority: 0,
+		flags: {recharge: 1, protect: 1, mirror: 1, metronome: 1},
+		self: {
+			volatileStatus: 'mustrecharge',
+		},
+		secondary: null,
+		target: "normal",
+		type: "Psychic",
+		contestType: "Cool",
+	},
 	simplebeam: {
 		num: 493,
 		accuracy: 100,

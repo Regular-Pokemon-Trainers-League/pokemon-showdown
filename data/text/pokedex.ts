@@ -3767,4 +3767,472 @@ export const PokedexText: {[k: string]: PokedexText} = {
 	pokestarufopropu2: {
 		name: "Pokestar UFO-PropU2",
 	},
+	lillipupbuff: {
+		name: "Lillipup-Buff",
+	},
+	herdierbuff: {
+		name: "Herdier-Buff",
+	},
+	starlybuff: {
+		name: "Starly-Buff",
+	},
+	staraviabuff: {
+		name: "Staravia-Buff",
+	},
+	scorbunnybuff: {
+		name: "Scorbunny-Buff",
+	},
+	rabootbuff: {
+		name: "Raboot-Buff",
+	},
+	tepigbuff: {
+		name: "Tepig-Buff",
+	},
+	pignitebuff: {
+		name: "Pignite-Buff",
+	},
+	mudkipbuff: {
+		name: "Mudkip-Buff",
+	},
+	marshtompbuff: {
+		name: "Marshtomp-Buff",
+	},
+	turtwigbuff: {
+		name: "Turtwig-Buff",
+	},
+	grotlebuff: {
+		name: "Grotle-Buff",
+	},
+	snivybuff: {
+		name: "Snivy-Buff",
+	},
+	servinebuff: {
+		name: "Servine-Buff",
+	},
+	fletchlingbuff: {
+		name: "Fletchling-Buff",
+	},
+	fletchinderbuff: {
+		name: "Fletchinder-Buff",
+	},
+	hoppipbuff: {
+		name: "Hoppip-Buff",
+	},
+	skiploombuff: {
+		name: "Skiploom-Buff",
+	},
+	grubbinbuff: {
+		name: "Grubbin-Buff",
+	},
+	charjabugbuff: {
+		name: "Charjabug-Buff",
+	},
+	venipedebuff: {
+		name: "Venipede-Buff",
+	},
+	whirlipedebuff: {
+		name: "Whirlipede-Buff",
+	},
+	oddishbuff: {
+		name: "Oddish-Buff",
+	},
+	gloombuff: {
+		name: "Gloom-Buff",
+	},
+	nidoranmbuff: {
+		name: "Nidoran-M-Buff",
+	},
+	nidorinobuff: {
+		name: "Nidorino-Buff",
+	},
+	giblebuff: {
+		name: "Gible-Buff",
+	},
+	gabitebuff: {
+		name: "Gabite-Buff",
+	},
+	rhyhornbuff: {
+		name: "Rhyhorn-Buff",
+	},
+	rhydonbuff: {
+		name: "Rhydon-Buff",
+	},
+	geodudealolabuff: {
+		name: "Geodude-Alola-Buff",
+	},
+	graveleralolabuff: {
+		name: "Graveler-Alola-Buff",
+	},
+	sphealbuff: {
+		name: "Spheal-Buff",
+	},
+	sealeobuff: {
+		name: "Sealeo-Buff",
+	},
+	frigibaxbuff: {
+		name: "Frigibax-Buff",
+	},
+	arctibaxbuff: {
+		name: "Arctibax-Buff",
+	},
+	tynamobuff: {
+		name: "Tynamo-Buff",
+	},
+	eelektrikbuff: {
+		name: "Eelektrik-Buff",
+	},
+	jangmoobuff: {
+		name: "Jangmo-o-Buff",
+	},
+	hakamoobuff: {
+		name: "Hakamo-o-Buff",
+	},
+	solosisbuff: {
+		name: "Solosis-Buff",
+	},
+	duosionbuff: {
+		name: "Duosion-Buff",
+	},
+	mimejrbuff: {
+		name: "Mime Jr.-Buff",
+	},
+	mrmimegalarbuff: {
+		name: "Mr. Mime-Galar-Buff",
+	},
+	naclibuff: {
+		name: "Nacli-Buff",
+	},
+	naclstackbuff: {
+		name: "Naclstack-Buff",
+	},
+	pawmibuff: {
+		name: "Pawmi-Buff",
+	},
+	pawmo: {
+		name: "Pawmo-Buff",
+	},
+	pichubuff: {
+		name: "Pichu-Buff",
+	},
+	pikachubuff: {
+		name: "Pikachu-Buff",
+	},
+	aronbuff: {
+		name: "Aron-Buff",
+	},
+	laironbuff: {
+		name: "Lairon-Buff",
+	},
+	honedgebuff: {
+		name: "Honedge-Buff",
+	},
+	doubladebuff: {
+		name: "Doublade-Buff",
+	},
+	sandilebuff: {
+		name: "Sandile-Buff",
+	},
+	krokorokbuff: {
+		name: "Krokorok-Buff",
+	},
+	zigzagoongalarbuff: {
+		name: "Zigzagoon-Galar-Buff",
+	},
+	linoonegalarbuff: {
+		name: "Linoone-Galar-Buff",
+	},
+	gastlybuff: {
+		name: "Gastly-Buff",
+	},
+	haunterbuff: {
+		name: "Haunter-Buff",
+	},
+	dreepybuff: {
+		name: "Dreepy-Buff",
+	},
+	drakloakbuff: {
+		name: "Drakloak-Buff",
+	},
+	bagonbuff: {
+		name: "Bagon-Buff",
+	},
+	shelgonbuff: {
+		name: "Shelgon-Buff",
+	},
+	dratinibuff: {
+		name: "Dratini-Buff",
+	},
+	dragonairbuff: {
+		name: "Dragonair-Buff",
+	},
+	tinkatinkbuff: {
+		name: "Tinkatink-Buff",
+	},
+	tinkatuffbuff: {
+		name: "Tinkatuff-Buff",
+	},
+	igglybuffbuff: {
+		name: "Igglybuff-Buff",
+	},
+	jigglypuffbuff: {
+		name: "Jigglypuff-Buff",
+	},
+	oshawottbuff: {
+		name: "Oshawott-Buff",
+	},
+	dewottbuff: {
+		name: "Dewott-Buff",
+	},
+	voltorbhisuibuff: {
+		name: "Voltorb-Hisui-Buff",
+	},
+	koffingbuff: {
+		name: "Koffing-Buff",
+	},
+	tyroguebuff: {
+		name: "Tyrogue-Buff",
+	},
+	combeebuff: {
+		name: "Combee-Buff",
+	},
+	goomybuff: {
+		name: "Goomy-Buff",
+	},
+	bergmitebuff: {
+		name: "Bergmite-Buff",
+	},
+	rowletbuff: {
+		name: "Rowlet-Buff",
+	},
+	littenbuff: {
+		name: "Litten-Buff",
+	},
+	pikipekbuff: {
+		name: "Pikipek-Buff",
+	},
+	rockruffbuff: {
+		name: "Rockruff-Buff",
+	},
+	salanditbuff: {
+		name: "Salandit-Buff",
+	},
+	bounsweetbuff: {
+		name: "Bounsweet-Buff",
+	},
+	grookeybuff: {
+		name: "Grookey-Buff",
+	},
+	sobblebuff: {
+		name: "Sobble-Buff",
+	},
+	rolycolybuff: {
+		name: "Rolycoly-Buff",
+	},
+	applinbuff: {
+		name: "Applin-Buff",
+	},
+	toxelbuff: {
+		name: "Toxel-Buff",
+	},
+	sinisteabuff: {
+		name: "Sinistea-Buff",
+	},
+	hatennabuff: {
+		name: "Hatenna-Buff",
+	},
+	impidimpbuff: {
+		name: "Impidimp-Buff",
+	},
+	milcerybuff: {
+		name: "Milcery-Buff",
+	},
+	teddiursabuff: {
+		name: "Teddiursa-Buff",
+	},
+	sprigatitobuff: {
+		name: "Sprigatito-Buff",
+	},
+	fuecocobuff: {
+		name: "Fuecoco-Buff",
+	},
+	quaxlybuff: {
+		name: "Quaxly-Buff",
+	},
+	tarountulabuff: {
+		name: "Tarountula-Buff",
+	},
+	charcadetbuff: {
+		name: "Charcadet-Buff",
+	},
+	shroodlebuff: {
+		name: "Charcadet-Buff",
+	},
+	capsakidbuff: {
+		name: "Capsakid-Buff",
+	},
+	rellorbuff: {
+		name: "Rellor-Buff",
+	},
+	flittlebuff: {
+		name: "Flittle-Buff",
+	},
+	wiglettbuff: {
+		name: "Wiglett-Buff",
+	},
+	glimmetbuff: {
+		name: "Glimmet-Buff",
+	},
+	mankeybuff: {
+		name: "Mankey-Buff",
+	},
+	pawniardbuff: {
+		name: "Pawniard-Buff",
+	},
+	gimmighoulbuff: {
+		name: "Gimmighoul-Buff",
+	},
+	poltchageistbuff: {
+		name: "Poltchageist-Buff",
+	},
+	azurillbuff: {
+		name: "Azurill-Buff",
+	},
+	burmybuff: {
+		name: "Burmy-Buff",
+	},
+	caterpiebuff: {
+		name: "Caterpie-Buff",
+	},
+	cleffabuff: {
+		name: "Cleffa-Buff",
+	},
+	feebasbuff: {
+		name: "Feebas-Buff",
+	},
+	happinybuff: {
+		name: "Happiny-Buff",
+	},
+	hoothootbuff: {
+		name: "Hoothoot-Buff",
+	},
+	kricketotbuff: {
+		name: "Kricketot-Buff",
+	},
+	ledybabuff: {
+		name: "Ledyba-Buff",
+	},
+	lotadbuff: {
+		name: "Lotad-Buff",
+	},
+	magikarpbuff: {
+		name: "Magikarp-Buff",
+	},
+	nickitbuff: {
+		name: "Nickit-Buff",
+	},
+	nidoranfbuff: {
+		name: "Nidoran-F-Buff",
+	},
+	nincadabuff: {
+		name: "Nincada-Buff",
+	},
+	patratbuff: {
+		name: "Patrat-Buff",
+	},
+	pansagebuff: {
+		name: "Pansage-Buff",
+	},
+	pansearbuff: {
+		name: "Pansear-Buff",
+	},
+	panpourbuff: {
+		name: "Panpour-Buff",
+	},
+	pidgeybuff: {
+		name: "Pidgey-Buff",
+	},
+	pidovebuff: {
+		name: "Pidove-Buff",
+	},
+	poochyenabuff: {
+		name: "Poochyena-Buff",
+	},
+	raltsbuff: {
+		name: "Ralts-Buff",
+	},
+	rattatabuff: {
+		name: "Rattata-Buff",
+	},
+	rattataalolabuff: {
+		name: "Rattata-Alola-Buff",
+	},
+	scatterbugbuff: {
+		name: "Scatterbug-Buff",
+	},
+	seedotbuff: {
+		name: "Seedot-Buff",
+	},
+	sewaddlebuff: {
+		name: "Sewaddle-Buff",
+	},
+	skwovetbuff: {
+		name: "Skwovet-Buff",
+	},
+	slakothbuff: {
+		name: "Slakoth-Buff",
+	},
+	slugmabuff: {
+		name: "Slugma-Buff",
+	},
+	smolivbuff: {
+		name: "Smoliv-Buff",
+	},
+	snoruntbuff: {
+		name: "Snorunt-Buff",
+	},
+	sunkernbuff: {
+		name: "Sunkern-Buff",
+	},
+	tympolebuff: {
+		name: "Tympole-Buff",
+	},
+	weedlebuff: {
+		name: "Weedle-Buff",
+	},
+	whismurbuff: {
+		name: "Whismur-Buff",
+	},
+	wimpodbuff: {
+		name: "Wimpod-Buff",
+	},
+	wooperbuff: {
+		name: "Wooper-Buff",
+	},
+	wooperpaldeabuff: {
+		name: "Wooper-Paldea-Buff",
+	},
+	wurmplebuff: {
+		name: "Wurmple-Buff",
+	},
+	yamperbuff: {
+		name: "Yamper-Buff",
+	},
+	wynautbuff: {
+		name: "Wynaut-Buff",
+	},
+	beldumbuff: {
+		name: "Beldum-Buff",
+	},
+	blipbugbuff: {
+		name: "Blipbug-Buff",
+	},
+	slowpokebuff: {
+		name: "Slowpoke-Buff",
+	},
+	slowpokegalarbuff: {
+		name: "Slowpoke-Galar-Buff",
+	},
+	snombuff: {
+		name: "Snom-Buff",
+	},
 };
