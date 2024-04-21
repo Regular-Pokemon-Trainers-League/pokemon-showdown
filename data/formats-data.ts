@@ -6510,4 +6510,10 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 	snombuff: {
 		tier: "Uber",
 	},
+	cyndaquilbuff: {
+		tier: "LC",
+	},
+	froakiebuff: {
+		tier: "LC",
+	},
 };
