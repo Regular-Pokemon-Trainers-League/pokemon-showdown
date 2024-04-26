@@ -809,6 +809,7 @@ export const commands: Chat.ChatCommands = {
 			throw new Chat.ErrorMessage(`User "${inputUsername}" can already use avatar "${avatar}".`);
 		}
 		this.globalModlog('PERSONAL AVATAR', userid, avatar);
+		Avatars.setDefault(userid, avatar);
 		this.sendReplyBox(<div>
 			{Avatars.img(avatar)}<br />
 			Added to <username class="username">{inputUsername}</username>

@@ -396,6 +396,12 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 		noCopy: true,
 		// no quotes
 	},
+	diegonegro: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('diegonegro')}|May RNGesus shine upon one of us at random!`);
+		},
+	},
 	dogknees: {
 		noCopy: true,
 		onStart(source) {
