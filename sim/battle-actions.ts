@@ -790,7 +790,9 @@ export class BattleActions {
 					boosts[statName2] = 0;
 				}
 				target.setBoost(boosts);
-				this.battle.addMove('-anim', pokemon, "Spectral Thief", target);
+				if (move.id === "spectralthief") {
+					this.battle.addMove('-anim', pokemon, "Spectral Thief", target);
+				}
 			}
 		}
 		return undefined;

@@ -169,7 +169,7 @@ export function writeStats(line: string) {
 	const date = new Date();
 	const month = Chat.toTimestamp(date).split(' ')[0].split('-', 2).join('-');
 	try {
-		FS(`logs/tickets/${month}.tsv`).appendSync(line + '\n');
+		Monitor.logPath(`tickets/${month}.tsv`).appendSync(line + '\n');
 	} catch (e: any) {
 		if (e.code !== 'ENOENT') throw e;
 	}
@@ -506,7 +506,7 @@ export class HelpTicket extends Rooms.SimpleRoomGame {
 			recommended: ticket.recommended,
 		};
 		const date = Chat.toTimestamp(new Date()).split(' ')[0];
-		void FS(`logs/tickets/${date.slice(0, -3)}.jsonl`).append(JSON.stringify(entry) + '\n');
+		void Monitor.logPath(`tickets/${date.slice(0, -3)}.jsonl`).append(JSON.stringify(entry) + '\n');
 	}
 
 	/**
@@ -532,7 +532,7 @@ export class HelpTicket extends Rooms.SimpleRoomGame {
 			let lines;
 			try {
 				lines = await ProcessManager.exec([
-					`rg`, FS(`logs/tickets/${date ? `${date}.jsonl` : ''}`).path, ...args,
+					`rg`, Monitor.logPath(`tickets/${date ? `${date}.jsonl` : ''}`).path, ...args,
 				]);
 			} catch (e: any) {
 				if (e.message.includes('No such file or directory')) {
@@ -552,7 +552,7 @@ export class HelpTicket extends Rooms.SimpleRoomGame {
 			}
 		} else {
 			if (!date) throw new Chat.ErrorMessage(`Specify a month.`);
-			const path = FS(`logs/tickets/${date}.jsonl`);
+			const path = Monitor.logPath(`tickets/${date}.jsonl`);
 			if (!path.existsSync()) {
 				throw new Chat.ErrorMessage(`There are no logs for the month "${date}".`);
 			}
@@ -1867,10 +1867,7 @@ export const pages: Chat.PageTable = {
 					logUrl = `/view-chatlog-help-${ticket.userid}--${Chat.toTimestamp(created).split(' ')[0]}`;
 				}
 				const room = Rooms.get(roomid);
-				if (room) {
-					const ticketGame = room.getGame(HelpTicket)!;
-					buf += `<a href="/${roomid}"><button class="button" ${ticketGame.getPreview()}>${this.tr(!ticket.claimed && ticket.open ? 'Claim' : 'View')}</button></a> `;
-				} else if (ticket.text) {
+				if (ticket.text) {
 					let title = Object.entries(ticket.notes || {})
 						.map(([userid, note]) => Utils.html`${note} (by ${userid})`)
 						.join('&#10;');
@@ -1878,6 +1875,9 @@ export const pages: Chat.PageTable = {
 						title = `title="Staff notes:&#10;${title}"`;
 					}
 					buf += `<a class="button" ${title} href="/view-help-text-${ticket.userid}">${ticket.claimed ? `Claim` : `View`}</a>`;
+				} else if (room) {
+					const ticketGame = room.getGame(HelpTicket)!;
+					buf += `<a href="/${roomid}"><button class="button" ${ticketGame.getPreview()}>${this.tr(!ticket.claimed && ticket.open ? 'Claim' : 'View')}</button></a> `;
 				}
 				if (logUrl) {
 					buf += `<a href="${logUrl}"><button class="button">${this.tr`Log`}</button></a>`;
@@ -1955,7 +1955,15 @@ export const pages: Chat.PageTable = {
 				for (const staff in ticket.notes) {
 					buf += Utils.html`<p>${ticket.notes[staff]} (by ${staff})</p>`;
 				}
+				buf += `<br /><form data-submitsend="/ht addnote ${ticket.userid},{note}&#10;/j view-help-text-${ticket.userid}">`;
+				buf += `Add note: <input name="note" /> <button type="submit" class="button">Submit</button>`;
+				buf += `</form>`;
 				buf += `</details></div>`;
+			} else {
+				buf += `<br /><div class="infobox">`;
+				buf += `<form data-submitsend="/ht note ${ticket.userid},{note}&#10;/j view-help-text-${ticket.userid}">`;
+				buf += `Add note: <input name="note" /> <button type="submit" class="button">Submit</button>`;
+				buf += `</form></div>`;
 			}
 
 			if (!ticket.resolved) {
@@ -2076,7 +2084,7 @@ export const pages: Chat.PageTable = {
 			}
 			const dateUrl = Chat.toTimestamp(date).split(' ')[0].split('-', 2).join('-');
 
-			const rawTicketStats = FS(`logs/tickets/${dateUrl}.tsv`).readIfExistsSync();
+			const rawTicketStats = Monitor.logPath(`tickets/${dateUrl}.tsv`).readIfExistsSync();
 			if (!rawTicketStats) return `<div class="pad"><br />${this.tr`No ticket stats found.`}</div>`;
 
 			// Calculate next/previous month for stats and validate stats exist for the month
@@ -2102,13 +2110,13 @@ export const pages: Chat.PageTable = {
 			const nextString = Chat.toTimestamp(nextDate).split(' ')[0].split('-', 2).join('-');
 
 			let buttonBar = '';
-			if (FS(`logs/tickets/${prevString}.tsv`).readIfExistsSync()) {
+			if (Monitor.logPath(`tickets/${prevString}.tsv`).readIfExistsSync()) {
 				buttonBar += `<a class="button" href="/view-help-stats-${table}-${prevString}" target="replace" style="float: left">&lt; ${this.tr`Previous Month`}</a>`;
 			} else {
 				buttonBar += `<a class="button disabled" style="float: left">&lt; ${this.tr`Previous Month`}</a>`;
 			}
 			buttonBar += `<a class="button${table === 'tickets' ? ' disabled"' : `" href="/view-help-stats-tickets-${dateUrl}" target="replace"`}>${this.tr`Ticket Stats`}</a> <a class="button ${table === 'staff' ? ' disabled"' : `" href="/view-help-stats-staff-${dateUrl}" target="replace"`}>${this.tr`Staff Stats`}</a>`;
-			if (FS(`logs/tickets/${nextString}.tsv`).readIfExistsSync()) {
+			if (Monitor.logPath(`tickets/${nextString}.tsv`).readIfExistsSync()) {
 				buttonBar += `<a class="button" href="/view-help-stats-${table}-${nextString}" target="replace" style="float: right">${this.tr`Next Month`} &gt;</a>`;
 			} else {
 				buttonBar += `<a class="button disabled" style="float: right">${this.tr`Next Month`} &gt;</a>`;
@@ -2937,14 +2945,14 @@ export const commands: Chat.ChatCommands = {
 			if (!/[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(date)) {
 				return this.errorReply(`Invalid date (must be YYYY-MM-DD format).`);
 			}
-			const logPath = FS(`logs/chat/help-${userid}/${date.slice(0, -3)}/${date}.txt`);
+			const logPath = Monitor.logPath(`chat/help-${userid}/${date.slice(0, -3)}/${date}.txt`);
 			if (!(await logPath.exists())) {
 				return this.errorReply(`There are no logs for tickets from '${userid}' on the date '${date}'.`);
 			}
-			if (!(await FS(`logs/private/${userid}`).exists())) {
-				await FS(`logs/private/${userid}`).mkdirp();
+			if (!(await Monitor.logPath(`private/${userid}`).exists())) {
+				await Monitor.logPath(`private/${userid}`).mkdirp();
 			}
-			await logPath.copyFile(`logs/private/${userid}/${date}.txt`);
+			await logPath.copyFile(Monitor.logPath(`private/${userid}/${date}.txt`).path);
 			await logPath.write(''); // empty out the logfile
 			this.globalModlog(`HELPTICKET PRIVATELOGS`, null, `${userid} (${date})`);
 			this.privateGlobalModAction(`${user.name} set the ticket logs for '${userid}' on '${date}' to be private.`);
@@ -2961,15 +2969,15 @@ export const commands: Chat.ChatCommands = {
 			if (!/[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(date)) {
 				return this.errorReply(`Invalid date (must be YYYY-MM-DD format).`);
 			}
-			const logPath = FS(`logs/private/${userid}/${date}.txt`);
+			const logPath = Monitor.logPath(`private/${userid}/${date}.txt`);
 			if (!(await logPath.exists())) {
 				return this.errorReply(`There are no logs for tickets from '${userid}' on the date '${date}'.`);
 			}
-			const monthPath = FS(`logs/chat/help-${userid}/${date.slice(0, -3)}`);
+			const monthPath = Monitor.logPath(`chat/help-${userid}/${date.slice(0, -3)}`);
 			if (!(await monthPath.exists())) {
 				await monthPath.mkdirp();
 			}
-			await logPath.copyFile(`logs/chat/help-${userid}/${date.slice(0, -3)}/${date}.txt`);
+			await logPath.copyFile(Monitor.logPath(`chat/help-${userid}/${date.slice(0, -3)}/${date}.txt`).path);
 			await logPath.unlinkIfExists();
 			this.globalModlog(`HELPTICKET PUBLICLOGS`, null, `${userid} (${date})`);
 			this.privateGlobalModAction(`${user.name} set the ticket logs for '${userid}' on '${date}' to be public.`);
