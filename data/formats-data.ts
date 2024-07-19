@@ -6432,7 +6432,9 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		tier: "LC",
 	},
 	nidoranfbuff: {
-		tier: "LC",
+		isNonstandard: "Past",
+		tier: "Illegal",
+		natDexTier: "LC",
 	},
 	nincadabuff: {
 		isNonstandard: "Past",
@@ -6574,6 +6576,9 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		tier: "LC",
 	},
 	froakiebuff: {
+		tier: "LC",
+	},
+	geodudebuff: {
 		tier: "LC",
 	},
 };

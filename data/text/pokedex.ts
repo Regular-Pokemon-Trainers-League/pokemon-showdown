@@ -4239,6 +4239,9 @@ export const PokedexText: {[k: string]: PokedexText} = {
 		name: "Cyndaquil-Buff",
 	},
 	froakiebuff: {
-		name: "Cyndaquil-Buff",
+		name: "Froakie-Buff",
+	},
+	geodudebuff: {
+		name: "Geodude-Buff",
 	},
 };
