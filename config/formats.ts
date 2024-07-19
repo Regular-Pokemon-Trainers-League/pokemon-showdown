@@ -629,7 +629,7 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		],
 		mod: 'pokebilities',
 		// searchShow: false,
-		ruleset: ['Standard OMs', 'Sleep Moves Clause', 'Min Source Gen = 9'],
+		ruleset: ['Standard OMs', 'Sleep Moves Clause'],
 		banlist: [
 			'Arceus', 'Annihilape', 'Basculegion-F', 'Baxcalibur', 'Calyrex-Ice', 'Calyrex-Shadow', 'Chi-Yu', 'Conkeldurr', 'Deoxys-Base', 'Deoxys-Attack', 'Dialga', 'Dialga-Origin',
 			'Espathra',	'Eternatus', 'Excadrill', 'Flutter Mane', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh', 'Iron Bundle', 'Koraidon', 'Kyogre', 'Kyurem-Black', 'Kyurem-White',
@@ -1720,7 +1720,7 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 
 		mod: 'gen9',
 		searchShow: false,
-		ruleset: ['Standard OMs', '!Nickname Clause', '!Obtainable Abilities', 'Sleep Moves Clause', 'Frantic Fusions Mod', 'Terastal Clause', 'Min Source Gen = 9'],
+		ruleset: ['Standard OMs', '!Nickname Clause', '!Obtainable Abilities', 'Sleep Moves Clause', 'Frantic Fusions Mod', 'Terastal Clause'],
 		banlist: [
 			'Annihilape', 'Arceus', 'Baxcalibur', 'Calyrex-Ice', 'Calyrex-Shadow', 'Chi-Yu', 'Chien-Pao', 'Comfey', 'Cresselia', 'Darkrai', 'Deoxys-Base', 'Deoxys-Attack',
 			'Deoxys-Speed', 'Dialga', 'Dialga-Origin', 'Ditto', 'Dragapult', 'Enamorus-Base', 'Eternatus', 'Flutter Mane', 'Giratina', 'Giratina-Origin', 'Gouging Fire',
@@ -3963,6 +3963,17 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		banlist: ['UU', 'RUBL'],
 	},
 	{
+		name: "[Gen 6] NU",
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3730794/">ORAS NU Resources</a>`,
+		],
+
+		mod: 'gen6',
+		searchShow: false,
+		ruleset: ['[Gen 6] RU'],
+		banlist: ['RU', 'NUBL'],
+	},
+	{
 		name: "[Gen 6] PU",
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3730710/">ORAS PU Resources</a>`,
@@ -4202,6 +4213,18 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		mod: 'gen5',
 		searchShow: false,
 		ruleset: ['Standard', 'Sleep Clause Mod'],
+	},
+	{
+		name: "[Gen 5] UU",
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3474024/">BW2 UU Viability Rankings</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/posts/6431094/">BW2 Sample Teams</a>`,
+		],
+
+		mod: 'gen5',
+		searchShow: false,
+		ruleset: ['Standard', 'Evasion Abilities Clause', 'Swagger Clause', 'Sleep Clause Mod'],
+		banlist: ['Uber', 'OU', 'UUBL', 'Arena Trap', 'Drought', 'Sand Stream', 'Snow Warning', 'Prankster + Assist', 'Prankster + Copycat', 'Baton Pass'],
 	},
 	{
 		name: "[Gen 5] RU",
