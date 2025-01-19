@@ -545,6 +545,17 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		rating: 2,
 		num: 29,
 	},
+	closedcircuit: {
+		onStart(pokemon) {
+			if (pokemon.circuitBoost) return;
+			pokemon.circuitBoost = true;
+			this.boost({spa: 1}, pokemon);
+		},
+		flags: {},
+		name: "Closed Circuit",
+		rating: 4,
+		num: -101,
+	},
 	cloudnine: {
 		onSwitchIn(pokemon) {
 			this.effectState.switchingIn = true;
@@ -1013,6 +1024,18 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		name: "Disguise",
 		rating: 3.5,
 		num: 209,
+	},
+	syzygy: {
+		onResidualOrder: 29,
+		onResidual(pokemon) {
+			if ((pokemon.species.baseSpecies !== 'Lunatone' && pokemon.species.baseSpecies !== 'Solrock')  || pokemon.terastallized) return;
+			const targetForme = pokemon.species.name === 'Lunatone-Outlaw' ? 'Solrock-Outlaw' : 'Lunatone-Outlaw';
+			pokemon.formeChange(targetForme);
+		},
+		flags: {failroleplay: 1, noreceiver: 1, noentrain: 1, notrace: 1, failskillswap: 1, notransform: 1},
+		name: "Syzygy",
+		rating: 1,
+		num: -100,
 	},
 	download: {
 		onStart(pokemon) {
@@ -1699,20 +1722,32 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 	gulpmissile: {
 		onDamagingHit(damage, target, source, move) {
 			if (!source.hp || !source.isActive || target.isSemiInvulnerable()) return;
-			if (['cramorantgulping', 'cramorantgorging'].includes(target.species.id)) {
+			var outlaw = '';
+			if (target.species.forme.endsWith('Outlaw'))
+			{
+				outlaw = 'outlaw';
+			}
+			if (['cramorantgulping' + outlaw, 'cramorantgorging' + outlaw].includes(target.species.id)) {
 				this.damage(source.baseMaxhp / 4, source, target);
-				if (target.species.id === 'cramorantgulping') {
+				if (target.species.id === 'cramorantgulping' + outlaw) {
 					this.boost({def: -1}, source, target, null, true);
 				} else {
 					source.trySetStatus('par', target, move);
 				}
-				target.formeChange('cramorant', move);
+				target.formeChange('cramorant' + outlaw, move);
 			}
 		},
 		// The Dive part of this mechanic is implemented in Dive's `onTryMove` in moves.ts
 		onSourceTryPrimaryHit(target, source, effect) {
-			if (effect?.id === 'surf' && source.hasAbility('gulpmissile') && source.species.name === 'Cramorant') {
-				const forme = source.hp <= source.maxhp / 2 ? 'cramorantgorging' : 'cramorantgulping';
+			var outlaw = '';
+			var nameoutlaw = '';
+			if (target.species.forme === 'Outlaw')
+			{
+				outlaw = 'outlaw';
+				nameoutlaw = '-Outlaw';
+			}
+			if (effect?.id === 'surf' && source.hasAbility('gulpmissile') && source.species.name === 'Cramorant' + nameoutlaw) {
+				const forme = source.hp <= source.maxhp / 2 ? 'cramorantgorging' + outlaw : 'cramorantgulping' + outlaw;
 				source.formeChange(forme, effect);
 			}
 		},
@@ -4611,6 +4646,33 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		rating: 1,
 		num: 21,
 	},
+	supercapacitor: {
+		onTryHit(target, source, move) {
+			if (target !== source && move.type === 'Electric') {
+				var heal = this.heal(target.baseMaxhp / 4);
+				var boost = this.boost({spa: 1});
+				if (!boost || !heal) {
+					this.add('-immune', target, '[from] ability: Super Capacitor');
+				}
+				return null;
+			}
+		},
+		onAnyRedirectTarget(target, source, source2, move) {
+			if (move.type !== 'Electric' || move.flags['pledgecombo']) return;
+			const redirectTarget = ['randomNormal', 'adjacentFoe'].includes(move.target) ? 'normal' : move.target;
+			if (this.validTarget(this.effectState.target, source, redirectTarget)) {
+				if (move.smartTarget) move.smartTarget = false;
+				if (this.effectState.target !== target) {
+					this.add('-activate', this.effectState.target, 'ability: Super Capacitor');
+				}
+				return this.effectState.target;
+			}
+		},
+		flags: {breakable: 1},
+		name: "Super Capacitor",
+		rating: 3,
+		num: -103,
+	},
 	superluck: {
 		onModifyCritRatio(critRatio) {
 			return critRatio + 1;
@@ -4797,6 +4859,25 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		name: "Tablets of Ruin",
 		rating: 4.5,
 		num: 284,
+	},
+	tagteam: {
+		onPrepareHit(source, target, move) {
+			if (move.category === 'Status' || move.multihit || move.flags['noparentalbond'] || move.flags['charge'] ||
+			move.flags['futuremove'] || move.spreadHit || move.isZ || move.isMax) return;
+			move.multihit = 2;
+			move.multihitType = 'parentalbond';
+		},
+		// Damage modifier implemented in BattleActions#modifyDamage()
+		onSourceModifySecondaries(secondaries, target, source, move) {
+			if (move.multihitType === 'parentalbond' && move.id === 'secretpower' && move.hit < 2) {
+				// hack to prevent accidentally suppressing King's Rock/Razor Fang
+				return secondaries.filter(effect => effect.volatileStatus === 'flinch');
+			}
+		},
+		flags: {},
+		name: "Tag Team",
+		rating: 4.5,
+		num: -102,
 	},
 	tangledfeet: {
 		onModifyAccuracyPriority: -1,

@@ -559,10 +559,11 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Fire",
 	},
+	/** Arm Thrust Base Power increased to 20 */
 	armthrust: {
 		num: 292,
 		accuracy: 100,
-		basePower: 15,
+		basePower: 20,
 		category: "Physical",
 		name: "Arm Thrust",
 		pp: 20,
@@ -3594,6 +3595,20 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		zMove: {boost: {accuracy: 1}},
 		contestType: "Cool",
 	},
+	depthcharge: {
+		num: -100,
+		accuracy: 100,
+		basePower: 120,
+		category: "Physical",
+		name: "Depth Charge",
+		pp: 10,
+		priority: 0,
+		flags: {contact: 1, protect: 1, mirror: 1, metronome: 1},
+		recoil: [25, 100],
+		secondary: null,
+		target: "normal",
+		type: "Water",
+	},
 	destinybond: {
 		num: 194,
 		accuracy: true,
@@ -3886,8 +3901,15 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			if (attacker.removeVolatile(move.id)) {
 				return;
 			}
-			if (attacker.hasAbility('gulpmissile') && attacker.species.name === 'Cramorant' && !attacker.transformed) {
-				const forme = attacker.hp <= attacker.maxhp / 2 ? 'cramorantgorging' : 'cramorantgulping';
+			var outlaw = '';
+			var nameoutlaw = '';
+			if (attacker.species.forme.endsWith('Outlaw'))
+			{
+				outlaw = 'outlaw';
+				nameoutlaw = '-Outlaw';
+			}
+			if (attacker.hasAbility('gulpmissile') && attacker.species.name === 'Cramorant' + nameoutlaw && !attacker.transformed) {
+				const forme = attacker.hp <= attacker.maxhp / 2 ? 'cramorantgorging' + outlaw : 'cramorantgulping' + outlaw;
 				attacker.formeChange(forme, move);
 			}
 			this.add('-prepare', attacker, move.name);
@@ -9210,6 +9232,35 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Fighting",
 		contestType: "Cool",
 	},
+	hoarfrosthymn: {
+		num: -101,
+		accuracy: 100,
+		basePower: 80,
+		category: "Special",
+		name: "Hoarfrost Hymn",
+		pp: 5,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, sound: 1, bypasssub: 1, metronome: 1},
+		onTry(source) {
+			if (source.hp <= (source.maxhp * 33 / 100) || source.maxhp === 1) return false;
+		},
+		onAfterHit(target, source, move) {
+			if (!move.hasSheerForce && source.hp) {
+				source.side.addSideCondition('auroraveil');
+			}
+			this.directDamage(source.maxhp * 33 / 100, source, source);
+		},
+		onAfterSubDamage(damage, target, source, move) {
+			if (!move.hasSheerForce && source.hp) {
+				source.side.addSideCondition('auroraveil');
+			}
+			this.directDamage(source.maxhp * 33 / 100, source, source);
+		},
+		secondary: {}, //Sheer Force Boosted
+		target: "normal",
+		type: "Ice",
+		contestType: "Cool",
+	},
 	holdback: {
 		num: 610,
 		accuracy: 100,
@@ -11392,6 +11443,55 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 				}
 				if (move && (move.target === 'self' || move.category === 'Status')) return;
 				this.add('-activate', target, 'move: Mat Block', move.name);
+				const lockedmove = source.getVolatile('lockedmove');
+				if (lockedmove) {
+					// Outrage counter is reset
+					if (source.volatiles['lockedmove'].duration === 2) {
+						delete source.volatiles['lockedmove'];
+					}
+				}
+				return this.NOT_FAIL;
+			},
+		},
+		secondary: null,
+		target: "allySide",
+		type: "Fighting",
+		zMove: {boost: {def: 1}},
+		contestType: "Cool",
+	},
+	catblock: {
+		num: -102,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		isNonstandard: "Past",
+		name: "Cat Block",
+		pp: 10,
+		priority: 0,
+		flags: {snatch: 1, nonsky: 1, noassist: 1, failcopycat: 1},
+		stallingMove: true,
+		sideCondition: 'catblock',
+		onTry(source) {
+			if (source.activeMoveActions > 1) {
+				this.hint("Cat Block only works on your first turn out.");
+				return false;
+			}
+			return !!this.queue.willAct();
+		},
+		condition: {
+			duration: 1,
+			onSideStart(target, source) {
+				this.add('-singleturn', source, 'Cat Block');
+			},
+			onTryHitPriority: 3,
+			onTryHit(target, source, move) {
+				if (!move.flags['protect']) {
+					if (['gmaxoneblow', 'gmaxrapidflow'].includes(move.id)) return;
+					if (move.isZ || move.isMax) target.getMoveHitData(move).zBrokeProtect = true;
+					return;
+				}
+				if (move && (move.target === 'self' || move.category === 'Status')) return;
+				this.add('-activate', target, 'move: Cat Block', move.name);
 				const lockedmove = source.getVolatile('lockedmove');
 				if (lockedmove) {
 					// Outrage counter is reset
@@ -17647,7 +17747,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			noCopy: true,
 			onStart(pokemon) {
 				let applies = false;
-				if (pokemon.hasType('Flying') || pokemon.hasAbility('levitate')) applies = true;
+				if (pokemon.hasType('Flying') || pokemon.hasAbility('levitate') || pokemon.hasAbility('syzygy')) applies = true;
 				if (pokemon.hasItem('ironball') || pokemon.volatiles['ingrain'] ||
 					this.field.getPseudoWeather('gravity')) applies = false;
 				if (pokemon.removeVolatile('fly') || pokemon.removeVolatile('bounce')) {
@@ -17754,16 +17854,31 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		zMove: {boost: {evasion: 1}},
 		contestType: "Clever",
 	},
+	// snaptrap: {
+	// 	num: 779,
+	// 	accuracy: 100,
+	// 	basePower: 35,
+	// 	category: "Physical",
+	// 	isNonstandard: "Past",
+	// 	name: "Snap Trap",
+	// 	pp: 15,
+	// 	priority: 0,
+	// 	flags: {contact: 1, protect: 1, mirror: 1},
+	// 	volatileStatus: 'partiallytrapped',
+	// 	secondary: null,
+	// 	target: "normal",
+	// 	type: "Grass",
+	// },
 	snaptrap: {
 		num: 779,
 		accuracy: 100,
-		basePower: 35,
+		basePower: 55,
 		category: "Physical",
 		isNonstandard: "Past",
 		name: "Snap Trap",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
+		flags: {contact: 1, protect: 1, mirror: 1, bite: 1},
 		volatileStatus: 'partiallytrapped',
 		secondary: null,
 		target: "normal",

@@ -5671,6 +5671,9 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		name: "Strange Ball",
 		spritenum: 308,
 		num: 1785,
+		fling: {
+			basePower: 5*20*10,
+		},
 		gen: 8,
 		isPokeball: true,
 		isNonstandard: "Unobtainable",

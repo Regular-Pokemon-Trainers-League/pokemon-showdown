@@ -825,6 +825,14 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 		name: "Catastropika",
 		shortDesc: "No additional effect.",
 	},
+	catblock: {
+		name: "Cat Block",
+		desc: "The user and its party members are protected from damaging attacks made by other Pokemon, including allies, during this turn. Fails unless it is the user's first turn on the field, if the user moves last this turn, or if this move is already in effect for the user's side.",
+		shortDesc: "Protects allies from damaging attacks. Turn 1 only.",
+
+		start: "  [POKEMON] intends to flip you off and block incoming attacks!",
+		block: "  [MOVE] was blocked by the powers of a cat!",
+	},
 	ceaselessedge: {
 		name: "Ceaseless Edge",
 		desc: "If this move is successful, it sets up a hazard on the opposing side of the field, damaging each opposing Pokemon that switches in, unless it is a Flying-type Pokemon or has the Levitate Ability. A maximum of three layers may be set, and opponents lose 1/8 of their maximum HP with one layer, 1/6 of their maximum HP with two layers, and 1/4 of their maximum HP with three layers, all rounded down. Can be removed from the opposing side if any opposing Pokemon uses Mortal Spin, Rapid Spin, or Defog successfully, or is hit by Defog.",
@@ -1287,6 +1295,11 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 			desc: "Lowers the target's evasiveness by 1 stage. If this move is successful and whether or not the target's evasiveness was affected, the effects of Reflect, Light Screen, Safeguard, Mist, Spikes, Toxic Spikes, and Stealth Rock end for the target's side. Ignores a target's substitute, although a substitute will still block the lowering of evasiveness.",
 			shortDesc: "-1 evasion; clears target side's hazards/screens.",
 		},
+	},
+	depthcharge: {
+		name: "Depth Charge",
+		desc: "If the target lost HP, the user takes recoil damage equal to 25% the HP lost by the target, rounded half up, but not less than 1 HP.",
+		shortDesc: "Has 25% recoil.",
 	},
 	destinybond: {
 		name: "Destiny Bond",
@@ -3064,6 +3077,11 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 		},
 
 		damage: "#crash",
+	},
+	hoarfrosthymn: {
+		name: "Hoarfrost Hymn",
+		desc: "Attacks and sets Aurora Veil in exchange for the user losing 33% of its maximum HP, rounded down. Fails if the user would faint",
+		shortDesc: "User loses 33% of its max HP. Sets Aurora Veil.",
 	},
 	holdback: {
 		name: "Hold Back",

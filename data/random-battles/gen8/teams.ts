@@ -1164,7 +1164,7 @@ export class RandomGen8Teams {
 			if (
 				!isDoubles &&
 				counter.get('Status') < 2 &&
-				['Hunger Switch', 'Speed Boost'].every(m => !abilities.includes(m))
+				['Diurnality', 'Hunger Switch', 'Speed Boost'].every(m => !abilities.includes(m))
 			) return {cull: true};
 			if (movePool.includes('leechseed') || (movePool.includes('toxic') && !moves.has('wish'))) return {cull: true};
 			if (isDoubles && (

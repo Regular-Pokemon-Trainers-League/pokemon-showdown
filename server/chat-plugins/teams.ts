@@ -163,6 +163,9 @@ export const TeamsHandler = new class {
 				return null;
 			}
 			const speciesid = toID(set.species);
+			if (speciesid.length <= 12 && speciesid.startsWith('unownoutlaw')) {
+				unownWord += speciesid.charAt(11) || 'a';
+			}
 			if (speciesid.length <= 6 && speciesid.startsWith('unown')) {
 				unownWord += speciesid.charAt(5) || 'a';
 			}

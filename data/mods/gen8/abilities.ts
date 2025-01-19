@@ -281,6 +281,10 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 		inherit: true,
 		rating: 3.5,
 	},
+	diurnality: {
+		inherit: true,
+		rating: 1,
+	},
 	download: {
 		inherit: true,
 		rating: 3.5,

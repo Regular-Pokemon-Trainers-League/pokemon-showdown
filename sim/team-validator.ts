@@ -8,11 +8,12 @@
  */
 
 import {Dex, toID} from './dex';
-import type {MoveSource} from './dex-species';
+import {Species, type MoveSource} from './dex-species';
 import {Utils} from '../lib';
 import {Tags} from '../data/tags';
 import {Teams} from './teams';
 import {PRNG} from './prng';
+import { log } from 'console';
 
 /**
  * Describes a possible way to get a pokemon. Is not exhaustive!
@@ -432,6 +433,7 @@ export class TeamValidator {
 				} else {
 					set.name = species.baseSpecies;
 					if (species.baseSpecies === 'Unown') set.species = 'Unown';
+					if (species.baseSpecies === 'Unown-Outlaw') set.species = 'Unown-Outlaw';
 				}
 			}
 		}
@@ -1893,6 +1895,23 @@ export class TeamValidator {
 			if (banReason === '') return null;
 		}
 
+		var id = toID(set.species);
+		var firstLetter;
+		if (id.startsWith('unownoutlaw'))
+		{
+			if (id == 'unownoutlaw')
+			{
+				firstLetter = 'a';
+			}
+			else
+			{
+				firstLetter = id.charAt(11); // unownoutlawb
+			}
+			if (move.name.toLowerCase().charAt(0) != firstLetter)
+			{
+				return `${set.name} can't learn ${move.name}. Can only learn moves that match its form.`;
+			}
+		}
 		return null;
 	}
 

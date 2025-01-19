@@ -221,6 +221,11 @@ export const AbilitiesText: {[id: IDEntry]: AbilityText} = {
 
 		start: "#airlock",
 	},
+	closedcircuit: {
+		name: "Closed Circuit",
+		shortDesc: "On switch-in, this Pokemon's Special Attack is raised by 1 stage. Once per battle.",
+		activate: "  [POKEMON] created a closed circuit!",
+	},
 	colorchange: {
 		name: "Color Change",
 		desc: "This Pokemon's type changes to match the type of the last move that hit it, unless that type is already one of its types. This effect applies after all hits from a multi-hit move. This effect is prevented if the move had a secondary effect removed by the Sheer Force Ability.",
@@ -376,6 +381,11 @@ export const AbilitiesText: {[id: IDEntry]: AbilityText} = {
 
 		block: "  Its disguise served it as a decoy!",
 		transform: "[POKEMON]'s disguise was busted!",
+	},
+	syzygy: {
+		name: "Syzygy",
+		desc: "If this Pokemon is a Solrock or Lunatone, it changes formes after each turn. Includes Levitate.",
+		shortDesc: "If Solrock/Lunatone, it changes between Solrock and Lunatone. Also Levitates.",
 	},
 	download: {
 		name: "Download",
@@ -1846,6 +1856,12 @@ export const AbilitiesText: {[id: IDEntry]: AbilityText} = {
 
 		block: "  [POKEMON] is anchored in place with its suction cups!",
 	},
+	supercapacitor: {
+		name: "Super Capacitor",
+		desc: "This Pokemon is immune to Electric-type moves and raises its Special Attack by 1 stage and restores 1/4 of its maximum HP, rounded down, when hit by an Electric-type move. If this Pokemon is not the target of a single-target Electric-type move used by another Pokemon, this Pokemon redirects that move to itself if it is within the range of that move. If multiple Pokemon could redirect with this Ability, it goes to the one with the highest Speed, or in the case of a tie to the one that has had this Ability active longer.",
+		shortDesc: "This Pokemon draws Electric moves to itself to raise Sp. Atk by 1  and heal 1/4 of its max HP; Electric immunity.",
+		activate: "  [POKEMON] absorbed the attack!",
+	},
 	superluck: {
 		name: "Super Luck",
 		shortDesc: "This Pokemon's critical hit ratio is raised by 1 stage.",
@@ -1923,6 +1939,13 @@ export const AbilitiesText: {[id: IDEntry]: AbilityText} = {
 		shortDesc: "Active Pokemon without this Ability have their Attack multiplied by 0.75.",
 
 		start: "  [POKEMON]'s Tablets of Ruin weakened the Attack of all surrounding Pokémon!",
+	},
+	tagteam: {
+		name: "Tag Team",
+		desc: "This Pokemon's damaging moves become multi-hit moves that hit twice. The second hit has its damage quartered. Does not affect Doom Desire, Dragon Darts, Dynamax Cannon, Endeavor, Explosion, Final Gambit, Fling, Future Sight, Ice Ball, Rollout, Self-Destruct, any multi-hit move, any move that has multiple targets, or any two-turn move.",
+		shortDesc: "This Pokemon's damaging moves hit twice. The second hit has its damage quartered.",
+
+		start: "#parentalbond",
 	},
 	tangledfeet: {
 		name: "Tangled Feet",
