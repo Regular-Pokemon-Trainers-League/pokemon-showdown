@@ -23,7 +23,7 @@ import {Side} from './side';
 import {State} from './state';
 import {BattleQueue, Action} from './battle-queue';
 import {BattleActions} from './battle-actions';
-import {Utils} from '../lib';
+import {Utils} from '../lib/utils';
 declare const __version: any;
 
 export type ChannelID = 0 | 1 | 2 | 3 | 4;
@@ -222,7 +222,7 @@ export class Battle {
 			(format.playerCount > 2 || this.gameType === 'doubles') ? 2 :
 			1;
 		this.prng = options.prng || new PRNG(options.seed || undefined);
-		this.prngSeed = this.prng.startingSeed.slice() as PRNGSeed;
+		this.prngSeed = this.prng.startingSeed;
 		this.rated = options.rated || !!options.rated;
 		this.reportExactHP = !!format.debug;
 		this.reportPercentages = false;
@@ -273,7 +273,7 @@ export class Battle {
 		this.send = options.send || (() => {});
 
 		const inputOptions: {formatid: ID, seed: PRNGSeed, rated?: string | true} = {
-			formatid: options.formatid, seed: this.prng.seed,
+			formatid: options.formatid, seed: this.prngSeed,
 		};
 		if (this.rated) inputOptions.rated = this.rated;
 		if (typeof __version !== 'undefined') {
@@ -340,7 +340,7 @@ export class Battle {
 	}
 
 	random(m?: number, n?: number) {
-		return this.prng.next(m, n);
+		return this.prng.random(m, n);
 	}
 
 	randomChance(numerator: number, denominator: number) {
@@ -353,7 +353,7 @@ export class Battle {
 	}
 
 	/** Note that passing `undefined` resets to the starting seed, but `null` will roll a new seed */
-	resetRNG(seed: PRNGSeed | null = this.prng.startingSeed) {
+	resetRNG(seed: PRNGSeed | null = this.prngSeed) {
 		this.prng = new PRNG(seed);
 		this.add('message', "The battle's RNG was reset.");
 	}
@@ -2043,13 +2043,15 @@ export class Battle {
 			this.lastDamage = damage;
 			if (target.volatiles['substitute']) {
 				const hint = "In Gen 1, if a Pokemon with a Substitute hurts itself due to confusion or Jump Kick/Hi Jump Kick recoil and the target";
-				if (source?.volatiles['substitute']) {
-					source.volatiles['substitute'].hp -= damage;
-					if (source.volatiles['substitute'].hp <= 0) {
-						source.removeVolatile('substitute');
-						source.subFainted = true;
+				// if the move was a self-targeting move, the source is the same as the target. We need to check the opposing substitute
+				const foe = target.side.foe.active[0];
+				if (foe?.volatiles['substitute']) {
+					foe.volatiles['substitute'].hp -= damage;
+					if (foe.volatiles['substitute'].hp <= 0) {
+						foe.removeVolatile('substitute');
+						foe.subFainted = true;
 					} else {
-						this.add('-activate', source, 'Substitute', '[damage]');
+						this.add('-activate', foe, 'Substitute', '[damage]');
 					}
 					this.hint(hint + " has a Substitute, the target's Substitute takes the damage.");
 					return damage;
@@ -2284,6 +2286,9 @@ export class Battle {
 					return target;
 				}
 				if (target.isAlly(pokemon)) {
+					if (move.target === 'adjacentAllyOrSelf' && this.gen !== 5) {
+						return pokemon;
+					}
 					// Target is a fainted ally: attack shouldn't retarget
 					return target;
 				}
@@ -2545,8 +2550,10 @@ export class Battle {
 		case 'move':
 			if (!action.pokemon.isActive) return false;
 			if (action.pokemon.fainted) return false;
-			this.actions.runMove(action.move, action.pokemon, action.targetLoc, action.sourceEffect,
-				action.zmove, undefined, action.maxMove, action.originalTarget);
+			this.actions.runMove(action.move, action.pokemon, action.targetLoc, {
+				sourceEffect: action.sourceEffect, zMove: action.zmove,
+				maxMove: action.maxMove, originalTarget: action.originalTarget,
+			});
 			break;
 		case 'megaEvo':
 			this.actions.runMegaEvo(action.pokemon);
@@ -2808,7 +2815,12 @@ export class Battle {
 	choose(sideid: SideID, input: string) {
 		const side = this.getSide(sideid);
 
-		if (!side.choose(input)) return false;
+		if (!side.choose(input)) {
+			if (!side.choice.error) {
+				side.emitChoiceError(`Unknown error for choice: ${input}. If you're not using a custom client, please report this as a bug.`);
+			}
+			return false;
+		}
 
 		if (!side.isChoiceDone()) {
 			side.emitChoiceError(`Incomplete choice: ${input} - missing other pokemon`);
@@ -3007,7 +3019,7 @@ export class Battle {
 		return team as PokemonSet[];
 	}
 
-	showOpenTeamSheets(hideFromSpectators = false) {
+	showOpenTeamSheets() {
 		if (this.turn !== 0) return;
 		for (const side of this.sides) {
 			const team = side.pokemon.map(pokemon => {
@@ -3044,13 +3056,8 @@ export class Battle {
 				}
 				return newSet;
 			});
-			if (hideFromSpectators) {
-				for (const s of this.sides) {
-					this.addSplit(s.id, ['showteam', side.id, Teams.pack(team)]);
-				}
-			} else {
-				this.add('showteam', side.id, Teams.pack(team));
-			}
+
+			this.add('showteam', side.id, Teams.pack(team));
 		}
 	}
 
@@ -3135,6 +3142,15 @@ export class Battle {
 
 	getSide(sideid: SideID): Side {
 		return this.sides[parseInt(sideid[1]) - 1];
+	}
+
+	/**
+	 * Currently, we treat Team Preview as turn 0, but the games start counting their turns at turn 0
+	 * There is also overflow that occurs in Gen 8+ that affects moves like Wish / Future Sight
+	 * https://www.smogon.com/forums/threads/10352797
+	 */
+	getOverflowedTurnCount(): number {
+		return this.gen >= 8 ? (this.turn - 1) % 256 : this.turn - 1;
 	}
 
 	destroy() {

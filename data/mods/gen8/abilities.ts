@@ -563,7 +563,6 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 				this.add('-start', source, 'typechange', type, '[from] ability: Libero');
 			}
 		},
-		onSwitchIn() {},
 		rating: 4.5,
 	},
 	lightmetal: {
@@ -784,7 +783,6 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 				this.add('-start', source, 'typechange', type, '[from] ability: Protean');
 			}
 		},
-		onSwitchIn() {},
 		rating: 4.5,
 	},
 	psychicsurge: {

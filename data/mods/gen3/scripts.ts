@@ -17,7 +17,9 @@ export const Scripts: ModdedBattleScriptsData = {
 		inherit: true,
 		getActionSpeed() {
 			let speed = this.getStat('spe', false, false);
-			if (this.battle.field.getPseudoWeather('trickroom')) {
+			const trickRoomCheck = this.battle.ruleTable.has('twisteddimensionmod') ?
+				!this.battle.field.getPseudoWeather('trickroom') : this.battle.field.getPseudoWeather('trickroom');
+			if (trickRoomCheck) {
 				speed = -speed;
 			}
 			if (this.battle.quickClawRoll && this.hasItem('quickclaw')) {
@@ -115,7 +117,9 @@ export const Scripts: ModdedBattleScriptsData = {
 
 			return Math.floor(baseDamage);
 		},
-		useMoveInner(moveOrMoveName, pokemon, target, sourceEffect, zMove) {
+		useMoveInner(moveOrMoveName, pokemon, options) {
+			let sourceEffect = options?.sourceEffect;
+			let target = options?.target;
 			if (!sourceEffect && this.battle.effect.id) sourceEffect = this.battle.effect;
 			if (sourceEffect && sourceEffect.id === 'instruct') sourceEffect = null;
 
