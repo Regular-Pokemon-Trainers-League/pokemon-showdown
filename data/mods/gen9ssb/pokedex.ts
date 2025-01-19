@@ -43,6 +43,13 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		abilities: {0: "Confirmed Town"},
 	},
 
+	// Apple
+	applin: {
+		inherit: true,
+		baseStats: {hp: 106, atk: 80, def: 110, spa: 120, spd: 80, spe: 44},
+		abilities: {0: "Orchard's Gift"},
+	},
+
 	// Appletun a la Mode
 	appletun: {
 		inherit: true,
@@ -178,7 +185,7 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		abilities: {0: "Blitz of Ruin"},
 	},
 
-	// Breadstycks
+	// Breadey
 	dachsbun: {
 		inherit: true,
 		abilities: {0: "Painful Exit"},
@@ -200,6 +207,12 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 	tsareena: {
 		inherit: true,
 		abilities: {0: "Acetosa"},
+	},
+
+	// Chris
+	ragingbolt: {
+		inherit: true,
+		abilities: {0: "Astrothunder"},
 	},
 
 	// ciran
@@ -253,12 +266,6 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 	thwackey: {
 		inherit: true,
 		abilities: {0: "Grassy Emperor"},
-	},
-
-	// Daki
-	ragingbolt: {
-		inherit: true,
-		abilities: {0: "Astrothunder"},
 	},
 
 	// Dawn of Artemis
@@ -324,12 +331,6 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		abilities: {0: "Hogwash"},
 	},
 
-	// eva
-	ceruledge: {
-		inherit: true,
-		abilities: {0: "Sword of Ruin"},
-	},
-
 	// Fame
 	jumpluff: {
 		inherit: true,
@@ -366,13 +367,6 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		inherit: true,
 		baseStats: {hp: 80, atk: 60, def: 80, spa: 60, spd: 80, spe: 100},
 		abilities: {0: "Gambling Addiction"},
-	},
-
-	// Goro Yagami
-	cyndaquil: {
-		inherit: true,
-		baseStats: {hp: 78, atk: 109, def: 78, spa: 84, spd: 85, spe: 100},
-		abilities: {0: "Illusion Master"},
 	},
 
 	// Haste Inky
@@ -424,17 +418,24 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		types: ["Electric", "Water"],
 	},
 
+	// Imperial
+	kyurem: {
+		inherit: true,
+		abilities: {0: "Frozen Fortuity"},
+	},
+	kyuremblack: {
+		inherit: true,
+		abilities: {0: "Frozen Fortuity"},
+	},
+	kyuremwhite: {
+		inherit: true,
+		abilities: {0: "Frozen Fortuity"},
+	},
+
 	// in the hills
 	gligar: {
 		inherit: true,
 		abilities: {0: "Illterit"},
-	},
-
-	// Irly
-	spheal: {
-		inherit: true,
-		baseStats: {hp: 110, atk: 95, def: 90, spa: 80, spd: 90, spe: 65},
-		abilities: {0: "The Rolling Spheal"},
 	},
 
 	// ironwater
@@ -562,12 +563,6 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		abilities: {0: "Unaware"},
 	},
 
-	// Lionyx
-	miltank: {
-		inherit: true,
-		abilities: {0: "EnorMOOs"},
-	},
-
 	// Loethalion
 	ralts: {
 		inherit: true,
@@ -594,22 +589,10 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		abilities: {0: "Magic Aura"},
 	},
 
-	// Mad Monty
-	castform: {
+	// Maia
+	litwick: {
 		inherit: true,
-		abilities: {0: "Climate Change"},
-	},
-	castformrainy: {
-		inherit: true,
-		abilities: {0: "Climate Change"},
-	},
-	castformsnowy: {
-		inherit: true,
-		abilities: {0: "Climate Change"},
-	},
-	castformsunny: {
-		inherit: true,
-		abilities: {0: "Climate Change"},
+		abilities: {0: "Power Abuse"},
 	},
 
 	// marillvibes
@@ -649,6 +632,13 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 	dialga: {
 		inherit: true,
 		abilities: {0: "Time Dilation"},
+	},
+
+	// Miojo
+	spheal: {
+		inherit: true,
+		baseStats: {hp: 110, atk: 95, def: 90, spa: 80, spd: 90, spe: 65},
+		abilities: {0: "The Rolling Spheal"},
 	},
 
 	// Monkey
@@ -693,24 +683,14 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 	delcatty: {
 		inherit: true,
 		types: ["Fairy"],
+		baseStats: {hp: 80, atk: 65, def: 80, spa: 70, spd: 80, spe: 90},
 		abilities: {0: "Adorable Grace"},
 	},
 
-	// Nyx
-	altaria: {
+	// pants
+	annihilape: {
 		inherit: true,
-		abilities: {0: "Last Hymn"},
-	},
-	altariamega: {
-		inherit: true,
-		abilities: {0: "Last Hymn"},
-	},
-
-	// Opple
-	applin: {
-		inherit: true,
-		baseStats: {hp: 106, atk: 80, def: 110, spa: 120, spd: 80, spe: 44},
-		abilities: {0: "Orchard's Gift"},
+		abilities: {0: "Drifting"},
 	},
 
 	// PartMan
@@ -729,12 +709,6 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 	klinklang: {
 		inherit: true,
 		abilities: {0: "Levitate"},
-	},
-
-	// PenQuin
-	empoleon: {
-		inherit: true,
-		abilities: {0: "'Poleon's Pyro Quirk"},
 	},
 
 	// phoopes
@@ -759,6 +733,16 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		inherit: true,
 		baseStats: {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100},
 		abilities: {0: "Prankster"},
+	},
+
+	// Princess Autumn
+	altaria: {
+		inherit: true,
+		abilities: {0: "Last Hymn"},
+	},
+	altariamega: {
+		inherit: true,
+		abilities: {0: "Last Hymn"},
 	},
 
 	// ptoad
@@ -813,6 +797,12 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 	oranguru: {
 		inherit: true,
 		abilities: {0: "Monke See Monke Do"},
+	},
+
+	// Rissoux
+	arcaninehisui: {
+		inherit: true,
+		abilities: {0: "Hard Headed"},
 	},
 
 	// RSB
@@ -938,6 +928,12 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		abilities: {0: "Stinky"},
 	},
 
+	// Syrinix
+	ceruledge: {
+		inherit: true,
+		abilities: {0: "Sword of Ruin"},
+	},
+
 	// Teclis
 	gallade: {
 		inherit: true,
@@ -949,12 +945,6 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		inherit: true,
 		baseStats: {hp: 50, atk: 115, def: 130, spa: 50, spd: 65, spe: 98},
 		abilities: {0: "Sand Sleuth"},
-	},
-
-	// Theia
-	litwick: {
-		inherit: true,
-		abilities: {0: "Power Abuse"},
 	},
 
 	// TheJesuchristoOsAma
@@ -1135,6 +1125,7 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 	sudowoodo: {
 		inherit: true,
 		abilities: {0: "Tree Stance"},
+		baseStats: {hp: 70, atk: 100, def: 115, spa: 30, spd: 65, spe: 50},
 	},
 
 	// xy01
@@ -1155,7 +1146,7 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		abilities: {0: "Yellow Magic"},
 	},
 
-	ninetaleslola: {
+	ninetalesalola: {
 		inherit: true,
 		abilities: {0: "Party Up"},
 	},
