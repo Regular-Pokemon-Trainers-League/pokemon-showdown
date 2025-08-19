@@ -11549,55 +11549,6 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		secondary: null,
 		target: "allySide",
 		type: "Fighting",
-		zMove: { boost: { def: 1 } },
-		contestType: "Cool",
-	},
-	catblock: {
-		num: -102,
-		accuracy: true,
-		basePower: 0,
-		category: "Status",
-		isNonstandard: "Past",
-		name: "Cat Block",
-		pp: 10,
-		priority: 0,
-		flags: {snatch: 1, nonsky: 1, noassist: 1, failcopycat: 1},
-		stallingMove: true,
-		sideCondition: 'catblock',
-		onTry(source) {
-			if (source.activeMoveActions > 1) {
-				this.hint("Cat Block only works on your first turn out.");
-				return false;
-			}
-			return !!this.queue.willAct();
-		},
-		condition: {
-			duration: 1,
-			onSideStart(target, source) {
-				this.add('-singleturn', source, 'Cat Block');
-			},
-			onTryHitPriority: 3,
-			onTryHit(target, source, move) {
-				if (!move.flags['protect']) {
-					if (['gmaxoneblow', 'gmaxrapidflow'].includes(move.id)) return;
-					if (move.isZ || move.isMax) target.getMoveHitData(move).zBrokeProtect = true;
-					return;
-				}
-				if (move && (move.target === 'self' || move.category === 'Status')) return;
-				this.add('-activate', target, 'move: Cat Block', move.name);
-				const lockedmove = source.getVolatile('lockedmove');
-				if (lockedmove) {
-					// Outrage counter is reset
-					if (source.volatiles['lockedmove'].duration === 2) {
-						delete source.volatiles['lockedmove'];
-					}
-				}
-				return this.NOT_FAIL;
-			},
-		},
-		secondary: null,
-		target: "allySide",
-		type: "Fighting",
 		zMove: {boost: {def: 1}},
 		contestType: "Cool",
 	},
@@ -17927,21 +17878,6 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Grass",
 	},
-// 	snaptrap: {
-// 		num: 779,
-// 		accuracy: 100,
-// 		basePower: 55,
-// 		category: "Physical",
-// 		isNonstandard: "Unobtainable",
-// 		name: "Snap Trap",
-// 		pp: 15,
-// 		priority: 0,
-// 		flags: { contact: 1, protect: 1, mirror: 1, bite: 1, metronome: 1 },
-// 		volatileStatus: 'partiallytrapped',
-// 		secondary: null,
-// 		target: "normal",
-// 		type: "Grass",
-// 	},
 	snarl: {
 		num: 555,
 		accuracy: 95,
@@ -18328,7 +18264,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		name: "Spicy Extract",
 		pp: 15,
 		priority: 0,
-		flags: { protect: 1, reflectable: 1, mirror: 1, metronome: 1 },e
+		flags: { protect: 1, reflectable: 1, mirror: 1, metronome: 1 },
 		boosts: {
 			atk: 2,
 			def: -2,
