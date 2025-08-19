@@ -21,6 +21,7 @@ tools/set-import/importer.js
 tools/modlog/converter.js
 *.tsbuildinfo
 **/sourceMaps
+server/chat-plugins/draft/key/*
 
 !test/**/*.js
 tools/modlog/**/*.js

@@ -1,4 +1,4 @@
-export const PokedexText: {[id: IDEntry]: PokedexText} = {
+export const PokedexText: { [id: IDEntry]: PokedexText } = {
 	bulbasaur: {
 		name: "Bulbasaur",
 	},
@@ -3519,7 +3519,7 @@ export const PokedexText: {[id: IDEntry]: PokedexText} = {
 		name: "Calyrex-Shadow",
 	},
 	wyrdeer: {
-		name: "Wydreer",
+		name: "Wyrdeer",
 	},
 	kleavor: {
 		name: "Kleavor",
@@ -3766,5 +3766,116 @@ export const PokedexText: {[id: IDEntry]: PokedexText} = {
 	},
 	pokestarufopropu2: {
 		name: "Pokestar UFO-PropU2",
+	},
+	kecleonoutlaw: {
+		name: "Kecleon-Outlaw",
+	},
+	persianoutlaw: {
+		name: "Persian-Outlaw",
+	},
+	magcargooutlaw: {
+		name: "Magcargo-Outlaw",
+	},
+	rapidashoutlaw: {
+		name: "Rapidash-Outlaw",
+	},
+	meganiumoutlaw: {
+		name: "Meganium-Outlaw",
+	},
+	carnivineoutlaw: {
+		name: "Carnivine-Outlaw",
+	},
+	pyukumukuoutlaw: {
+		name: "Pyukumuku-Outlaw",
+	},
+	wailordoutlaw: {
+		name: "Wailord-Outlaw",
+	},
+	plusleandminun: {
+		name: "Plusle And Minun",
+	},
+	emolgaoutlaw: {
+		name: "Emolga-Outlaw",
+	},
+	glaceonoutlaw: {
+		name: "Glaceon-Outlaw",
+	},
+	laprasoutlaw: {
+		name: "Lapras-Outlaw",
+	},
+	cameruptoutlaw: {
+		name: "Camerupt-Outlaw",
+	},
+	whiscashoutlaw: {
+		name: "Whiscash-Outlaw",
+	},
+	swalotoutlaw: {
+		name: "Swalot-Outlaw",
+	},
+	sneaselhisuioutlaw: {
+		name: "Sneasel-Hisui-Outlaw",
+	},
+	falinksoutlaw: {
+		name: "Falinks-Outlaw",
+	},
+	sirfetchdoutlaw: {
+		name: "Sirfetch\u2019d-Outlaw",
+	},
+	cramorantoutlaw: {
+		name: "Cramorant-Outlaw",
+	},
+	delibirdoutlaw: {
+		name: "Delibird-Outlaw",
+	},
+	solrockoutlaw: {
+		name: "Solrock-Outlaw",
+	},
+	wigglytuffoutlaw: {
+		name: "Wigglytuff-Outlaw",
+	},
+	unownoutlaw: {
+		name: "Unown-Outlaw",
+	},
+	klawfoutlaw: {
+		name: "Klawf-Outlaw",
+	},
+	relicanthoutlaw: {
+		name: "Relicanth-Outlaw",
+	},
+	exeggutoralolaoutlaw: {
+		name: "Exeggutor-Alola-Outlaw",
+	},
+	druddigonoutlaw: {
+		name: "Druddigon-Outlaw",
+	},
+	mawileoutlaw: {
+		name: "Mawile-Outlaw",
+	},
+	palossandoutlaw: {
+		name: "Palossand-Outlaw",
+	},
+	banetteoutlaw: {
+		name: "Banette-Outlaw",
+	},
+	kricketuneoutlaw: {
+		name: "Kricketune-Outlaw",
+	},
+	ledianoutlaw: {
+		name: "Ledian-Outlaw",
+	},
+	honchkrowoutlaw: {
+		name: "Honchkrow-Outlaw",
+	},
+	mightyenaoutlaw: {
+		name: "Mightyena-Outlaw",
+	},
+	steelixoutlaw: {
+		name: "Steelix-Outlaw",
+	},
+	granbulloutlaw: {
+		name: "Granbull-Outlaw",
+	},
+	sphealoutlaw: {
+		name: "Spheal-Outlaw",
 	},
 };

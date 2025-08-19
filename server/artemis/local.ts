@@ -5,9 +5,9 @@
  */
 
 import * as child_process from 'child_process';
-import {ProcessManager, Streams, Utils, Repl, FS} from '../../lib';
-import {Config} from '../config-loader';
-import {toID} from '../../sim/dex-data';
+import { ProcessManager, Streams, Utils, Repl, FS } from '../../lib';
+import { Config } from '../config-loader';
+import { toID } from '../../sim/dex-data';
 
 class ArtemisStream extends Streams.ObjectReadWriteStream<string> {
 	tasks = new Set<string>();
@@ -15,14 +15,14 @@ class ArtemisStream extends Streams.ObjectReadWriteStream<string> {
 	constructor() {
 		super();
 		this.process = child_process.spawn('python3', [
-			'-u', FS('server/artemis/model.py').path, Config.debugartemisprocesses ? "debug" : "",
+			'-u', FS('server/artemis/model.py').path, "debug",
 		].filter(Boolean));
 		this.listen();
 	}
 	listen() {
 		this.process.stdout.setEncoding('utf8');
 		this.process.stderr.setEncoding('utf8');
-		this.process.stdout.on('data', (data) => {
+		this.process.stdout.on('data', data => {
 			// so many bugs were created by \nready\n
 			data = data.trim();
 			const [taskId, dataStr] = data.split("|");
@@ -54,12 +54,12 @@ class ArtemisStream extends Streams.ObjectReadWriteStream<string> {
 			this.pushEnd();
 		});
 	}
-	_write(chunk: string) {
+	override _write(chunk: string) {
 		const [taskId, message] = Utils.splitFirst(chunk, '\n');
 		this.tasks.add(taskId);
 		this.process.stdin.write(`${taskId}|${message}\n`);
 	}
-	destroy() {
+	override destroy() {
 		try {
 			this.process.kill();
 		} catch {}
@@ -152,26 +152,27 @@ export class LocalClassifier {
 
 // main module check necessary since this gets required in other non-parent processes sometimes
 // when that happens we do not want to take over or set up or anything
-if (require.main === module) {
-	// This is a child process!
-	global.Config = Config;
-	global.Monitor = {
-		crashlog(error: Error, source = 'A local Artemis child process', details: AnyObject | null = null) {
-			const repr = JSON.stringify([error.name, error.message, source, details]);
-			process.send!(`THROW\n@!!@${repr}\n${error.stack}`);
-		},
-		slow(text: string) {
-			process.send!(`CALLBACK\nSLOW\n${text}`);
-		},
-	};
-	global.toID = toID;
-	process.on('uncaughtException', err => {
-		if (Config.crashguard) {
-			Monitor.crashlog(err, 'A local Artemis child process');
-		}
-	});
-	// eslint-disable-next-line no-eval
-	Repl.start(`abusemonitor-local-${process.pid}`, cmd => eval(cmd));
-} else if (!process.send) {
+// if (require.main === module) {
+// 	// This is a child process!
+// 	global.Config = Config;
+// 	global.Monitor = {
+// 		crashlog(error: Error, source = 'A local Artemis child process', details: AnyObject | null = null) {
+// 			const repr = JSON.stringify([error.name, error.message, source, details]);
+// 			process.send!(`THROW\n@!!@${repr}\n${error.stack}`);
+// 		},
+// 		slow(text: string) {
+// 			process.send!(`CALLBACK\nSLOW\n${text}`);
+// 		},
+// 	};
+// 	global.toID = toID;
+// 	process.on('uncaughtException', err => {
+// 		if (Config.crashguard) {
+// 			Monitor.crashlog(err, 'A local Artemis child process');
+// 		}
+// 	});
+// 	// eslint-disable-next-line no-eval
+// 	Repl.start(`abusemonitor-local-${process.pid}`, cmd => eval(cmd));
+// } else 
+if (!process.send) {
 	PM.spawn(Config.localartemisprocesses || 1);
 }
