@@ -429,31 +429,30 @@ export const PM = new ProcessManager.QueryProcessManager<DatabaseRequest, Databa
 	}
 });
 
-// if (require.main === module) {
-// 	global.Config = (require as any)('./config-loader').Config;
-// 	if (Config.usesqlite) {
-// 		FriendsDatabase.setupDatabase();
-// 	}
-// 	// since we require this in child processes
-// 	if (process.mainModule === module) {
-// 		global.Monitor = {
-// 			crashlog(error: Error, source = 'A friends database process', details: AnyObject | null = null) {
-// 				const repr = JSON.stringify([error.name, error.message, source, details]);
-// 				process.send!(`THROW\n@!!@${repr}\n${error.stack}`);
-// 			},
-// 			slow(message: string) {
-// 				process.send!(`CALLBACK\nSLOW\n${message}`);
-// 			},
-// 		} as any;
-// 		process.on('uncaughtException', err => {
-// 			if (Config.crashguard) {
-// 				Monitor.crashlog(err, 'A friends child process');
-// 			}
-// 		});
-// 		// eslint-disable-next-line no-eval
-// 		Repl.start(`friends-${process.pid}`, cmd => eval(cmd));
-// 	}
-// } else 
-if (!process.send) {
-	PM.spawn(Config.friendsprocesses || 1);
+if (require.main === module) {
+	global.Config = (require as any)('./config-loader').Config;
+	if (Config.usesqlite) {
+		FriendsDatabase.setupDatabase();
+	}
+	// since we require this in child processes
+	if (process.mainModule === module) {
+		global.Monitor = {
+			crashlog(error: Error, source = 'A friends database process', details: AnyObject | null = null) {
+				const repr = JSON.stringify([error.name, error.message, source, details]);
+				process.send!(`THROW\n@!!@${repr}\n${error.stack}`);
+			},
+			slow(message: string) {
+				process.send!(`CALLBACK\nSLOW\n${message}`);
+			},
+		} as any;
+		process.on('uncaughtException', err => {
+			if (Config.crashguard) {
+				Monitor.crashlog(err, 'A friends child process');
+			}
+		});
+		// eslint-disable-next-line no-eval
+		Repl.start(`friends-${process.pid}`, cmd => eval(cmd));
+	}
+} else if (!process.send) {
+	PM.spawn(global.Config?.subprocessescache?.friends ?? 1);
 }
