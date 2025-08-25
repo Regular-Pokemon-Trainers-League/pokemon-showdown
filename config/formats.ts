@@ -2830,6 +2830,14 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		column: 3,
 	},
 	{
+	name: "[Gen 7] Team Tapu Random Battles",
+	desc: 'Receive a powerful Tapu and a matching monocolor team!',
+	mod: 'gen7',
+	team: 'random',
+	ruleset: ['Obtainable', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod', 'Illusion Level Mod'],
+	gameType: 'singles',
+	},
+	{
 		name: "[Gen 9] Random Roulette",
 		desc: `Random Battles in a random generation! [Gen 1] Random Battle - [Gen 9] Random Battle.`,
 		mod: 'randomroulette',

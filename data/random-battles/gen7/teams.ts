@@ -1025,6 +1025,7 @@ export class RandomGen7Teams extends RandomGen8Teams {
 		isLead = false
 	): RandomTeamsTypes.RandomSet {
 		species = this.dex.species.get(species);
+		const isTapu = ['tapukoko', 'tapulele', 'tapubulu', 'tapufini'].includes(species.id);
 		const forme = this.getForme(species);
 		const sets = this.randomSets[species.id]["sets"];
 		const possibleSets = [];
@@ -1034,9 +1035,14 @@ export class RandomGen7Teams extends RandomGen8Teams {
 			if (!teamDetails.zMove && set.role === 'Z-Move user') canZMove = true;
 		}
 		for (const set of sets) {
-			// Prevent multiple Z-Move users
+			if (isTapu) {
+				if (set.role === 'Z-Move user' && !teamDetails.zMove) {
+					possibleSets.push(set);
+					break; 
+				}
+				continue;
+			}
 			if (teamDetails.zMove && set.role === 'Z-Move user') continue;
-			// Prevent Setup Sweeper and Bulky Setup if Z-Move user is available
 			if (canZMove && ['Setup Sweeper', 'Bulky Setup'].includes(set.role)) continue;
 			possibleSets.push(set);
 		}

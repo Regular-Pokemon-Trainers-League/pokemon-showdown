@@ -7341,15 +7341,15 @@
         "level": 77,
         "sets": [
             {
-                "role": "Fast Support",
-                "movepool": ["bravebird", "dazzlinggleam", "defog", "naturesmadness", "uturn", "wildcharge"],
-                "abilities": ["Electric Surge"]
-            },
-            {
                 "role": "Z-Move user",
                 "movepool": ["calmmind", "dazzlinggleam", "grassknot", "roost", "thunderbolt"],
                 "abilities": ["Electric Surge"],
                 "preferredTypes": ["Electric"]
+            },
+            {
+                "role": "Fast Support",
+                "movepool": ["bravebird", "dazzlinggleam", "defog", "naturesmadness", "uturn", "wildcharge"],
+                "abilities": ["Electric Surge"]
             }
         ]
     },
@@ -7357,18 +7357,15 @@
         "level": 77,
         "sets": [
             {
+                "role": "Z-Move user",
+                "movepool": ["calmmind", "focusblast", "moonblast", "psyshock"],
+                "abilities": ["Psychic Surge"],
+                "preferredTypes": ["Psychic", "Fighting"]
+
+            },
+            {
                 "role": "Fast Attacker",
                 "movepool": ["focusblast", "moonblast", "psychic", "psyshock"],
-                "abilities": ["Psychic Surge"]
-            },
-            {
-                "role": "Setup Sweeper",
-                "movepool": ["calmmind", "focusblast", "moonblast", "psychic", "psyshock"],
-                "abilities": ["Psychic Surge"]
-            },
-            {
-                "role": "AV Pivot",
-                "movepool": ["focusblast", "moonblast", "naturesmadness", "psychic", "psyshock"],
                 "abilities": ["Psychic Surge"]
             }
         ]
@@ -7376,6 +7373,12 @@
     "tapubulu": {
         "level": 82,
         "sets": [
+            {
+                "role": "Z-Move user",
+                "movepool": ["bulkup", "hornleech", "megahorn", "stoneedge", "superpower", "woodhammer"],
+                "abilities": ["Grassy Surge"],
+                "preferredTypes": ["Grass", "Fighting", "Rock"]
+            },
             {
                 "role": "Bulky Attacker",
                 "movepool": ["bulkup", "hornleech", "megahorn", "stoneedge", "superpower", "woodhammer"],
@@ -7387,8 +7390,14 @@
         "level": 80,
         "sets": [
             {
-                "role": "Bulky Setup",
+                "role": "Z-Move user",
                 "movepool": ["calmmind", "hydropump", "icebeam", "moonblast", "surf", "taunt"],
+                "abilities": ["Misty Surge"],
+                "preferredTypes": ["Water","Fairy"]
+            },
+             {
+                "role": "Bulky Support",
+                "movepool": ["defog","knockoff","naturesmadness","moonblast","hydropump","taunt"],
                 "abilities": ["Misty Surge"]
             }
         ]
