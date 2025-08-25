@@ -172,7 +172,6 @@ export class LocalClassifier {
 // 	});
 // 	// eslint-disable-next-line no-eval
 // 	Repl.start(`abusemonitor-local-${process.pid}`, cmd => eval(cmd));
-// } else 
 if (!process.send) {
 	PM.spawn(Config.localartemisprocesses || 1);
 }
