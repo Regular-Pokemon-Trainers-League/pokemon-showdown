@@ -403,6 +403,12 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 
 		start: "  [POKEMON] started heating up its beak!",
 	},
+	beatofmyowndrum: {
+		name: "Beat Of My Own Drum",
+		desc: "A random move from the user's move pool is selected for use.",
+		shortDesc: "Picks a random move from user's move pool.",
+		move: "「𝘿𝙊𝙊𝙈 𝘿𝙐𝙏 𝘿𝘼 𝘿𝘼」♫ It followed the rhythm of its heart and used [MOVE]!",
+	},
 	beatup: {
 		name: "Beat Up",
 		desc: "Hits one time for the user and one time for each unfainted Pokemon without a non-volatile status condition in the user's party. The power of each hit is equal to 5+(X/10), where X is each participating Pokemon's base Attack; each hit is considered to come from the user.",

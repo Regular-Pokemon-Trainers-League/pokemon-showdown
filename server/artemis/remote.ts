@@ -113,7 +113,7 @@ export const PM = new ProcessManager.QueryProcessManager<string, Record<string, 
 // 		slow(text: string) {
 // 			process.send!(`CALLBACK\nSLOW\n${text}`);
 // 		},
-// 	};
+// 	} as any;
 // 	global.toID = toID;
 // 	process.on('uncaughtException', err => {
 // 		if (Config.crashguard) {
@@ -122,7 +122,6 @@ export const PM = new ProcessManager.QueryProcessManager<string, Record<string, 
 // 	});
 // 	// eslint-disable-next-line no-eval
 // 	Repl.start(`abusemonitor-remote-${process.pid}`, cmd => eval(cmd));
-// } else 
 if (!process.send) {
 	PM.spawn(Config.remoteartemisprocesses || 1);
 }

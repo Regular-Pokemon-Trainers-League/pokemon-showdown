@@ -120,6 +120,14 @@ exports.subprocesses = {
 };
 
 /**
+ * usesqlite - make use of sqlite databases I guess?
+ * 
+ * usesqlitefriends - allows friends sqlite to work?
+ */
+exports.usesqlite = true
+exports.usesqlitefriends = 'unlocked'
+
+/**
  * Various debug options
  *
  * ofe[something]

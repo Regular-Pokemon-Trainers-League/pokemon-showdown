@@ -1190,6 +1190,37 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Flying",
 		contestType: "Tough",
 	},
+	// Designed by Bo Flingus (Pokemon Brackets)
+	beatofmyowndrum: {
+        num: -103,
+        accuracy: true,
+        basePower: 0,
+        category: "Status",
+        name: "Beat Of My Own Drum",
+        pp: 10,
+        priority: 0,
+        flags: { failencore: 1, nosleeptalk: 1, noassist: 1, failcopycat: 1, failmimic: 1, failinstruct: 1 },
+        onHit(pokemon) {
+			let pokeid = ( pokemon.species.forme.toLowerCase().includes('hisui') || pokemon.species.forme.toLowerCase().includes('galar') || 
+							pokemon.species.forme.toLowerCase().includes('alola') || pokemon.species.forme.toLowerCase().includes('paldea')) 
+							? pokemon.species.id : this.toID(pokemon.species.baseSpecies);
+			const species = this.dex.species.get(pokeid);
+			const learnset = this.dex.data.Learnsets[species.id]?.learnset || {};
+			const possibleMoves = Object.keys(learnset).filter(m => m !== 'beatofmyowndrum');
+
+			if (!possibleMoves.length) return false;
+
+			const moveId = this.sample(possibleMoves);
+			const move = this.dex.moves.get(moveId);
+
+			this.actions.useMove(move.id, pokemon);
+		},
+        callsMove: true,
+        secondary: null,
+        target: "self",
+        type: "Fire",
+        contestType: "cool",
+    },
 	beatup: {
 		num: 251,
 		accuracy: 100,
@@ -1693,6 +1724,36 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Electric",
 		contestType: "Beautiful",
 	},
+	beatofmyowndrum: {
+        num: -103,
+        accuracy: true,
+        basePower: 0,
+        category: "Status",
+        name: "Beat Of My Own Drum",
+        pp: 10,
+        priority: 0,
+        flags: { failencore: 1, nosleeptalk: 1, noassist: 1, failcopycat: 1, failmimic: 1, failinstruct: 1 },
+        onHit(pokemon) {
+			let pokeid = ( pokemon.species.forme.toLowerCase().includes('hisui') || pokemon.species.forme.toLowerCase().includes('galar') || 
+							pokemon.species.forme.toLowerCase().includes('alola') || pokemon.species.forme.toLowerCase().includes('paldea')) 
+							? pokemon.species.id : this.toID(pokemon.species.baseSpecies);
+			const species = this.dex.species.get(pokeid);
+			const learnset = this.dex.data.Learnsets[species.id]?.learnset || {};
+			const possibleMoves = Object.keys(learnset).filter(m => m !== 'beatofmyowndrum');
+
+			if (!possibleMoves.length) return false;
+
+			const moveId = this.sample(possibleMoves);
+			const move = this.dex.moves.get(moveId);
+
+			this.actions.useMove(move.id, pokemon);
+		},
+        callsMove: true,
+        secondary: null,
+        target: "self",
+        type: "Fire",
+        contestType: "cool",
+    },
 	boneclub: {
 		num: 125,
 		accuracy: 85,
@@ -17845,12 +17906,27 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		name: "Snap Trap",
 		pp: 15,
 		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1, metronome: 1 },
+		flags: { contact: 1, protect: 1, mirror: 1, metronome: 1 },
 		volatileStatus: 'partiallytrapped',
 		secondary: null,
 		target: "normal",
 		type: "Grass",
 	},
+	// snaptrap: {
+	// 	num: 779,
+	// 	accuracy: 100,
+	// 	basePower: 55,
+	// 	category: "Physical",
+	// 	isNonstandard: "Unobtainable",
+	// 	name: "Snap Trap",
+	// 	pp: 15,
+	// 	priority: 0,
+	// 	flags: { contact: 1, protect: 1, mirror: 1, bite: 1, metronome: 1 },
+	// 	volatileStatus: 'partiallytrapped',
+	// 	secondary: null,
+	// 	target: "normal",
+	// 	type: "Grass",
+	// },
 	snarl: {
 		num: 555,
 		accuracy: 95,
