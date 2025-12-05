@@ -4,6 +4,7 @@ import { PRNG, type PRNGSeed } from '../../../sim/prng';
 import { type RuleTable } from '../../../sim/dex-formats';
 import { Tags } from './../../tags';
 import { Teams } from '../../../sim/teams';
+import { set } from 'd3';
 
 export interface TeamData {
 	typeCount: { [k: string]: number };
@@ -77,6 +78,7 @@ type MoveEnforcementChecker = (
 	movePool: string[], moves: Set<string>, abilities: string[], types: string[],
 	counter: MoveCounter, species: Species, teamDetails: RandomTeamsTypes.TeamDetails,
 	isLead: boolean, isDoubles: boolean, teraType: string, role: RandomTeamsTypes.Role,
+	isMetronome: boolean,
 ) => boolean;
 
 // Moves that restore HP:
@@ -1159,6 +1161,109 @@ export class RandomTeams {
 		return this.sample(abilities);
 	}
 
+	getMetronomeAbility(
+		types: string[],
+		moves: Set<string>,
+		abilities: string[],
+		counter: MoveCounter,
+		teamDetails: RandomTeamsTypes.TeamDetails,
+		species: Species,
+		isLead: boolean,
+		isDoubles: boolean,
+		teraType: string,
+		role: RandomTeamsTypes.Role,
+	): string {
+
+	let lowestPrio = [ "Anticipation", "Forewarn", "Gale Wings", "Honey Gather", "Illuminate", "Mycelium Might", "Overgrow", "Propeller Tail", 
+						"Queenly Majesty", "Run Away", "Stall", "Stalwart", "Triage", "Truant"];
+	let lowPrio = [ "Aftermath", "Aroma Veil", "Big Pecks", "Blaze", "Chlorophyll", "Corrosion", "Damp", "Dazzling", "Early Bird", "Electromorphosis", 
+					"Flare Boost", "Grass Pelt", "Heatproof", "Heavy Metal", "Hydration", "Immunity", "Infiltrator", "Innards Out", "Insomnia", "Keen Eye",
+					"Klutz", "Leaf Guard", "Light Metal", "Limber", "Magma Armor", "Merciless", "Minus", "Pickup", "Plus", "Quick Feet", "Rain Dish", "Rattled",
+					"Sand Force", "Sand Rush", "Sand Veil", "Slush Rush", "Screen Cleaner", "Snow Cloak", "Solar Power", "Stench", "Supersweet Syrup", "Surge Surfer",
+					"Swarm", "Sweet Veil", "Swift Swim",  "Telepathy", "Torrent", "Unburden", "Water Veil", "Weak Armor"];
+	let midPrio = [ "Adaptability", "Analytic", "Anger Point", "Anger Shell", "Battle Bond", "Berserk", "Bulletproof", "Cheek Pouch", "Cloud Nine", "Color Change",
+					"Compound Eyes", "Contrary", "Cotton Down", "Curious Medicine", "Cute Charm", "Download", "Dry Skin", "Earth Eater", "Effect Spore", "Flower Veil",
+					"Fluffy", "Frisk", "Fur Coat", "Galvanize", "Gluttony", "Gooey", "Guard Dog", "Guts", "Healer", "Hustle", "Hyper Cutter", "Ice Body", "Ice Scales",
+					"Inner Focus", "Iron Fist", "Levitate", "Libero", "Lingering Aroma", "Liquid Ooze", "Liquid Voice", "Long Reach", "Magnet Pull", "Motor Drive",
+					"Marvel Scale", "Natural Cure", "No Guard", "Normalize", "Oblivious", "Overcoat", "Pixilate", "Prankster", "Protean", "Punk Rock", "Quick Draw", "Reckless",
+					"Refrigerate", "Ripen", "Rivalry", "Rock Head", "Rocky Payload", "Scrappy",  "Sharpness", "Shed Skin", "Shell Armor", "Simple", "Skill Link", "Sniper",
+					"Soundproof", "Speed Boost", "Stakeout", "Static", "Steadfast", "Steam Engine", "Steely Spirit", "Sticky Hold", "Strong Jaw", "Sturdy", "Suction Cups",
+					"Symbiosis", "Synchronize", "Tangled Feet", "Tangling Hair",  "Thermal Exchange", "Thick Fat", "Tinted Lens", "Tough Claws", "Toxic Boost", "Unnerve",
+					"Vital Spirit", "Volt Absorb", "Well-Baked Body", "White Smoke", "Wind Rider", "Wonder Skin", "Zen Mode "]
+	let highPrio = [ "Armor Tail", "Battery", "Battle Armor", "Clear Body", "Costar", "Cud Chew", "Electric Surge", "Filter", "Flame Body", "Flash Fire", "Friend Guard",
+					"Grassy Surge", "Justified", "Lightning Rod", "Magic Bounce", "Mirror Armor", "Misty Surge", "Mold Breaker", "Moxie", "Neutralizing Gas", "Opportunist",
+					"Own Tempo", "Pastel Veil", "Pickpocket", "Poison Touch", "Power of Alchemy", "Power Spot", "Psychic Surge", "Receiver",  "Sand Spit", "Sap Sipper",
+					"Seed Power", "Serene Grace", "Sheer Force", "Solid Rock", "Storm Drain", "Super Luck", "Supreme Overlord", "Trace", "Unaware "]
+	let highestPrio = [ "Arena Trap", "Competitive", "Defiant", "Drizzle", "Harvest", "Hospitality", "Huge Power", "Imposter", "Intimidate", "Iron Barbs", "Magic Guard",
+						"Magician",  "Moody", "Multiscale", "Poison Heal", "Poison Point", "Pure Power", "Purifying Salt", "Regenerator", "Rough Skin", "Sand Stream", "Shadow Tag",
+						"Snow Warning", "Stamina "]
+
+// Others: Aerilate, Air Lock,  As One (Glastrier), As One (Spectrier), Aura Break, Bad Dreams, Ball Fetch, Beads of Ruin, Beast Boost, Chilling Neigh, Closed Circuit, Comatose,  Dancer, Dark Aura, Dauntless Shield, Defeatist, Delta Stream, Desolate Land, Disguise, Syzygy, Dragon's Maw, Electromorphosis, Embody Aspect (Cornerstone), Embody Aspect (Heartflame), Embody Aspect (Teal), Embody Aspect (Wellspring), Emergency Exit, Fairy Aura, Flower Gift, Forecast, Full Metal Body, Good as Gold, Gorilla Tactics, Grim Neigh, Gulp Missile, Hadron Engine, Hunger Switch, Ice Face, Illusion, Intrepid Sword, Mega Launcher, Mimicry, Mind's Eye,
+// Others: Multitype, Mummy, Neuroforce, Orichalcum Pulse, Parental Bond, Poison Puppeteer, Primordial Sea, Prism Armor, Protosynthesis, Quark Drive, RKS System, Schooling, Shadow Shield, Shields Down, Slow Start, Soul-Heart, Stance Change, Steelworker, Super Capacitor, Sword of Ruin, Tablets of Ruin, Tag Team, Teraform Zero, Tera Shell, Tera Shift, Teravolt, Transistor, Turboblaze, Unseen Fist, Vessel of Ruin, Victory Star, Wandering Spirit, Wimp Out, Wonder Guard, Zero to Hero,
+
+		if (abilities.length === 1) {
+			return abilities[0];
+		}
+
+		let priorityAbilities: string[] = [];
+		let topPrio = 0;
+
+		// Get list of highest matching priority abilities, this is what we'll sample.
+		for (const ability of abilities) {
+			if (lowestPrio.includes(ability)) {
+				if (topPrio === 0) {
+					priorityAbilities.push(ability);
+				}
+			}
+			else if (lowPrio.includes(ability)) {
+				if (topPrio < 1) {
+					priorityAbilities = [];
+					priorityAbilities.push(ability);
+					topPrio = 1;
+				}
+				else if (topPrio === 1) {
+					priorityAbilities.push(ability);
+				}
+			}
+			else if (midPrio.includes(ability)) {
+				if (topPrio < 2) {
+					priorityAbilities = [];
+					priorityAbilities.push(ability);
+					topPrio = 2;
+				}
+				else if (topPrio === 2) {
+					priorityAbilities.push(ability);
+				}
+			}
+			else if (highPrio.includes(ability)) {
+				if (topPrio < 3) {
+					priorityAbilities = [];
+					priorityAbilities.push(ability);
+					topPrio = 3;
+				}
+				else if (topPrio === 3) {
+					priorityAbilities.push(ability);
+				}
+			}
+			else if (highestPrio.includes(ability)) {
+				if (topPrio < 4) {
+					priorityAbilities = [];
+					priorityAbilities.push(ability);
+					topPrio = 4;
+				}
+				else if (topPrio === 4) {
+					priorityAbilities.push(ability);
+				}
+			}
+			else {
+				priorityAbilities.push(ability);
+			}
+		}
+
+		// Pick a random ability
+		return this.sample(priorityAbilities);
+	}
+
 	getPriorityItem(
 		ability: string,
 		types: string[],
@@ -1341,6 +1446,157 @@ export class RandomTeams {
 		return 'Sitrus Berry';
 	}
 
+	/** Item generation specific to Random Doubles Metronome*/
+	getDoublesMetronomeItem(
+		ability: string,
+		types: string[],
+		moves: Set<string>,
+		counter: MoveCounter,
+		teamDetails: RandomTeamsTypes.TeamDetails,
+		species: Species,
+		isLead: boolean,
+		teraType: string,
+		role: RandomTeamsTypes.Role,
+		items: string[],
+		hasMega: boolean,
+	): string {
+
+		if (species.requiredItems) {
+			// Z-Crystals aren't available in Gen 9, so require Plates
+			if (species.baseSpecies === 'Arceus') {
+				return species.requiredItems[0];
+			}
+			return this.sample(species.requiredItems);
+		}
+
+		let weatherAbilities = ['Swift Swim', 'Chlorophyll', 'Snow Cloak', 'Slush Rush', 'Ice Body',  'Forecast', 'Sand Rush', 'Sand Veil', 'Sand Force', 
+								'Dry Skin', 'Hydration', 'Rain Dish', 'Flower Gift', 'Protosynthesis', 'Leaf Guard'];
+
+		let usualItems = [ 'Choice Band', 'Choice Scarf', 'Choice Specs', 'Expert Belt', 'Focus Sash', 'Heavy-Duty Boots', 'Leftovers', 'Life Orb', 'Loaded Dice', 'Rocky Helmet'];
+		
+		let additionalItems = [ 'Ability Shield', 'Bright Powder', 'Clear Amulet', 'Covert Cloak', 'Grip Claw', 'King\'s Rock', 'Light Clay', 'Muscle Band', 'Protective Pads',
+								'Punching Glove', 'Quick Claw', 'Razor Claw', 'Razor Fang', 'Safety Goggles', 'Scope Lens',  'Shed Shell', 'Shell Bell', 'Utility Umbrella',
+								'Wide Lens', 'Wise Glasses', 'Zoom Lens'];
+
+		let typeSpecificDamage = ['Black Belt', 'Black Glasses', 'Charcoal', 'Dragon Fang', 'Fairy Feather', 'Hard Stone', 'Magnet', 'Metal Coat', 'Miracle Seed', 
+									'Mystic Water', 'Never-Melt Ice', 'Poison Barb', 'Sharp Beak', 'Silk Scarf', 'Silver Powder', 'Soft Sand', 'Spell Tag', 'Twisted Spoon'];
+
+		let underdogItems = ['Big Root', 'Binding Band', 'Focus Band'];
+
+		let consumableItems = ['Absorb Bulb', 'Adrenaline Orb', 'Air Balloon', 'Blunder Policy', 'Cell Battery', 'Eject Button', 'Eject Pack', 'Luminous Moss', 'Mental Herb',
+								'Mirror Herb', 'Power Herb', 'Red Card', 'Snowball', 'Throat Spray', 'Weakness Policy', 'White Herb' ];
+
+		let damageBerries = [ { 'type': 'Steel', 'berry': 'Babiri Berry' }, { 'type': 'Rock', 'berry': 'Charti Berry' }, { 'type': 'Normal', 'berry': 'Chilan Berry' },
+								{ 'type': 'Fighting', 'berry': 'Chople Berry' }, { 'type': 'Flying', 'berry': 'Coba Berry' }, { 'type': 'Dark', 'berry': 'Colbur Berry' },
+								{ 'type': 'Dragon', 'berry': 'Haban Berry' }, { 'type': 'Ghost', 'berry': 'Kasib Berry' }, { 'type': 'Poison', 'berry': 'Kebia Berry' },
+								{ 'type': 'Fire', 'berry': 'Occa Berry' }, { 'type': 'Water', 'berry': 'Passho Berry' }, { 'type': 'Psychic', 'berry': 'Payapa Berry' },
+								{ 'type': 'Grass', 'berry': 'Rindo Berry' }, { 'type': 'Fairy', 'berry': 'Roseli Berry' }, { 'type': 'Ground', 'berry': 'Shuca Berry' },
+								{ 'type': 'Bug', 'berry': 'Tanga Berry' }, { 'type': 'Electric', 'berry': 'Wacan Berry' }, { 'type': 'Ice', 'berry': 'Yache Berry' }];
+
+		let berryItems = [ 'Aguav Berry', 'Apicot Berry', 'Chesto Berry', 'Custap Berry', 'Figy Berry', 'Ganlon Berry', 'Kee Berry', 'Lansat Berry', 'Leppa Berry', 'Liechi Berry', 
+							'Lum Berry', 'Mago Berry', 'Maranga Berry', 'Micle Berry', 'Petaya Berry', 'Salac Berry', 'Starf Berry' ];
+
+		let speciesItems: string[] = [];
+
+		if (species.name === "Pikachu") {
+			speciesItems.push('Light Ball');
+		}
+		else if (species.name === "Cubone" || species.name === "Marowak") {
+			speciesItems.push('Thick Club');
+		}
+		else if (species.name === "Farfetch'd" || species.name === "Sirfetch'd") {
+			speciesItems.push('Leek');
+		}
+		else if (species.name === "Clamperl") {
+			speciesItems.push('Deep Sea Scale');
+			speciesItems.push('Deep Sea Tooth');
+		}
+		else if (species.name === "Chansey") {
+			speciesItems.push('Lucky Punch');
+		}
+		else if (ability === 'Quark Drive' || ability === 'Protosynthesis' && !items.includes('Booster Energy')) {
+			speciesItems.push('Booster Energy');
+		}
+		else if (species.nfe) {
+			speciesItems.push('Eviolite');
+		}
+
+		if (weatherAbilities.includes(ability)) {
+			let index = additionalItems.indexOf('Utility Umbrella');
+			additionalItems.splice(index, 1);
+		}
+
+		if (!hasMega && species.isMega) {
+			let itemsForSpecies = this.dex.items.all().filter(item => item.itemUser != undefined && item.itemUser[0] === species.baseSpecies ).map(item => item.name);
+			speciesItems = speciesItems.concat(itemsForSpecies);
+		}
+
+		if (speciesItems.length > 0) {
+			return this.sampleIfArray(speciesItems);
+		}
+
+		let abilitySpecific = '';
+
+		if (ability === 'Flare Boost') {
+			abilitySpecific = 'Flame Orb';
+		}
+		else if (ability === 'Imposter') {
+			abilitySpecific = 'Leppa Berry';
+		}
+		else if (ability === 'Own Tempo' || ability === 'Tangled Feet') {
+			abilitySpecific = 'Berserk Gene';
+		}
+		else if (ability === 'Poison Heal') {
+			abilitySpecific = 'Toxic Orb';
+		}
+		else if (ability === 'Klutz') {
+			abilitySpecific = 'Assault Vest';
+		}
+		else if (ability === 'Normalize') {
+			abilitySpecific = 'Silk Scarf';
+		}
+		else if (ability === 'Stakeout') {
+			abilitySpecific = 'Red Card';
+		}
+		else if (ability === 'Cheek Pouch' || ability === 'Gluttony' || 
+					ability === 'Cud Chew' || ability === 'Ripen' || ability === 'Harvest') {
+			do {
+				abilitySpecific = this.sampleIfArray(berryItems);
+			} while(items.includes(abilitySpecific))
+		}
+		else if (ability === 'Magician' || ability === 'Unburden' || ability === 'Pickpocket' || ability === 'Pickup') {
+			do {
+				abilitySpecific = this.sampleIfArray(consumableItems);
+			} while(items.includes(abilitySpecific))
+		}
+
+		if (!items.includes(abilitySpecific) && abilitySpecific != '') {
+			return abilitySpecific;
+		}
+
+		let allItems: string[] = usualItems.concat(additionalItems, underdogItems, consumableItems, berryItems);
+
+		if(species.types.includes('Poison') && !items.includes('Black Sludge')) {
+			return 'Black Sludge';
+		}
+
+		//No duplicates
+		for(let i=0; i<items.length; i++) {
+			let index = allItems.indexOf(items[i]);
+			allItems.splice(index, 1);
+		}
+
+		// Add damage reducing berry as a chance for a 4X weaknesses
+		for (const typeName of this.dex.types.names()) {
+			if (this.dex.getEffectiveness(typeName, species) > 1) {
+				allItems.concat(damageBerries.filter(berry => berry.type === typeName).map(berry => berry.berry));
+			}
+		}
+
+		return this.sampleIfArray(allItems);
+		
+	}
+
 	getItem(
 		ability: string,
 		types: string[],
@@ -1438,9 +1694,11 @@ export class RandomTeams {
 	getLevel(
 		species: Species,
 		isDoubles: boolean,
+		isMetronome: boolean = false,
 	): number {
 		if (this.adjustLevel) return this.adjustLevel;
 		// doubles levelling
+		if (isDoubles && isMetronome && this.randomDoublesMetronomeSets[species.id]["level"]) return this.randomDoublesMetronomeSets[species.id]["level"]!;
 		if (isDoubles && this.randomDoublesSets[species.id]["level"]) return this.randomDoublesSets[species.id]["level"]!;
 		if (!isDoubles && this.randomSets[species.id]["level"]) return this.randomSets[species.id]["level"]!;
 		// Default to tier-based levelling
@@ -1619,6 +1877,113 @@ export class RandomTeams {
 		};
 	}
 
+	randomMetronomeSet(
+		s: string | Species,
+		teamDetails: RandomTeamsTypes.TeamDetails = {},
+		items: string[],
+		hasMega: boolean,
+		isLead = false,
+		isDoubles = false,
+		isMetronome = true
+	): RandomTeamsTypes.RandomSet {
+		let species = this.dex.species.get(s);
+		const forme = this.getForme(species);
+		const sets = this[`randomDoublesMetronomeSets`][species.id]["sets"];
+		const possibleSets: RandomTeamsTypes.RandomSetData[] = [];
+
+		// Get level
+		const level = this.getLevel(species, isDoubles, isMetronome);
+
+		// One mega per team so select base species instead.
+		if (species.forme.includes('Mega') && hasMega) {
+			species = this.dex.species.get(species.baseSpecies);
+			console.log("Team Already Has Mega reverting to Mini ;P");
+		}
+		
+		const ruleTable = this.dex.formats.getRuleTable(this.format);
+
+		for (const set of sets) {	
+			possibleSets.push(set);
+		}
+		const set = this.sampleIfArray(possibleSets);
+		const role = set.role;
+		const movePool: string[] = [];
+		for (const movename of set.movepool) {
+			movePool.push(this.dex.moves.get(movename).id);
+		}
+		const teraTypes = set.teraTypes!;
+		let teraType = this.sampleIfArray(teraTypes);
+
+		let ability = '';
+		let item = undefined;
+
+		const evs = { hp: 85, atk: 85, def: 85, spa: 85, spd: 85, spe: 85 };
+		const ivs = { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 };
+
+		const types = species.types;
+		let abilities = set.abilities!;
+
+		let baseSpecies: Species = this.dex.species.get(species.baseSpecies);
+		if (abilities[0] === "NONE") {
+			abilities.push(baseSpecies.abilities[0]);
+			if(baseSpecies.abilities[1]) {
+				abilities.push(baseSpecies.abilities[1]);
+			}
+			if(baseSpecies.abilities['H']) {
+				abilities.push(baseSpecies.abilities['H']);
+			}
+			if(baseSpecies.abilities['S']) {
+				abilities.push(baseSpecies.abilities['S']);
+			}
+			abilities.splice(0,1);
+		}
+
+		let bannedAbilities = ['Anticipation', 'Commander', 'Cursed Body', 'Forewarn', 'Honey Gather', 'Illuminate', 'Perish Body', 'Power Construct', 'Pressure', 'Run Away', 'Toxic Chain', 'Toxic Debris'];
+
+		for (let i=0; i < bannedAbilities.length; i++) {
+			let index = Array.from(abilities).indexOf(bannedAbilities[i]);
+			if (index != -1) {
+				if (abilities.length === 1) {
+					abilities[0] = "Anticipation";
+				}
+				else {
+					abilities.splice(index, 1);
+				}
+			}
+		}
+
+		// Get moves
+		const moves = this.randomMoveset(types, abilities, teamDetails, species, isLead, isDoubles, movePool, teraType, role);
+		const counter = this.queryMoves(moves, species, teraType, abilities);
+
+		// Get ability
+		ability = this.getMetronomeAbility(types, moves, abilities, counter, teamDetails, species, isLead, isDoubles, teraType, role);
+
+		// Get items
+		item = this.getDoublesMetronomeItem(ability, types, moves, counter, teamDetails, species, isLead, teraType, role, items, hasMega);
+
+		// Enforce Tera Type after all set generation is done to prevent infinite generation
+		if (this.forceTeraType) teraType = this.forceTeraType;
+
+		// shuffle moves to add more randomness to camomons
+		const shuffledMoves = Array.from(moves);
+		this.prng.shuffle(shuffledMoves);
+		return {
+			name: species.baseSpecies === 'Illumise' ? 'Sasha' : species.baseSpecies,
+			species: forme,
+			gender: species.baseSpecies === 'Greninja' ? 'M' : (species.gender || (this.random(2) ? 'F' : 'M')),
+			shiny: this.randomChance(1, 1024),
+			level,
+			moves: shuffledMoves,
+			ability,
+			evs,
+			ivs,
+			item,
+			teraType,
+			role,
+		};
+	}
+
 	getPokemonPool(
 		type: string,
 		pokemonToExclude: RandomTeamsTypes.RandomSet[] = [],
@@ -1656,6 +2021,7 @@ export class RandomTeams {
 
 	randomSets: { [species: string]: RandomTeamsTypes.RandomSpeciesData } = require('./sets.json');
 	randomDoublesSets: { [species: string]: RandomTeamsTypes.RandomSpeciesData } = require('./doubles-sets.json');
+	randomDoublesMetronomeSets: { [species: string]: RandomTeamsTypes.RandomSpeciesData } = require('./doubles-metronome-sets.json');
 
 	randomTeam() {
 		this.enforceNoDirectCustomBanlistChanges();
@@ -2018,6 +2384,226 @@ export class RandomTeams {
 		}
 
 		return team;
+	}
+
+	randomMetronomeTeam(): RandomTeamsTypes.RandomSet[] {
+		this.enforceNoDirectCustomBanlistChanges();
+
+		const seed = this.prng.getSeed();
+		const ruleTable = this.dex.formats.getRuleTable(this.format);
+		const pokemon: RandomTeamsTypes.RandomSet[] = [];
+
+		// For Monotype
+		const isMonotype = !!this.forceMonotype || ruleTable.has('sametypeclause');
+		const isDoubles = this.format.gameType !== 'singles';
+		const typePool = this.dex.types.names().filter(name => name !== "Stellar");
+		const type = this.forceMonotype || this.sample(typePool);
+
+		// PotD stuff
+		const usePotD = global.Config && Config.potd && ruleTable.has('potd');
+		const potd = usePotD ? this.dex.species.get(Config.potd) : null;
+
+		const baseFormes: { [k: string]: number } = {};
+
+		const typeCount: { [k: string]: number } = {};
+		const typeComboCount: { [k: string]: number } = {};
+		const typeWeaknesses: { [k: string]: number } = {};
+		const typeDoubleWeaknesses: { [k: string]: number } = {};
+		const teamDetails: RandomTeamsTypes.TeamDetails = {};
+		let numMaxLevelPokemon = 0;
+		let items: string[] = [];
+		let hasMega: boolean = false;
+		let hasNfe: boolean = false;
+
+		const pokemonList = Object.keys(this.randomDoublesMetronomeSets);
+		const [pokemonPool, baseSpeciesPool] = this.getPokemonPool(type, pokemon, isMonotype, pokemonList);
+
+		let leadsRemaining = this.format.gameType === 'doubles' ? 2 : 1;
+		while (baseSpeciesPool.length && pokemon.length < this.maxTeamSize) {
+			const baseSpecies = this.sampleNoReplace(baseSpeciesPool);
+			let species = this.dex.species.get(this.sample(pokemonPool[baseSpecies]));
+
+			if (!species.exists) continue;
+
+			// Limit to one nfe
+			if (species.nfe && hasNfe) {
+				continue;
+			}
+			else if (species.nfe) {
+				hasNfe = true;
+			}
+
+			// Limit to one of each species (Species Clause)
+			if (baseFormes[species.baseSpecies]) continue;
+
+			// Treat Ogerpon formes and Terapagos like the Tera Blast user role; reject if team has one already
+			if (['ogerpon', 'ogerponhearthflame', 'terapagos'].includes(species.id) && teamDetails.teraBlast) continue;
+
+			// Illusion shouldn't be on the last slot
+			if (species.baseSpecies === 'Zoroark' && pokemon.length >= (this.maxTeamSize - 1)) continue;
+
+			const types = species.types;
+			const typeCombo = types.slice().sort().join();
+			const weakToFreezeDry = (
+				this.dex.getEffectiveness('Ice', species) > 0 ||
+				(this.dex.getEffectiveness('Ice', species) > -2 && types.includes('Water'))
+			);
+			// Dynamically scale limits for different team sizes. The default and minimum value is 1.
+			const limitFactor = Math.round(this.maxTeamSize / 6) || 1;
+
+			if (!isMonotype && !this.forceMonotype) {
+				let skip = false;
+
+				// Limit two of any type
+				for (const typeName of types) {
+					if (typeCount[typeName] >= 2 * limitFactor) {
+						skip = true;
+						break;
+					}
+				}
+				if (skip) continue;
+
+				// Limit three weak to any type, and one double weak to any type
+				for (const typeName of this.dex.types.names()) {
+					// it's weak to the type
+					if (this.dex.getEffectiveness(typeName, species) > 0) {
+						if (!typeWeaknesses[typeName]) typeWeaknesses[typeName] = 0;
+						if (typeWeaknesses[typeName] >= 3 * limitFactor) {
+							skip = true;
+							break;
+						}
+					}
+					if (this.dex.getEffectiveness(typeName, species) > 1) {
+						if (!typeDoubleWeaknesses[typeName]) typeDoubleWeaknesses[typeName] = 0;
+						if (typeDoubleWeaknesses[typeName] >= limitFactor) {
+							skip = true;
+							break;
+						}
+					}
+				}
+				if (skip) continue;
+
+				// Count Dry Skin/Fluffy as Fire weaknesses
+				if (
+					this.dex.getEffectiveness('Fire', species) === 0 &&
+					Object.values(species.abilities).filter(a => ['Dry Skin', 'Fluffy'].includes(a)).length
+				) {
+					if (!typeWeaknesses['Fire']) typeWeaknesses['Fire'] = 0;
+					if (typeWeaknesses['Fire'] >= 3 * limitFactor) continue;
+				}
+
+				// Limit four weak to Freeze-Dry
+				if (weakToFreezeDry) {
+					if (!typeWeaknesses['Freeze-Dry']) typeWeaknesses['Freeze-Dry'] = 0;
+					if (typeWeaknesses['Freeze-Dry'] >= 4 * limitFactor) continue;
+				}
+
+			}
+
+			// Limit three of any type combination in Monotype
+			if (!this.forceMonotype && isMonotype && (typeComboCount[typeCombo] >= 3 * limitFactor)) continue;
+
+			// The Pokemon of the Day
+			if (potd?.exists && (pokemon.length === 1 || this.maxTeamSize === 1)) species = potd;
+
+			let set: RandomTeamsTypes.RandomSet;
+
+			if (leadsRemaining) {
+				if (
+					isDoubles && DOUBLES_NO_LEAD_POKEMON.includes(species.baseSpecies) ||
+					!isDoubles && NO_LEAD_POKEMON.includes(species.baseSpecies)
+				) {
+					if (pokemon.length + leadsRemaining === this.maxTeamSize) continue;
+					set = this.randomMetronomeSet(species, teamDetails, items, hasMega, false, isDoubles);
+					pokemon.push(set);
+					items.push(set.item);
+				} else {
+					set = this.randomMetronomeSet(species, teamDetails, items, hasMega, true, isDoubles);
+					pokemon.unshift(set);
+					items.unshift(set.item);
+					leadsRemaining--;
+				}
+			} else {
+				set = this.randomMetronomeSet(species, teamDetails, items, hasMega, false, isDoubles);
+				pokemon.push(set);
+				items.push(set.item);
+			}
+
+			if (this.dex.items.get(set.item).megaStone != undefined) {
+				hasMega = true;
+			}
+
+			// Don't bother tracking details for the last Pokemon
+			if (pokemon.length === this.maxTeamSize) break;
+
+			// Now that our Pokemon has passed all checks, we can increment our counters
+			baseFormes[species.baseSpecies] = 1;
+
+			// Increment type counters
+			for (const typeName of types) {
+				if (typeName in typeCount) {
+					typeCount[typeName]++;
+				} else {
+					typeCount[typeName] = 1;
+				}
+			}
+			if (typeCombo in typeComboCount) {
+				typeComboCount[typeCombo]++;
+			} else {
+				typeComboCount[typeCombo] = 1;
+			}
+
+			// Increment weakness counter
+			for (const typeName of this.dex.types.names()) {
+				// it's weak to the type
+				if (this.dex.getEffectiveness(typeName, species) > 0) {
+					typeWeaknesses[typeName]++;
+				}
+				if (this.dex.getEffectiveness(typeName, species) > 1) {
+					typeDoubleWeaknesses[typeName]++;
+				}
+			}
+			// Count Dry Skin/Fluffy as Fire weaknesses
+			if (['Dry Skin', 'Fluffy'].includes(set.ability) && this.dex.getEffectiveness('Fire', species) === 0) {
+				typeWeaknesses['Fire']++;
+			}
+			if (weakToFreezeDry) typeWeaknesses['Freeze-Dry']++;
+
+			// Increment level 100 counter
+			if (set.level === 100) numMaxLevelPokemon++;
+
+			// Track what the team has
+			if (set.ability === 'Drizzle' || set.moves.includes('raindance')) teamDetails.rain = 1;
+			if (set.ability === 'Drought' || set.ability === 'Orichalcum Pulse' || set.moves.includes('sunnyday')) {
+				teamDetails.sun = 1;
+			}
+			if (set.ability === 'Sand Stream') teamDetails.sand = 1;
+			if (set.ability === 'Snow Warning' || set.moves.includes('snowscape') || set.moves.includes('chillyreception')) {
+				teamDetails.snow = 1;
+			}
+			if (set.moves.includes('healbell')) teamDetails.statusCure = 1;
+			if (set.moves.includes('spikes') || set.moves.includes('ceaselessedge')) {
+				teamDetails.spikes = (teamDetails.spikes || 0) + 1;
+			}
+			if (set.ability === 'Toxic Debris') {
+				set.ability = set.species
+			}
+			if (set.moves.includes('stealthrock') || set.moves.includes('stoneaxe')) teamDetails.stealthRock = 1;
+			if (set.moves.includes('stickyweb')) teamDetails.stickyWeb = 1;
+			if (set.moves.includes('defog')) teamDetails.defog = 1;
+			if (set.moves.includes('rapidspin') || set.moves.includes('mortalspin')) teamDetails.rapidSpin = 1;
+			if (set.moves.includes('auroraveil') || (set.moves.includes('reflect') && set.moves.includes('lightscreen'))) {
+				teamDetails.screens = 1;
+			}
+			if (set.role === 'Tera Blast user' || ['ogerpon', 'ogerponhearthflame', 'terapagos'].includes(species.id)) {
+				teamDetails.teraBlast = 1;
+			}
+		}
+		if (pokemon.length < this.maxTeamSize && pokemon.length < 12) { // large teams sometimes cannot be built
+			throw new Error(`Could not build a random team for ${this.format} (seed=${seed})`);
+		}
+
+		return pokemon;
 	}
 
 	private getPools(requiredType?: string, minSourceGen?: number, ruleTable?: RuleTable, requireMoves = false) {
