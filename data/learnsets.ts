@@ -5058,6 +5058,7 @@ export const Learnsets: import('../sim/dex-species').LearnsetDataTable = {
 	clefable: {
 		learnset: {
 			afteryou: ["9L1", "8L1", "7T", "6T", "5T"],
+			airslash: ["9M"],
 			alluringvoice: ["9M"],
 			allyswitch: ["8M"],
 			amnesia: ["9M", "8M"],
@@ -23681,10 +23682,12 @@ export const Learnsets: import('../sim/dex-species').LearnsetDataTable = {
 			counter: ["3T"],
 			curse: ["9M", "7V"],
 			cut: ["7V", "6M", "5M", "4M", "3M"],
+			dazzlinggleam: ["9M"],
 			detect: ["7V"],
 			doubleedge: ["9M", "3T"],
 			doubleteam: ["7M", "7V", "6M", "5M", "4M", "3M"],
 			dragontail: ["9M", "7M", "6M", "5M"],
+			earthpower: ["9M"],
 			earthquake: ["9M", "7M", "7V", "6M", "5M", "4M", "3M"],
 			echoedvoice: ["7M", "6M", "5M"],
 			encore: ["9M"],
@@ -71038,6 +71041,7 @@ export const Learnsets: import('../sim/dex-species').LearnsetDataTable = {
 			bulkup: ["8M", "7M", "6M"],
 			bulldoze: ["8M", "7M", "6M"],
 			clamp: ["7L20", "6L20"],
+			closecombat: ["9M"],
 			confide: ["7M", "6M"],
 			crosschop: ["8L48", "7L55", "6L55"],
 			cut: ["6M"],

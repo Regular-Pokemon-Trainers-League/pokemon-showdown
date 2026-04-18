@@ -427,7 +427,7 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		mod: 'gen9',
 		searchShow: false,
 		teraPreviewDefault: true,
-		ruleset: ['Standard Draft', '+Unobtainable', '+Past', 'Min Source Gen = 1'],
+		ruleset: ['Standard Draft', '+Unobtainable', '+Past', '+Future', 'Min Source Gen = 1'],
 	},
 	{
 		name: "[Gen 9] NatDex 6v6 Doubles Draft",
@@ -591,10 +591,10 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 	{
 		name: "[Gen 9] Metronome Doubles",
 		teraPreviewDefault: false,
-		mod: 'gen9',
+		mod: 'doubmetro',
 		gameType: 'doubles',
-		bestOfDefault: false,
-		ruleset: ['[Gen 9] NatDex 6v6 Doubles Draft', '!! EV Limit = 0'],
+		bestOfDefault: true,
+		ruleset: ['[Gen 9] Doubles Custom Game', 'Open Team Sheets'],
 		checkCanLearn(move, species, lsetData, set) {
 			if (move.id === 'metronome') {
 				return null;
@@ -618,26 +618,17 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 					}
 				}
 			}
-			let iv: StatID;
-			for (iv in set.ivs) {
-				if (set.ivs[iv] !== 31) {
-					return [`${set.name || set.species} must have all IV's equal 31. (${iv.toUpperCase()} is set to ${set.ivs[iv]})`];
-				}
-			}
-			let ev: StatID;
-			for (ev in set.evs) {
-				if (set.evs[ev] !== 0) {
-					return [`${set.name || set.species} must have all EV's equal 0. (${ev.toUpperCase()} is set to ${set.evs[ev]})`];
-				}
-			}
 			if (set.moves.length !== 1 || this.dex.moves.get(set.moves[0]).id !== 'metronome') {
 				return [`${set.name || set.species} has illegal moves.`, `(Pok\u00e9mon can only have one Metronome in their moveset)`];
+			}
+			if (!set.gender) {
+				set.gender = species.gender || ['M', 'F'][Math.floor(Math.random() * 2)];
 			}
 		},
 	},
 	{
 		name: "[Gen 9] Random Metronome Doubles",
-		mod: 'gen9',
+		mod: 'doubmetro',
 		gameType: 'doubles',
 		team: 'randomMetronome',
 		bestOfDefault: false,
