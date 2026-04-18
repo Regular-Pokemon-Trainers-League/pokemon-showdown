@@ -159,7 +159,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		name: 'Standard Draft',
 		desc: "The custom Draft League ruleset",
 		ruleset: [
-			'Obtainable', 'Nickname Clause', '+Unreleased', '+CAP', 'Sketch Post-Gen 7 Moves', 'Team Preview', 'Sleep Clause Mod', 'OHKO Clause', 'Evasion Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod',
+			'Obtainable', 'Nickname Clause', 'Beat Up Nicknames Mod', '+Unreleased', '+CAP', 'Sketch Post-Gen 7 Moves', 'Team Preview', 'Sleep Clause Mod', 'OHKO Clause', 'Evasion Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod',
 		],
 		// timer: {starting: 60 * 60, grace: 0, addPerTurn: 10, maxPerTurn: 100, timeoutAutoChoose: true},
 	},
@@ -425,9 +425,9 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		desc: "Only allows Pok&eacute;mon native to the Paldea region (SV)",
 		banlist: [
 			'Arcanine-Hisui', 'Avalugg-Hisui', 'Basculin-White-Striped', 'Braviary-Hisui', 'Diglett-Alola', 'Dugtrio-Alola', 'Electrode-Hisui', 'Gimmighoul-Roaming',
-			'Goodra-Hisui', 'Grimer-Alola', 'Growlithe-Hisui', 'Lilligant-Hisui', 'Meowth-Galar', 'Muk-Alola', 'Persian-Alola', 'Qwilfish-Hisui', 'Raichu-Alola',
-			'Sliggoo-Hisui', 'Slowbro-Galar', 'Slowking-Galar', 'Slowpoke-Galar', 'Sneasel-Hisui', 'Voltorb-Hisui', 'Tauros-Base', 'Wooper-Base', 'Zorua-Hisui',
-			'Zoroark-Hisui',
+			'Goodra-Hisui', 'Grimer-Alola', 'Growlithe-Hisui', 'Lilligant-Hisui', 'Meowth-Alola', 'Meowth-Galar', 'Muk-Alola', 'Persian-Alola', 'Qwilfish-Hisui',
+			'Raichu-Alola', 'Sliggoo-Hisui', 'Slowbro-Galar', 'Slowking-Galar', 'Slowpoke-Galar', 'Sneasel-Hisui', 'Voltorb-Hisui', 'Tauros-Base', 'Wooper-Base',
+			'Zorua-Hisui', 'Zoroark-Hisui',
 		],
 		onValidateSet(set, format) {
 			const paldeaDex = [
@@ -572,19 +572,25 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			if (!this.dex.species.get(value).exists) throw new Error(`Misspelled Pokemon "${value}"`);
 		},
 		onValidateTeam(team) {
-			let hasSelection = false;
 			const species = this.dex.species.get(this.ruleTable.valueRules.get('forceselect'));
-			for (const set of team) {
-				if (species.name === set.species) {
-					hasSelection = true;
-					break;
-				}
-			}
-			if (!hasSelection) {
+			if (!team.some(set => set.species === species.name)) {
 				return [`Your team must contain ${species.name}.`];
 			}
 		},
-		// hardcoded in sim/side
+		onChooseTeam(positions, pokemon, autoChoose) {
+			const species = this.dex.species.get(this.ruleTable.valueRules.get('forceselect'));
+			const speciesIndex = pokemon.findIndex(p => p.species.name === species.name);
+			if (autoChoose) {
+				positions = [speciesIndex];
+				for (let i = 0; i < pokemon.length; i++) {
+					if (i !== speciesIndex) positions.push(i);
+				}
+				return positions;
+			}
+			if (!positions.includes(speciesIndex)) {
+				return `You must bring ${species.name} to the battle.`;
+			}
+		},
 	},
 	evlimits: {
 		effectType: 'ValidatorRule',
@@ -817,6 +823,18 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			// hardcoded in team-validator.js, so we are done.
 		},
 	},
+	beatupnicknamesmod: {
+		effectType: 'Rule',
+		name: 'Beat Up Nicknames Mod',
+		desc: "Prevents Beat Up from revealing any party members, enforcing gameplay that assumes optimal Pok&eacute;mon nicknaming strategies.",
+		onBegin() {
+			if (this.gen <= 4) {
+				this.add('rule', `Beat Up Nicknames Mod: Beat Up will not reveal any party members`);
+			}
+		},
+		// https://www.smogon.com/forums/posts/8992145/
+		// hardcoded in data/mods/gen3/moves.ts, data/mods/gen4/moves.ts
+	},
 	itemclause: {
 		effectType: 'ValidatorRule',
 		name: 'Item Clause',
@@ -1048,24 +1066,6 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			this.add('rule', 'Endless Battle Clause: Forcing endless battles is banned');
 		},
 	},
-	moodyclause: {
-		effectType: 'ValidatorRule',
-		name: 'Moody Clause',
-		desc: "Bans the ability Moody",
-		banlist: ['Moody'],
-		onBegin() {
-			this.add('rule', 'Moody Clause: Moody is banned');
-		},
-	},
-	swaggerclause: {
-		effectType: 'ValidatorRule',
-		name: 'Swagger Clause',
-		desc: "Bans the move Swagger",
-		banlist: ['Swagger'],
-		onBegin() {
-			this.add('rule', 'Swagger Clause: Swagger is banned');
-		},
-	},
 	drypassclause: {
 		effectType: 'ValidatorRule',
 		name: 'DryPass Clause',
@@ -1224,6 +1224,37 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				if (passableBoosts) {
 					return [
 						`${set.name || set.species} has Baton Pass and a way to boost its stats, which is banned by Baton Pass Stat Clause.`,
+					];
+				}
+			}
+		},
+	},
+	speedpassclause: {
+		effectType: 'ValidatorRule',
+		name: 'Speed Pass Clause',
+		desc: "Stops teams from having a Pok&eacute;mon with Baton Pass that can boost its Speed",
+		onBegin() {
+			this.add('rule', 'Baton Pass Stat Clause: No Baton Passer may have a way to boost its Speed');
+		},
+		onValidateTeam(team) {
+			const boostingEffects = [
+				'agility', 'dragondance', 'ancientpower', 'silverwind', 'salacberry', 'speedboost', 'starfberry',
+			];
+			for (const set of team) {
+				const moves = set.moves.map(this.toID);
+				if (!moves.includes('batonpass' as ID)) continue;
+				let passableBoosts = false;
+				const item = this.toID(set.item);
+				const ability = this.toID(set.ability);
+				if (
+					moves.some(m => boostingEffects.includes(m)) || boostingEffects.includes(item) ||
+					boostingEffects.includes(ability)
+				) {
+					passableBoosts = true;
+				}
+				if (passableBoosts) {
+					return [
+						`${set.name || set.species} has Baton Pass and a way to boost its Speed, which is banned by Speed Pass Clause.`,
 					];
 				}
 			}
@@ -1408,13 +1439,13 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		// Hardcoded in gen1/moves.ts
 		// Can't be disabled (no precedent for how else to handle desyncs)
 	},
-	deoxyscamouflageclause: {
+	deoxyscamouflageclausemod: {
 		effectType: 'Rule',
-		name: 'Deoxys Camouflage Clause',
+		name: 'Deoxys Camouflage Clause Mod',
 		desc: "Reveals the Deoxys forme when it is sent in battle.",
 		// Hardcoded into effect, cannot be disabled.
 		onBegin() {
-			this.add('rule', 'Deoxys Camouflage Clause: Reveals the Deoxys forme when it is sent in battle.');
+			this.add('rule', 'Deoxys Camouflage Clause Mod: Reveals the Deoxys forme when it is sent in battle.');
 		},
 	},
 	freezeclausemod: {
@@ -1470,8 +1501,8 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 					typeTable = typeTable.filter(type => species.types.includes(type));
 				}
 				const item = this.dex.items.get(set.item);
-				if (item.megaStone && species.baseSpecies === item.megaEvolves) {
-					species = this.dex.species.get(item.megaStone);
+				if (item.megaStone?.[species.name]) {
+					species = this.dex.species.get(item.megaStone[species.name]);
 					typeTable = typeTable.filter(type => species.types.includes(type));
 				}
 				if (item.id === "ultranecroziumz" && species.baseSpecies === "Necrozma") {
@@ -1493,6 +1524,56 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		name: 'Enforce Same Tera Type',
 		desc: "Forces Pok&eacute;mon to have a Tera Type matching one of their original types.",
 		// implemented in sametypeclause
+	},
+	samecolorclause: {
+		effectType: 'ValidatorRule',
+		name: 'Same Color Clause',
+		desc: "Forces all Pok&eacute;mon on a team to share a color",
+		onBegin() {
+			this.add('rule', 'Same Color Clause: Pokémon in a team must be the same color');
+		},
+		onValidateTeam(team) {
+			let color = "";
+			for (const [i, set] of team.entries()) {
+				let species = this.dex.species.get(set.species);
+				if (!species.color) return [`Invalid Pok\u00e9mon ${set.name || set.species}`];
+				if (color && species.color !== color) {
+					return [`All Pok\u00e9mon must share a color.`];
+				}
+				color = species.color;
+				const item = this.dex.items.get(set.item);
+				if (item.megaStone?.[species.name]) {
+					species = this.dex.species.get(item.megaStone[species.name]);
+					color = species.color;
+				}
+				if (item.id === "ultranecroziumz" && species.baseSpecies === "Necrozma") {
+					species = this.dex.species.get("Necrozma-Ultra");
+					color = species.color;
+				}
+			}
+		},
+	},
+	sameletterclause: {
+		effectType: 'ValidatorRule',
+		name: 'Same Letter Clause',
+		desc: "Forces all Pok&eacute;mon species on a team to start with the same letter",
+		onValidateTeam(team) {
+			let requiredLetter: string | null = null;
+			for (const set of team) {
+				const species = this.dex.species.get(set.species);
+				const match = /^[A-Za-z]/.exec(species.name);
+				if (!match) {
+					return [`${species.name} cannot be used, as its name does not begin with a valid English letter.`];
+				}
+				const firstLetter = match[0].toUpperCase();
+				if (!requiredLetter) {
+					requiredLetter = firstLetter;
+				} else if (firstLetter !== requiredLetter) {
+					return [
+						`All Pokémon must belong to species starting with the same letter (currently: ${requiredLetter}); ${species.name} starts with ${firstLetter}.`];
+				}
+			}
+		},
 	},
 	megarayquazaclause: {
 		effectType: 'Rule',
@@ -1541,34 +1622,11 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			this.add('rule', 'Terastal Clause: You cannot Terastallize');
 		},
 	},
-	arceusevlimit: {
+	fullarceusclause: {
 		effectType: 'ValidatorRule',
-		name: 'Arceus EV Limit',
-		desc: "Restricts Arceus to a maximum of 100 EVs in any one stat, and only multiples of 10",
-		onValidateSet(set) {
-			const species = this.dex.species.get(set.species);
-			if (species.num === 493 && set.evs) {
-				let stat: StatID;
-				for (stat in set.evs) {
-					const ev = set.evs[stat];
-					if (ev > 100) {
-						return [
-							"Arceus can't have more than 100 EVs in any stat, because Arceus is only obtainable from level 100 events.",
-							"Level 100 Pokemon can only gain EVs from vitamins (Carbos etc), which are capped at 100 EVs.",
-						];
-					}
-					if (!(
-						ev % 10 === 0 ||
-						(ev % 10 === 8 && ev % 4 === 0)
-					)) {
-						return [
-							"Arceus can only have EVs that are multiples of 10, because Arceus is only obtainable from level 100 events.",
-							"Level 100 Pokemon can only gain EVs from vitamins (Carbos etc), which boost in multiples of 10.",
-						];
-					}
-				}
-			}
-		},
+		name: 'Full Arceus Clause',
+		desc: "Allows Level 80 Arceus from Hall of Origin",
+		// Implemented in sim/team-validator.ts
 	},
 	inversemod: {
 		effectType: 'Rule',
@@ -1781,11 +1839,23 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		desc: "Allows Pokémon who learn Sketch to learn any Gen 8+ move (normally, Sketch is not usable in Gen 8 or Gen 9 Pre-DLC2).",
 		// Implemented in sim/team-validator.ts
 	},
-	mimicglitch: {
+	mimicglitchclause: {
 		effectType: 'ValidatorRule',
-		name: 'Mimic Glitch',
+		name: 'Mimic Glitch Clause',
 		desc: "Allows any Pokemon with access to Assist, Copycat, Metronome, Mimic, or Transform to gain access to almost any other move.",
 		// Implemented in sim/team-validator.ts
+		onBegin() {
+			this.add('rule', 'Mimic Glitch Clause: Pokemon that learn Assist, Copycat, Metronome, Mimic, or Transform can have any move.');
+		},
+	},
+	pomegglitchclause: {
+		effectType: 'ValidatorRule',
+		name: 'Pomeg Glitch Clause',
+		desc: "Allows any Pokémon from Generation 3 at level 5 or higher to have any of its level-up moves. This implementation is allowed only to enable an otherwise legal Pokémon to obtain moves it would not normally have access to at an earlier level.",
+		// Implemented in sim/team-validator.ts
+		onBegin() {
+			this.add('rule', 'Pomeg Glitch Clause: Gen 3 Pokémon at level 5+ can have any of their level-up moves.');
+		},
 	},
 	overflowstatmod: {
 		effectType: 'Rule',
@@ -2016,11 +2086,6 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		desc: "Maximum team size (number of pokemon) that can be brought into Team Preview (or into the battle, in formats without Team Preview)",
 		hasValue: 'positive-integer',
 		// hardcoded in sim/team-validator
-		onValidateRule(value) {
-			if (this.format.id.endsWith('computergeneratedteams')) {
-				throw new Error(`${this.format.name} does not support Max Team Size.`);
-			}
-		},
 	},
 	maxmovecount: {
 		effectType: 'ValidatorRule',
@@ -2079,7 +2144,16 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				throw new Error(`A Max Total Level of ${maxTotalLevel}${ruleTable.blame('maxtotallevel')} is too low with ${maxTeamSize}${maxTeamSizeBlame} Pokémon at min level ${ruleTable.minLevel}${ruleTable.blame('minlevel')}`);
 			}
 		},
-		// hardcoded in sim/side
+		onChooseTeam(positions, pokemon, autoChoose) {
+			if (autoChoose) {
+				return [...pokemon.keys()].sort((a, b) => (pokemon[a].level - pokemon[b].level));
+			}
+			let totalLevel = 0;
+			for (const pos of positions) totalLevel += pokemon[pos].level;
+			if (totalLevel > this.ruleTable.maxTotalLevel!) {
+				return `Your selected team has a total level of ${totalLevel}, but it can't be above ${this.ruleTable.maxTotalLevel}.`;
+			}
+		},
 	},
 	minlevel: {
 		effectType: 'ValidatorRule',
@@ -2141,6 +2215,12 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		name: "NC 1997 Move Legality",
 		desc: "Bans move combinations on Pok\u00e9mon that weren't legal in NC 1997.",
 		// Implemented in mods/gen1jpn/rulesets.ts
+	},
+	stadiumpokecuprentals: {
+		effectType: 'ValidatorRule',
+		name: "Stadium Poke Cup Rentals",
+		desc: `Enforces Stadium Pok&eacute; Cup Rentals legality`,
+		// Implemented in mods/gen1stadium/rulesets.ts
 	},
 	noswitching: {
 		effectType: 'Rule',
@@ -2438,12 +2518,13 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				const item = pokemon.getItem();
 				if (/^tr\d\d/i.test(item.name)) {
 					const move = this.dex.moves.get(item.desc.split('move ')[1].split('.')[0]);
+					const pp = this.calculatePP(move);
 					pokemon.moveSlots = (pokemon as any).baseMoveSlots = [
 						...pokemon.baseMoveSlots, {
 							id: move.id,
 							move: move.name,
-							pp: move.pp * 8 / 5,
-							maxpp: move.pp * 8 / 5,
+							pp,
+							maxpp: pp,
 							target: move.target,
 							disabled: false,
 							disabledSource: '',
@@ -2581,10 +2662,10 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				) {
 					species = this.dex.species.get(`${species.baseSpecies}-Crowned`);
 				}
-				if (set.item && this.dex.items.get(set.item).megaStone) {
+				if (set.item) {
 					const item = this.dex.items.get(set.item);
-					if (item.megaEvolves === species.baseSpecies) {
-						species = this.dex.species.get(item.megaStone);
+					if (item.megaStone?.[species.name]) {
+						species = this.dex.species.get(item.megaStone[species.name]);
 					}
 				}
 				if (this.ruleTable.isRestrictedSpecies(species) ||
@@ -2606,7 +2687,9 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				}
 				if (set.item) {
 					const item = this.dex.items.get(set.item);
-					if (item.megaEvolves === set.species) godSpecies = this.dex.species.get(item.megaStone);
+					if (item.megaStone?.[set.species]) {
+						godSpecies = this.dex.species.get(item.megaStone[set.species]);
+					}
 					if (["Zacian", "Zamazenta"].includes(godSpecies.baseSpecies) && item.id.startsWith('rusted')) {
 						godSpecies = this.dex.species.get(set.species + "-Crowned");
 					}
@@ -2824,8 +2907,8 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			if (num > 9 || num < 3 || num % 2 !== 1) {
 				throw new Error("Series length must be an odd number between three and nine (inclusive).");
 			}
-			if (!['singles', 'doubles'].includes(this.format.gameType)) {
-				throw new Error("Only single and doubles battles can be a Best-of series.");
+			if (this.format.playerCount > 2) {
+				throw new Error("Free For All and Multi Battles cannot be a Best-of series.");
 			}
 			return value;
 		},
@@ -3091,6 +3174,87 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				this.add(`raw|${buf}`);
 				target.m.revealed = true;
 			}
+		},
+	},
+	rebalancelevels: {
+		effectType: 'Rule',
+		name: 'Rebalance Levels',
+		desc: "Automatically rebalances each Pokemon's level if an added rule modifies its base stats in a way that only depends on its species",
+		onBegin() {
+			const rebalanceLevel = (oldSpecies: Species, set: PokemonSet, newSpecies: Species): number => {
+				const oldLevel = set.level;
+				// calculate the adjusted stats of the new species at its old level
+				// could use the actual stat calcs, but let's just use the same approximation we use everywhere else
+				let newStats: StatsTable = this.spreadModify(newSpecies.baseStats, set);
+				// calculate the old stats to compare against
+				const oldStats = this.spreadModify(oldSpecies.baseStats, set);
+				if (JSON.stringify(newStats) === JSON.stringify(oldStats)) return oldLevel;
+				const statRatios = { power: 0, bulk: 0, speed: 0 };
+				let statRatioTotal = 0;
+				// calculate the ratio of the expected average damaging power of the new stats to that of the old
+				statRatioTotal += statRatios.power = Math.log((oldStats.atk + oldStats.spa) / (newStats.atk + newStats.spa));
+				// calculate the ratio of the expected average damage-tanking ability of the new stats to that of the old
+				statRatioTotal += statRatios.bulk = (
+					Math.log(oldStats.hp * oldStats.def * oldStats.spd / (oldStats.def + oldStats.spd)) -
+					Math.log(newStats.hp * newStats.def * newStats.spd / (newStats.def + newStats.spd))
+				);
+				// calculate the ratio of the new speed to the old stats' speed at half weight
+				statRatioTotal += statRatios.speed = Math.log(oldStats.spe / newStats.spe) / 2;
+				// make a naive guess as to what level the pokemon should be without considering that level affects damage output
+				let newLevel = Math.min(Math.floor(Math.E ** (statRatioTotal / 5) * oldLevel), this.ruleTable.maxLevel);
+				const overestimate = newLevel > oldLevel;
+				// start accounting for level's affect on damage output and increment the guess by 1 until it looks right
+				while (newLevel !== oldLevel) {
+					// the getAdjustedStats function takes level's affect on damage into account automatically
+					newStats = this.spreadModify(newSpecies.baseStats, set);
+					statRatioTotal = 0;
+					statRatioTotal += statRatios.power = Math.log((oldStats.atk + oldStats.spa) / (newStats.atk + newStats.spa));
+					statRatioTotal += statRatios.bulk = (
+						Math.log(oldStats.hp * oldStats.def * oldStats.spd / (oldStats.def + oldStats.spd)) -
+						Math.log(newStats.hp * newStats.def * newStats.spd / (newStats.def + newStats.spd))
+					);
+					statRatioTotal += statRatios.speed = Math.log(oldStats.spe / newStats.spe) / 2;
+					if (overestimate && statRatioTotal >= 0 || !overestimate && statRatioTotal <= 0) break;
+					// initial estimate will never be closer to the old level than it should be
+					if (overestimate) {
+						newLevel--;
+					} else {
+						newLevel++;
+					}
+				}
+				return newLevel;
+			};
+
+			for (const poke of this.getAllPokemon()) {
+				const oldSpecies = this.dex.species.get(poke.set.species);
+				const newSpecies = poke.species;
+				poke.set.level = (poke as any).level = rebalanceLevel(oldSpecies, poke.set, newSpecies);
+
+				// recalculate stats to match new level
+				// can't use setSpecies because that will re-run the 'ModifySpecies' event
+				const stats = this.spreadModify(poke.species.baseStats, poke.set);
+				if (poke.species.maxHP) stats.hp = poke.species.maxHP;
+
+				poke.baseMaxhp = stats.hp;
+				poke.maxhp = stats.hp;
+				poke.hp = stats.hp;
+
+				poke.baseStoredStats = stats;
+				let statName: StatIDExceptHP;
+				for (statName in poke.storedStats) {
+					poke.storedStats[statName] = stats[statName];
+				}
+				poke.speed = poke.storedStats.spe;
+				poke.details = poke.getUpdatedDetails();
+			}
+		},
+		onValidateRule() {
+			if (!this.format.team) throw new Error('The Rebalance Levels rule is only intended to work with randomized teams.');
+			if (this.ruleTable.adjustLevel) {
+				throw new Error(`This format's rules force Pokemon to be level ${this.ruleTable.adjustLevel}, so they can't be rebalanced.`);
+			}
+			const speciesMods = [...this.ruleTable.keys()].map(r => this.dex.data.Rulesets[r]).filter(r => r?.onModifySpecies);
+			if (!speciesMods.length) throw new Error('This format has no rules that modify base stats.');
 		},
 	},
 };

@@ -648,15 +648,8 @@ export const commands: Chat.ChatCommands = {
 				const oldPlugins = Chat.plugins;
 				Chat.destroy();
 
-				const processManagers = ProcessManager.processManagers;
-				for (const manager of processManagers.slice()) {
-					if (manager.filename.startsWith(FS(__dirname + '/../chat-plugins/').path)) {
-						void manager.destroy();
-					}
-				}
-				void Chat.PM.destroy();
-
 				global.Chat = require('../chat').Chat;
+				Chat.start(Config.subprocessescache);
 				global.Tournaments = require('../tournaments').Tournaments;
 
 				this.sendReply("Reloading chat plugins...");
@@ -821,22 +814,23 @@ export const commands: Chat.ChatCommands = {
 				void IPTools.loadHostsAndRanges();
 				this.sendReply("DONE");
 			} else if (target === 'modlog') {
+				if (!Config.usesqlite) {
+					throw new Chat.ErrorMessage(`The moderator log is not available because SQLite is disabled.`);
+				}
+				if (!Config.usesqlitemodlog) {
+					throw new Chat.ErrorMessage(`The moderator log is not available because of the server configuration.`);
+				}
 				if (lock['modlog']) {
 					throw new Chat.ErrorMessage(`Hot-patching modlogs has been disabled by ${lock['modlog'].by} (${lock['modlog'].reason})`);
 				}
+				if (Rooms.Modlog.readyPromise) {
+					throw new Chat.ErrorMessage(`There is already a hotpatch in progress.`);
+				}
 				this.sendReply("Hotpatching modlog...");
 
-				void Rooms.Modlog.database.destroy();
-				const { mainModlog } = require('../modlog');
-				if (mainModlog.readyPromise) {
-					this.sendReply("Waiting for the new SQLite database to be ready...");
-					await mainModlog.readyPromise;
-				} else {
-					this.sendReply("The new SQLite database is ready!");
-				}
-				Rooms.Modlog.destroyAllSQLite();
-
-				Rooms.Modlog = mainModlog;
+				void Rooms.Modlog.restart();
+				// eslint-disable-next-line @typescript-eslint/await-thenable
+				await Rooms.Modlog.readyPromise;
 				this.sendReply("DONE");
 			} else if (target.startsWith('disable')) {
 				this.sendReply("Disabling hot-patch has been moved to its own command:");
@@ -1547,7 +1541,7 @@ export const commands: Chat.ChatCommands = {
 			`<td>${Chat.getReadmoreCodeBlock(query)}</td></tr><table>`
 		);
 		logRoom?.roomlog(`SQLite> ${target}`);
-		const database = SQL(module, {
+		const database = SQL('evalsql', module, {
 			file: `./databases/${db}.db`,
 			onError(err) {
 				return { err: err.message, stack: err.stack };
@@ -1633,126 +1627,7 @@ export const commands: Chat.ChatCommands = {
 			throw new Chat.ErrorMessage("/editbattle - This is not a battle room.");
 		}
 		const battle = room.battle;
-		let cmd;
-		[cmd, target] = Utils.splitFirst(target, ' ');
-		if (cmd.endsWith(',')) cmd = cmd.slice(0, -1);
-		const targets = target.split(',');
-		if (targets.length === 1 && targets[0] === '') targets.pop();
-		let player, pokemon, move, stat, value;
-		switch (cmd) {
-		case 'hp':
-		case 'h':
-			if (targets.length !== 3) {
-				this.errorReply("Incorrect command use");
-				return this.parse('/help editbattle');
-			}
-			[player, pokemon, value] = targets.map(f => f.trim());
-			[player, pokemon] = [player, pokemon].map(toID);
-			void battle.stream.write(
-				`>eval let p=pokemon('${player}', '${pokemon}');p.sethp(${parseInt(value)});` +
-				`if (p.isActive)battle.add('-damage',p,p.getHealth);`
-			);
-			break;
-		case 'status':
-		case 's':
-			if (targets.length !== 3) {
-				this.errorReply("Incorrect command use");
-				return this.parse('/help editbattle');
-			}
-			[player, pokemon, value] = targets.map(toID);
-			void battle.stream.write(
-				`>eval let pl=player('${player}');let p=pokemon(pl,'${pokemon}');p.setStatus('${value}');if (!p.isActive){battle.add('','please ignore the above');battle.add('-status',pl.active[0],pl.active[0].status,'[silent]');}`
-			);
-			break;
-		case 'pp':
-			if (targets.length !== 4) {
-				this.errorReply("Incorrect command use");
-				return this.parse('/help editbattle');
-			}
-			[player, pokemon, move, value] = targets.map(f => f.trim());
-			[player, pokemon, move] = [player, pokemon, move].map(toID);
-			void battle.stream.write(
-				`>eval pokemon('${player}','${pokemon}').getMoveData('${move}').pp = ${parseInt(value)};`
-			);
-			break;
-		case 'boost':
-		case 'b':
-			if (targets.length !== 4) {
-				this.errorReply("Incorrect command use");
-				return this.parse('/help editbattle');
-			}
-			[player, pokemon, stat, value] = targets.map(f => f.trim());
-			[player, pokemon, stat] = [player, pokemon, stat].map(toID);
-			void battle.stream.write(
-				`>eval let p=pokemon('${player}','${pokemon}');battle.boost({${stat}:${parseInt(value)}},p)`
-			);
-			break;
-		case 'volatile':
-		case 'v':
-			if (targets.length !== 3) {
-				this.errorReply("Incorrect command use");
-				return this.parse('/help editbattle');
-			}
-			[player, pokemon, value] = targets.map(toID);
-			void battle.stream.write(
-				`>eval pokemon('${player}','${pokemon}').addVolatile('${value}')`
-			);
-			break;
-		case 'sidecondition':
-		case 'sc':
-			if (targets.length !== 2) {
-				this.errorReply("Incorrect command use");
-				return this.parse('/help editbattle');
-			}
-			[player, value] = targets.map(toID);
-			void battle.stream.write(`>eval player('${player}').addSideCondition('${value}', 'debug')`);
-			break;
-		case 'fieldcondition': case 'pseudoweather':
-		case 'fc':
-			if (targets.length !== 1) {
-				this.errorReply("Incorrect command use");
-				return this.parse('/help editbattle');
-			}
-			[value] = targets.map(toID);
-			void battle.stream.write(`>eval battle.field.addPseudoWeather('${value}', 'debug')`);
-			break;
-		case 'weather':
-		case 'w':
-			if (targets.length !== 1) {
-				this.errorReply("Incorrect command use");
-				return this.parse('/help editbattle');
-			}
-			[value] = targets.map(toID);
-			void battle.stream.write(`>eval battle.field.setWeather('${value}', 'debug')`);
-			break;
-		case 'terrain':
-		case 't':
-			if (targets.length !== 1) {
-				this.errorReply("Incorrect command use");
-				return this.parse('/help editbattle');
-			}
-			[value] = targets.map(toID);
-			void battle.stream.write(`>eval battle.field.setTerrain('${value}', 'debug')`);
-			break;
-		case 'reseed':
-			if (targets.length !== 0) {
-				if (targets.length !== 4) {
-					this.errorReply("Seed must have 4 parts");
-					return this.parse('/help editbattle');
-				}
-				// this just tests for a 5-digit number, close enough to uint16
-				if (!targets.every(val => /^[0-9]{1,5}$/.test(val))) {
-					this.errorReply("Seed parts much be unsigned 16-bit integers");
-					return this.parse('/help editbattle');
-				}
-			}
-			void battle.stream.write(`>reseed ${targets.join(',')}`);
-			if (targets.length) this.sendReply(`Reseeded to ${targets.join(',')}`);
-			break;
-		default:
-			this.errorReply(`Unknown editbattle command: ${cmd}`);
-			return this.parse('/help editbattle');
-		}
+		void battle.stream.write(`>editbattle user:${user.name}, ${target}`);
 	},
 	editbattlehelp: [
 		`/editbattle hp [player], [pokemon], [hp]`,

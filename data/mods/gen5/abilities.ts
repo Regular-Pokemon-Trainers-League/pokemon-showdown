@@ -31,7 +31,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 	},
 	keeneye: {
 		inherit: true,
-		onModifyMove() {},
+		onModifyMove: undefined, // no inherit
 	},
 	magicbounce: {
 		inherit: true,
@@ -65,13 +65,16 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 	},
 	overcoat: {
 		inherit: true,
-		onTryHit() {},
+		onImmunity(type, pokemon) {
+			if (type === 'sandstorm' || type === 'hail') return false;
+		},
+		onTryHit: undefined, // no inherit
 		flags: {},
 		rating: 0.5,
 	},
 	sapsipper: {
 		inherit: true,
-		onAllyTryHitSide() {},
+		onAllyTryHitSide: undefined, // no inherit
 	},
 	serenegrace: {
 		inherit: true,
@@ -86,7 +89,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 	},
 	soundproof: {
 		inherit: true,
-		onAllyTryHitSide() {},
+		onAllyTryHitSide: undefined, // no inherit
 	},
 	rebound: {
 		inherit: true,
