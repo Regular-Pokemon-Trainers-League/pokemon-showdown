@@ -257,6 +257,7 @@ export class Pokemon {
 	truantTurn: boolean;
 	bondTriggered: boolean;
 	// Gen 9 only
+	circuitBoost: boolean;
 	heroMessageDisplayed: boolean;
 	swordBoost: boolean;
 	shieldBoost: boolean;

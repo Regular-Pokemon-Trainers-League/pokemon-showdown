@@ -469,7 +469,7 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		mod: 'gen9',
 		searchShow: false,
 		teraPreviewDefault: true,
-		ruleset: ['Standard Draft', '+Unobtainable', '+Past', 'Min Source Gen = 1'],
+		ruleset: ['Standard Draft', '+Unobtainable', '+Past', '+Future', 'Min Source Gen = 1'],
 	},
 	{
 		name: "[Gen 9] NatDex 6v6 Doubles Draft",
@@ -627,7 +627,6 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 	},
 	{
 		name: "[Gen 9] NatDex 6v6 Doubles Brackets Custom Moves",
-		searchShow: false,
 		teraPreviewDefault: false,
 		mod: 'gen9',
 		gameType: 'doubles',
@@ -644,12 +643,49 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 	},
 	{
 		name: "[Gen 9] Metronome Doubles",
-		searchShow: false,
 		teraPreviewDefault: false,
-		mod: 'gen9',
+		mod: 'doubmetro',
 		gameType: 'doubles',
+		bestOfDefault: true,
+		ruleset: ['[Gen 9] Doubles Custom Game', 'Open Team Sheets'],
+		checkCanLearn(move, species, lsetData, set) {
+			if (move.id === 'metronome') {
+				return null;
+			}
+			return [`${set.name || set.species} has illegal moves.`, `(Pok\u00e9mon can only have one Metronome in their moveset)`];
+		},
+		onValidateSet(set) {
+			const species = this.dex.species.get(set.species);
+			const item = this.dex.items.get(set.item);
+			if (species.isMega) {
+				if (!item.megaStone) {
+					return [
+						`${set.name || set.species}'s item must be it's mega stone.`,
+					];
+				}
+				else {
+					if (species.baseSpecies !== item.megaEvolves) {
+						return [
+							`${set.name || set.species}'s is holding the wrong megastone.`,
+						];
+					}
+				}
+			}
+			if (set.moves.length !== 1 || this.dex.moves.get(set.moves[0]).id !== 'metronome') {
+				return [`${set.name || set.species} has illegal moves.`, `(Pok\u00e9mon can only have one Metronome in their moveset)`];
+			}
+			if (!set.gender) {
+				set.gender = species.gender || ['M', 'F'][Math.floor(Math.random() * 2)];
+			}
+		},
+	},
+	{
+		name: "[Gen 9] Random Metronome Doubles",
+		mod: 'doubmetro',
+		gameType: 'doubles',
+		team: 'randomMetronome',
 		bestOfDefault: false,
-		ruleset: ['[Gen 9] NatDex 6v6 Doubles Draft', '!! EV Limit = 0'],
+		ruleset: ['[Gen 9] Random Doubles Battle', 'Terastal Clause'],
 		checkCanLearn(move, species, lsetData, set) {
 			if (move.id === 'metronome') {
 				return null;

@@ -5,11 +5,11 @@ const KEYFILEPATH = "./server/chat-plugins/draft/key/helical-sanctum-469023-h3-2
 const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
 
 // Define the spreadsheet ID and range
-const spreadsheetId: string = '1ULZxiOQhiN3on78qX3_lOs3vRQVMXTDQKOzXXqdQ1Xk'; 
-const range: string = 'Teams!A2:A15'; 
+// let spreadsheetId: string = '1ULZxiOQhiN3on78qX3_lOs3vRQVMXTDQKOzXXqdQ1Xk'; 
+// const range: string = 'Teams!A2:A15'; 
 
 // Function to get data from Google Sheets
-async function getSheetData(): Promise<string[][] | null> {
+async function getSheetData(spreadsheetId: string, range: string): Promise<string[][] | null> {
     try {
         const auth: GoogleAuth = new google.auth.GoogleAuth({
             keyFile: KEYFILEPATH,
@@ -46,7 +46,11 @@ async function getSheetData(): Promise<string[][] | null> {
 export const commands: Chat.ChatCommands = {
     draft: {
         test() {
+<<<<<<< HEAD
             getSheetData().then((rows) => {
+=======
+            getSheetData('1ULZxiOQhiN3on78qX3_lOs3vRQVMXTDQKOzXXqdQ1Xk', 'Teams!A2:A15').then((rows) => {
+>>>>>>> feature/season_14_outlaws
                 if (rows) {
                     this.sendReply(rows[0][0]);
                 }
@@ -55,6 +59,31 @@ export const commands: Chat.ChatCommands = {
                 }
             })
         },
+<<<<<<< HEAD
+=======
+        teams(sheet) {
+            getSheetData(sheet, 'Teams').then((rows) => {
+                if(!sheet) return this.parse('/help draft');
+                if (rows) {
+                    this.sendReply(JSON.stringify(rows));
+                }
+                else {
+                    this.sendReply("none");
+                }
+            })
+        },
+        // page(target) {
+        //     const [sheet, range] = this.splitOne(target);
+        //     var data;
+        //     getSheetData(sheet, range).then((rows) => {
+        //         if(!sheet || !range) return this.parse('/help draft');
+        //         if (rows) {
+        //             data = rows;
+        //         }
+        //     })
+        //     return data;
+        // },
+>>>>>>> feature/season_14_outlaws
         help() {
             this.parse('/help draft')
         },
@@ -63,5 +92,10 @@ export const commands: Chat.ChatCommands = {
     drafthelp: [
         `/draft test - tests the google sheets api`,
         `/draft help - Displays this help command`,
+<<<<<<< HEAD
+=======
+        `/draft teams [Sheet ID] - returns the teams sheet`,
+        `/draft page [Sheet ID], [Range] - returns sheet data for the range specified`,
+>>>>>>> feature/season_14_outlaws
     ],
 };

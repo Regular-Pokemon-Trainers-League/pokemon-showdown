@@ -1039,7 +1039,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		types: ["Fairy", "Flying"],
 		genderRatio: { M: 0.25, F: 0.75 },
 		baseStats: { hp: 95, atk: 80, def: 93, spa: 135, spd: 110, spe: 70 },
-		abilities: { 0: "Magic Bounce" },
+		abilities: { 0: "Magic Guard" },
 		heightm: 1.7,
 		weightkg: 42.3,
 		color: "Pink",
@@ -1725,7 +1725,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Grass", "Poison"],
 		baseStats: { hp: 80, atk: 125, def: 85, spa: 135, spd: 95, spe: 70 },
-		abilities: { 0: "Innards Out" },
+		abilities: { 0: "Corrosion" },
 		heightm: 4.5,
 		weightkg: 125.5,
 		color: "Green",
@@ -2738,8 +2738,9 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Water", "Psychic"],
 		gender: "N",
-		baseStats: { hp: 60, atk: 100, def: 105, spa: 130, spd: 105, spe: 120 },
-		abilities: { 0: "Huge Power" },
+		// FIXME: change stats on generation shift
+		baseStats: { hp: 60, atk: 140, def: 105, spa: 130, spd: 105, spe: 120 },
+		abilities: { 0: "Illuminate"},
 		heightm: 2.3,
 		weightkg: 80,
 		color: "Purple",
@@ -3355,7 +3356,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Dragon", "Flying"],
 		baseStats: { hp: 91, atk: 124, def: 115, spa: 145, spd: 125, spe: 100 },
-		abilities: { 0: "Multiscale" },
+		abilities: { 0: "Gale Wings" },
 		heightm: 2.2,
 		weightkg: 290,
 		color: "Brown",
@@ -3463,9 +3464,12 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		evoLevel: 32,
 		eggGroups: ["Monster", "Grass"],
 <<<<<<< HEAD
+<<<<<<< HEAD
 		otherFormes: ["Meganium-Outlaw"],
 		formeOrder: ["Meganium", "Meganium-Outlaw"],
 =======
+=======
+>>>>>>> feature/season_14_outlaws
 		otherFormes: ["Meganium-Mega"],
 		formeOrder: ["Meganium", "Meganium-Mega"],
 	},
@@ -3477,14 +3481,21 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		types: ["Grass", "Fairy"],
 		genderRatio: { M: 0.875, F: 0.125 },
 		baseStats: { hp: 80, atk: 92, def: 115, spa: 143, spd: 115, spe: 80 },
+<<<<<<< HEAD
 		abilities: { 0: "Mega Sol" },
+=======
+		abilities: { 0: "Seed Sower" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 2.4,
 		weightkg: 201,
 		color: "Green",
 		eggGroups: ["Monster", "Grass"],
 		requiredItem: "Meganiumite",
 		gen: 9,
+<<<<<<< HEAD
 >>>>>>> origin
+=======
+>>>>>>> feature/season_14_outlaws
 	},
 	cyndaquil: {
 		num: 155,
@@ -3598,7 +3609,11 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		types: ["Water", "Dragon"],
 		genderRatio: { M: 0.875, F: 0.125 },
 		baseStats: { hp: 85, atk: 160, def: 125, spa: 89, spd: 93, spe: 78 },
+<<<<<<< HEAD
 		abilities: { 0: "Dragonize" },
+=======
+		abilities: { 0: "Dragon's Maw" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 2.3,
 		weightkg: 108.8,
 		color: "Blue",
@@ -4653,7 +4668,11 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Steel", "Flying"],
 		baseStats: { hp: 65, atk: 140, def: 110, spa: 40, spd: 100, spe: 110 },
+<<<<<<< HEAD
 		abilities: { 0: "Stalwart" },
+=======
+		abilities: { 0: "Tough Claws" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 1.7,
 		weightkg: 40.4,
 		color: "Gray",
@@ -8747,7 +8766,11 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		types: ["Ice", "Ghost"],
 		gender: "F",
 		baseStats: { hp: 70, atk: 80, def: 70, spa: 140, spd: 100, spe: 120 },
+<<<<<<< HEAD
 		abilities: { 0: "Snow Warning" },
+=======
+		abilities: { 0: "Queenly Majesty" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 2.6,
 		weightkg: 29.6,
 		color: "White",
@@ -9523,7 +9546,11 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		types: ["Fire", "Fighting"],
 		genderRatio: { M: 0.875, F: 0.125 },
 		baseStats: { hp: 110, atk: 148, def: 75, spa: 110, spd: 110, spe: 75 },
+<<<<<<< HEAD
 		abilities: { 0: "Mold Breaker" },
+=======
+		abilities: { 0: "Intimidate" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 1.8,
 		weightkg: 180.3,
 		color: "Red",
@@ -9952,7 +9979,11 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Ground", "Steel"],
 		baseStats: { hp: 110, atk: 165, def: 100, spa: 65, spd: 65, spe: 103 },
+<<<<<<< HEAD
 		abilities: { 0: "Piercing Drill" },
+=======
+		abilities: { 0: "Mold Breaker" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 0.9,
 		weightkg: 60,
 		color: "Gray",
@@ -10179,7 +10210,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Bug", "Poison"],
 		baseStats: { hp: 60, atk: 140, def: 149, spa: 75, spd: 99, spe: 62 },
-		abilities: { 0: "Poison Point", 1: "Swarm", H: "Speed Boost" },
+		abilities: { 0: "Filter" },
 		heightm: 3.2,
 		weightkg: 230.5,
 		color: "Red",
@@ -10501,7 +10532,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Dark", "Fighting"],
 		baseStats: { hp: 65, atk: 130, def: 135, spa: 55, spd: 135, spe: 68 },
-		abilities: { 0: "Shed Skin", 1: "Moxie", H: "Intimidate" },
+		abilities: { 0: "Defiant" },
 		heightm: 1.1,
 		weightkg: 31,
 		color: "Red",
@@ -11183,7 +11214,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Electric"],
 		baseStats: { hp: 85, atk: 145, def: 80, spa: 135, spd: 90, spe: 80 },
-		abilities: { 0: "Levitate" },
+		abilities: { 0: "Electric Surge" },
 		heightm: 3,
 		weightkg: 180,
 		color: "Blue",
@@ -11265,7 +11296,11 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Ghost", "Fire"],
 		baseStats: { hp: 60, atk: 75, def: 110, spa: 175, spd: 110, spe: 90 },
+<<<<<<< HEAD
 		abilities: { 0: "Infiltrator" },
+=======
+		abilities: { 0: "Flash Fire" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 2.5,
 		weightkg: 69.6,
 		color: "Black",
@@ -12229,7 +12264,11 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		types: ["Water", "Dark"],
 		genderRatio: { M: 0.875, F: 0.125 },
 		baseStats: { hp: 72, atk: 125, def: 77, spa: 133, spd: 81, spe: 142 },
+<<<<<<< HEAD
 		abilities: { 0: "Protean" },
+=======
+		abilities: { 0: "Levitate" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 1.5,
 		weightkg: 40,
 		color: "Blue",
@@ -12551,7 +12590,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		types: ["Fire", "Normal"],
 		genderRatio: { M: 0.125, F: 0.875 },
 		baseStats: { hp: 86, atk: 88, def: 92, spa: 129, spd: 86, spe: 126 },
-		abilities: { 0: "Rivalry", 1: "Unnerve", H: "Moxie" },
+		abilities: { 0: "Drought" },
 		heightm: 1.5,
 		weightkg: 93.3,
 		color: "Brown",
@@ -12616,7 +12655,11 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		types: ["Fairy"],
 		gender: "F",
 		baseStats: { hp: 74, atk: 85, def: 87, spa: 155, spd: 148, spe: 102 },
+<<<<<<< HEAD
 		abilities: { 0: "Fairy Aura" },
+=======
+		abilities: { 0: "Misty Surge" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 0.2,
 		weightkg: 100.8,
 		color: "White",
@@ -12943,7 +12986,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Dark", "Psychic"],
 		baseStats: { hp: 86, atk: 102, def: 88, spa: 98, spd: 120, spe: 88 },
-		abilities: { 0: "Contrary", 1: "Suction Cups", H: "Infiltrator" },
+		abilities: { 0: "Contrary" },
 		heightm: 2.9,
 		weightkg: 69.8,
 		color: "Blue",
@@ -12985,7 +13028,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Rock", "Fighting"],
 		baseStats: { hp: 72, atk: 140, def: 130, spa: 64, spd: 106, spe: 88 },
-		abilities: { 0: "Tough Claws", 1: "Sniper", H: "Pickpocket" },
+		abilities: { 0: "Tough Claws"},
 		heightm: 2.2,
 		weightkg: 100,
 		color: "Brown",
@@ -13027,7 +13070,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Poison", "Dragon"],
 		baseStats: { hp: 65, atk: 85, def: 105, spa: 132, spd: 163, spe: 44 },
-		abilities: { 0: "Poison Point", 1: "Poison Touch", H: "Adaptability" },
+		abilities: { 0: "Adaptability" },
 		heightm: 2.1,
 		weightkg: 100.3,
 		color: "Brown",
@@ -13177,7 +13220,11 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Fighting", "Flying"],
 		baseStats: { hp: 78, atk: 137, def: 100, spa: 74, spd: 93, spe: 118 },
+<<<<<<< HEAD
 		abilities: { 0: "No Guard" },
+=======
+		abilities: { 0: "Moxie" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 1,
 		weightkg: 25,
 		color: "Green",
@@ -15122,7 +15169,11 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		forme: "Mega",
 		types: ["Normal", "Dragon"],
 		baseStats: { hp: 78, atk: 85, def: 110, spa: 160, spd: 116, spe: 36 },
+<<<<<<< HEAD
 		abilities: { 0: "Berserk" },
+=======
+		abilities: { 0: "Drizzle" },
+>>>>>>> feature/season_14_outlaws
 		heightm: 3,
 		weightkg: 240.5,
 		color: "White",
@@ -16859,9 +16910,12 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		color: "Yellow",
 		eggGroups: ["Fairy", "Mineral"],
 <<<<<<< HEAD
+<<<<<<< HEAD
 		otherFormes: ["Falinks-Outlaw"],
 		formeOrder: ["Falinks", "Falinks-Outlaw"],
 =======
+=======
+>>>>>>> feature/season_14_outlaws
 		otherFormes: ["Falinks-Mega"],
 		formeOrder: ["Falinks", "Falinks-Mega"],
 	},
@@ -16873,14 +16927,17 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		types: ["Fighting"],
 		gender: "N",
 		baseStats: { hp: 65, atk: 135, def: 135, spa: 70, spd: 65, spe: 100 },
-		abilities: { 0: "Battle Armor", H: "Defiant" },
+		abilities: { 0: "Parental Bond" },
 		heightm: 1.6,
 		weightkg: 99,
 		color: "Yellow",
 		eggGroups: ["Fairy", "Mineral"],
 		requiredItem: "Falinksite",
 		gen: 9,
+<<<<<<< HEAD
 >>>>>>> origin
+=======
+>>>>>>> feature/season_14_outlaws
 	},
 	pincurchin: {
 		num: 871,

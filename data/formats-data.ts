@@ -1521,7 +1521,7 @@ export const FormatsData: import('../sim/dex-species').SpeciesFormatsDataTable =
 		natDexTier: "RU",
 	},
 	heracross: {
-		tier: "PU",
+		tier: "PUBL",
 		doublesTier: "(DUU)",
 		natDexTier: "RU",
 	},
@@ -1581,7 +1581,7 @@ export const FormatsData: import('../sim/dex-species').SpeciesFormatsDataTable =
 		tier: "NFE",
 	},
 	mamoswine: {
-		tier: "UU",
+		tier: "RUBL",
 		doublesTier: "(DUU)",
 		natDexTier: "RUBL",
 	},
@@ -4206,10 +4206,14 @@ export const FormatsData: import('../sim/dex-species').SpeciesFormatsDataTable =
 	},
 	volcanion: {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		tier: "RU",
 =======
 		tier: "RUBL",
 >>>>>>> origin
+=======
+		tier: "RUBL",
+>>>>>>> feature/season_14_outlaws
 		doublesTier: "DUU",
 		natDexTier: "RU",
 	},
@@ -4845,10 +4849,14 @@ export const FormatsData: import('../sim/dex-species').SpeciesFormatsDataTable =
 	},
 	inteleon: {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		tier: "PU",
 =======
 		tier: "PUBL",
 >>>>>>> origin
+=======
+		tier: "PUBL",
+>>>>>>> feature/season_14_outlaws
 		doublesTier: "(DUU)",
 		natDexTier: "RU",
 	},
@@ -5123,10 +5131,14 @@ export const FormatsData: import('../sim/dex-species').SpeciesFormatsDataTable =
 	},
 	frosmoth: {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		tier: "ZU",
 =======
 		tier: "PUBL",
 >>>>>>> origin
+=======
+		tier: "PUBL",
+>>>>>>> feature/season_14_outlaws
 		doublesTier: "(DUU)",
 		natDexTier: "RU",
 	},
