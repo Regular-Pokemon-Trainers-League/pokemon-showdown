@@ -60,6 +60,13 @@ export const Scripts: ModdedBattleScriptsData = {
 
 		this.modData('Learnsets', 'electrode').learnset.encore = ['9L1'];
 		this.modData('Learnsets', 'electrode').learnset.rapidspin = ['9L1'];
+		this.modData('Learnsets', 'electrode').learnset.explosion = ['9L1'];
+		this.modData('Learnsets', 'electrode').learnset.finalgambit = ['9L1'];
+		this.modData('Learnsets', 'electrode').learnset.healingwish = ['9L1'];
+		this.modData('Learnsets', 'electrode').learnset.lunardance = ['9L1'];
+		this.modData('Learnsets', 'electrode').learnset.memento = ['9L1'];
+		this.modData('Learnsets', 'electrode').learnset.mistyexplosion = ['9L1'];
+		this.modData('Learnsets', 'electrode').learnset.selfdestruct = ['9L1'];
 
 		this.modData('Learnsets', 'taurospaldeacombat').learnset.extremespeed = ['9L1'];
 		this.modData('Learnsets', 'taurospaldeacombat').learnset.uturn = ['9L1'];
@@ -270,5 +277,35 @@ export const Scripts: ModdedBattleScriptsData = {
 		this.modData('Learnsets', 'mandibuzz').learnset.fling = ['9L1'];
 		this.modData('Learnsets', 'mandibuzz').learnset.scavenge = ['9L1'];
 		this.modData('Learnsets', 'mandibuzz').learnset.bonemerang = ['9L1'];
+
+		this.modData('Learnsets', 'feraligatr').learnset.firefang = ['9L1'];
+		this.modData('Learnsets', 'feraligatr').learnset.thunderfang = ['9L1'];
+		this.modData('Learnsets', 'feraligatr').learnset.poisonfang = ['9L1'];
+
+		this.modData('Learnsets', 'salazzle').learnset.magmastorm = ['9L1'];
+		this.modData('Learnsets', 'salazzle').learnset.malignantchain = ['9L1'];
+		this.modData('Learnsets', 'salazzle').learnset.psychicnoise = ['9L1'];
+		this.modData('Learnsets', 'salazzle').learnset.banefulbunker = ['9L1'];
+
+		this.modData('Learnsets', 'kyogre').learnset.hurricane = ['9L1'];
+		this.modData('Learnsets', 'kyogre').learnset.tidalsurge = ['9L1'];
+
+		this.modData('Learnsets', 'azelf').learnset.rapidspin = ['9L1'];
+		this.modData('Learnsets', 'azelf').learnset.lootbox = ['9L1'];
+		this.modData('Learnsets', 'azelf').learnset.acupressure = ['9L1'];
+
+		this.modData('Learnsets', 'decidueye').learnset.sinisterarrows = ['9L1'];
+
+		this.modData('Learnsets', 'ogerpon').learnset.sappyseed = ['9L1'];
+		this.modData('Learnsets', 'ogerpon').learnset.thousandwaves = ['9L1'];
+
+		this.modData('Learnsets', 'glimmora').learnset.icebeam = ['9L1'];
+		this.modData('Learnsets', 'glimmora').learnset.malignantchain = ['9L1'];
+
+		this.modData('Learnsets', 'wobbuffet').learnset.nightshade = ['9L1'];
+		this.modData('Learnsets', 'wobbuffet').learnset.guillotine = ['9L1'];
+		this.modData('Learnsets', 'wobbuffet').learnset.shedtail = ['9L1'];
+
+		this.modData('Learnsets', 'raticate').learnset.lastbreakfast = ['9L1'];
 	},
 };

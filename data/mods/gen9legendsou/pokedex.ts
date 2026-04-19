@@ -1,36 +1,23 @@
 export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable = {
-	clefablemega: {
+	raichumegax: {
 		inherit: true,
-		abilities: { 0: "Serene Grace" },
+		abilities: { 0: "Levitate" },
 	},
-	victreebelmega: {
+	raichumegay: {
 		inherit: true,
-		abilities: { 0: "Corrosion" },
+		abilities: { 0: "Transistor" },
 	},
 	starmiemega: {
 		inherit: true,
 		baseStats: { hp: 60, atk: 100, def: 105, spa: 130, spd: 105, spe: 120 },
-		abilities: { 0: "Pure Power" },
-	},
-	dragonitemega: {
-		inherit: true,
-		abilities: { 0: "Soul-Heart" },
-	},
-	meganiummega: {
-		inherit: true,
-		abilities: { 0: "Flower Veil" },
-	},
-	feraligatrmega: {
-		inherit: true,
-		abilities: { 0: "Dragon's Maw" },
 	},
 	ampharosmega: {
 		inherit: true,
 		abilities: { 0: "Fluffy" },
 	},
-	skarmorymega: {
+	absolmegaz: {
 		inherit: true,
-		abilities: { 0: "Tough Claws" },
+		abilities: { 0: "Technician" },
 	},
 	mawilemega: {
 		inherit: true,
@@ -40,21 +27,29 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		inherit: true,
 		baseStats: { hp: 60, atk: 100, def: 85, spa: 80, spd: 85, spe: 100 },
 	},
+	staraptormega: {
+		inherit: true,
+		abilities: { 0: "Tough Claws" },
+	},
 	gallademega: {
 		inherit: true,
 		abilities: { 0: "Sharpness" },
 	},
-	froslassmega: {
+	garchompmegaz: {
 		inherit: true,
-		abilities: { 0: "Snow Warning" },
+		abilities: { 0: "Rough Skin" },
 	},
-	emboarmega: {
+	lucariomegaz: {
 		inherit: true,
-		abilities: { 0: "Supreme Overlord" },
+		abilities: { 0: "Mind's Eye" },
 	},
-	excadrillmega: {
+	heatranmega: {
 		inherit: true,
-		abilities: { 0: "Mold Breaker" },
+		abilities: { 0: "Filter" },
+	},
+	darkraimega: {
+		inherit: true,
+		abilities: { 0: "Dark Aura" },
 	},
 	audinomega: {
 		inherit: true,
@@ -70,23 +65,7 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 	},
 	eelektrossmega: {
 		inherit: true,
-		abilities: { 0: "Ion Battery" },
-	},
-	chandeluremega: {
-		inherit: true,
-		abilities: { 0: "Magic Guard" },
-	},
-	chesnaughtmega: {
-		inherit: true,
-		abilities: { 0: "Protective Thorns" },
-	},
-	delphoxmega: {
-		inherit: true,
-		abilities: { 0: "Levitate" },
-	},
-	greninjamega: {
-		inherit: true,
-		abilities: { 0: "Protean" },
+		abilities: { 0: "Hadron Engine" },
 	},
 	pyroarmega: {
 		inherit: true,
@@ -96,32 +75,52 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 		inherit: true,
 		abilities: { 0: "Regenerator" },
 	},
-	floettemega: {
-		inherit: true,
-		abilities: { 0: "Ange" },
-	},
 	malamarmega: {
 		inherit: true,
-		abilities: { 0: "Contrarian" },
+		abilities: { 0: "Contrary" },
 	},
 	barbaraclemega: {
 		inherit: true,
 		abilities: { 0: "Tough Claws" },
 	},
-	hawluchamega: {
-		inherit: true,
-		abilities: { 0: "Luchador's Pride" },
-	},
 	zygardemega: {
 		inherit: true,
 		abilities: { 0: "Aura Break" },
 	},
-	drampamega: {
+	golisopodmega: {
 		inherit: true,
-		abilities: { 0: "Drizzle" },
+		abilities: { 0: "Heatproof" },
+	},
+	magearnamega: {
+		inherit: true,
+		abilities: { 0: "Soul-Heart" },
+	},
+	magearnaoriginalmega: {
+		inherit: true,
+		abilities: { 0: "Soul-Heart" },
+	},
+	zeraoramega: {
+		inherit: true,
+		abilities: { 0: "Volt Absorb" },
 	},
 	falinksmega: {
 		inherit: true,
-		abilities: { 0: "Brass Bond" },
+		abilities: { 0: "Dauntless Shield" },
+	},
+	tatsugiricurlymega: {
+		inherit: true,
+		abilities: { 0: "Drizzle" },
+	},
+	tatsugiridroopymega: {
+		inherit: true,
+		abilities: { 0: "Drizzle" },
+	},
+	tatsugiristretchymega: {
+		inherit: true,
+		abilities: { 0: "Drizzle" },
+	},
+	baxcaliburmega: {
+		inherit: true,
+		abilities: { 0: "Thermal Exchange" },
 	},
 };
