@@ -1,12 +1,10 @@
 export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
 	watmelberry: {
 		name: "Watmel Berry",
-		megaStone: "Rayquaza-Mega",
-		megaEvolves: "Rayquaza",
+		megaStone: { "Rayquaza": "Rayquaza-Mega" },
 		itemUser: ["Rayquaza"],
 		onTakeItem(item, source) {
-			if (item.megaEvolves === source.baseSpecies.baseSpecies) return false;
-			return true;
+			return !item.megaStone?.[source.baseSpecies.baseSpecies];
 		},
 		gen: 9,
 		spritenum: 530,
