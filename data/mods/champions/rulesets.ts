@@ -5,15 +5,12 @@ export const Rulesets: import('../../../sim/dex-formats').ModdedFormatDataTable 
 			'Obtainable', 'Team Preview', 'Cancel Mod', 'Endless Battle Clause',
 			'Adjust Level = 50', 'Species Clause', 'Item Clause = 1', 'Min Team Size = 6',
 		],
-		onBegin() {
-			this.reportPercentages = true;
-		},
 	},
 	standard: {
 		inherit: true,
 		ruleset: [
 			'Standard AG',
-			'Sleep Moves Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Evasion Items Clause',
+			'Sleep Moves Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Clause',
 		],
 	},
 	standarddraft: {
@@ -33,19 +30,9 @@ export const Rulesets: import('../../../sim/dex-formats').ModdedFormatDataTable 
 		desc: "The in-game Flat Rules: Adjust Level 50, Species Clause, Item Clause = 1, -Mythical, -Restricted Legendary, Bring 6 Pick 3-6 depending on game type.",
 		ruleset: ['Obtainable', 'Team Preview', 'Species Clause', 'Nickname Clause', 'Item Clause = 1', 'Adjust Level = 50', 'Picked Team Size = Auto', 'Min Team Size = 6', 'Cancel Mod'],
 		banlist: ['Mythical', 'Restricted Legendary'],
-		onBegin() {
-			this.reportPercentages = true;
-		},
 	},
 	teampreview: {
-		effectType: 'Rule',
-		name: 'Team Preview',
-		desc: "Allows each player to see the Pok&eacute;mon on their opponent's team before they choose their lead Pok&eacute;mon",
-		onBegin() {
-			if (this.ruleTable.has(`teratypepreview`)) {
-				this.add('rule', 'Tera Type Preview: Tera Types are shown at Team Preview');
-			}
-		},
+		inherit: true,
 		onTeamPreview() {
 			this.add('clearpoke');
 			for (const pokemon of this.getAllPokemon()) {
@@ -64,5 +51,23 @@ export const Rulesets: import('../../../sim/dex-formats').ModdedFormatDataTable 
 			}
 			this.makeRequest('teampreview');
 		},
+	},
+	levelclausemod: {
+		effectType: 'Rule',
+		name: 'Level Clause Mod',
+		desc: "Changes stat calculation to depend on the Pok&eacute;mon's level, which need not be 50.",
+		onBegin() {
+			this.add('rule', "Level Clause Mod: Pokémon levels are not fixed at 50, with stats calculated accordingly.");
+		},
+		// Implemented in mods/champions/scripts.ts
+	},
+	natdexmod: {
+		effectType: 'ValidatorRule',
+		name: 'NatDex Mod',
+		desc: "Mechanics for National Dex formats",
+		ruleset: [
+			'+Unobtainable', '+Past', 'Sketch Post-Gen 7 Moves',
+		],
+		// implemented in the champions natdex draft format
 	},
 };
