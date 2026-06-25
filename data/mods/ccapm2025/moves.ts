@@ -3,7 +3,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	acupressure: {
 		inherit: true,
 		onHit(target) {
-			if (target.species.name === "Regigigas" && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (target.species.name === "Regigigas" && !this.ruleTable.has("+tag:cap")) {
 				if (!target.m.stats) {
 					const allStats: BoostID[] = [];
 					let stat: BoostID;
@@ -50,7 +50,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	aromatherapy: {
 		inherit: true,
 		/* beforeMoveCallback(pokemon) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (pokemon.species.name === 'Shaymin') {
 				pokemon.formeChange('Shaymin-Sky', null, true);
 				pokemon.setAbility('serenegrace', pokemon);
@@ -81,7 +81,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	diamondstorm: {
 		inherit: true,
 		onModifyMove(move, source) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 
 			const item = source.getItem();
 			if (!item?.isGem) return;
@@ -95,20 +95,11 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 					return typeMod + this.dex.getEffectiveness('Rock', type);
 				};
 		},
-		onHit(target, pokemon, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+		onAfterMoveSecondarySelf(pokemon, target, move) {
+			if (this.ruleTable.has("+tag:cap")) return;
 
 			const item = pokemon.getItem();
-			if (!item?.isGem) return;
-
-			if (pokemon.species.id === 'diancie' && !pokemon.transformed) {
-				move.willChangeForme = true;
-			}
-		},
-		onAfterMoveSecondarySelf(pokemon, target, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
-
-			if (move.willChangeForme) {
+			if (pokemon.species.id === 'diancie' && !pokemon.transformed && item?.isGem) {
 				pokemon.formeChange('Diancie-Infused', this.effect, true, '0', '[msg]');
 			}
 		},
@@ -118,8 +109,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Bug",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Bug)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -144,8 +135,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Dark",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Dark)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -170,8 +161,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Dragon",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Dragon)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -196,8 +187,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Electric",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Electric)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -222,8 +213,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Fairy",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Fairy)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -248,8 +239,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Fighting",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Fighting)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -274,8 +265,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Fire",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Fire)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -300,8 +291,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Flying",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Flying)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -326,8 +317,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Ghost",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Ghost)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -352,8 +343,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Grass",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Grass)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -378,8 +369,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Ground",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Ground)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -404,8 +395,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Ice",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Ice)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -430,8 +421,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Normal",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Normal)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -456,8 +447,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Poison",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Poison)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -482,8 +473,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Psychic",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Psychic)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -508,8 +499,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Rock",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Rock)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -534,8 +525,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Steel",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Steel)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -560,8 +551,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		basePower: 100,
 		category: "Physical",
-		realMove: "Diamond Storm",
-		name: "Diamond Storm Water",
+		placeholderFor: "Diamond Storm",
+		name: "Diamond Storm (Water)",
 		pp: 5,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
@@ -584,7 +575,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	explosion: {
 		inherit: true,
 		onAfterMove(pokemon, source, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (pokemon.species.name === "Electrode" && pokemon.fainted) {
 				this.add('-message', `Shakite escaped from its Pokéball!`);
 
@@ -613,7 +604,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	finalgambit: {
 		inherit: true,
 		onAfterMove(pokemon, source, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (pokemon.species.name === "Electrode" && pokemon.fainted) {
 				this.add('-message', `Shakite escaped from its Pokéball!`);
 
@@ -681,7 +672,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	healingwish: {
 		inherit: true,
 		onAfterMove(pokemon, source, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (pokemon.species.name === "Electrode" && pokemon.fainted) {
 				this.add('-message', `Shakite escaped from its Pokéball!`);
 
@@ -711,12 +702,15 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		inherit: true,
 		isNonstandard: undefined,
 		onAfterMove(source, target, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (source.baseSpecies.name === 'Jirachi') return;
 			if (!(source.side as any).holdHandsUsers) (source.side as any).holdHandsUsers = [source.baseSpecies.name];
 			else if (!(source.side as any).holdHandsUsers.includes(source.baseSpecies.name)) (source.side as any)
 				.holdHandsUsers.push(source.baseSpecies.name);
 		},
+		shortDesc: "If used twice, transforms Jirachi.",
+		pp: 1,
+		noPPBoosts: true,
 	},
 	lunarblessing: {
 		inherit: true,
@@ -728,7 +722,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	lunardance: {
 		inherit: true,
 		onAfterMove(pokemon, source, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (pokemon.species.name === "Electrode" && pokemon.fainted) {
 				this.add('-message', `Shakite escaped from its Pokéball!`);
 
@@ -757,7 +751,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	memento: {
 		inherit: true,
 		onAfterMove(pokemon, source, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (pokemon.species.name === "Electrode" && pokemon.fainted) {
 				this.add('-message', `Shakite escaped from its Pokéball!`);
 
@@ -786,7 +780,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	mistyexplosion: {
 		inherit: true,
 		onAfterMove(pokemon, source, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (pokemon.species.name === "Electrode" && pokemon.fainted) {
 				this.add('-message', `Shakite escaped from its Pokéball!`);
 
@@ -841,7 +835,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	selfdestruct: {
 		inherit: true,
 		onAfterMove(pokemon, source, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (pokemon.species.name === "Electrode" && pokemon.fainted) {
 				this.add('-message', `Shakite escaped from its Pokéball!`);
 
@@ -1064,7 +1058,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Rock",
 		contestType: "Beautiful",
-		desc: "This move's type matches the secondary type of the user. 20% chance to flinch foe.",
 		shortDesc: "Type varies based on the user's secondary type. 20% flinch.",
 	},
 	dragonscurse: {
@@ -1092,7 +1085,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		type: "Dragon",
 		contestType: "Clever",
 		shortDesc: "Curses the target.",
-		desc: "Curses the target.",
 	},
 	gaslight: {
 		accuracy: 100,
@@ -1108,6 +1100,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		type: "Normal",
 		zMove: { boost: { spd: 1 } },
 		contestType: "Tough",
+		shortDesc: "Makes the target go Berserk.",
 	},
 	heartofoak: {
 		num: 1312,
@@ -1143,6 +1136,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		type: "Grass",
 		zMove: { effect: 'heal' },
 		contestType: "Beautiful",
+		shortDesc: "Heals the user and its team by 1/8 of their max HP and cures their status conditions.",
 	},
 	sixtongueemojis: {
 		accuracy: 100,
@@ -1218,8 +1212,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Normal",
 		contestType: "Clever",
-		shortDesc: "If a foe is switching out, hits it.",
-		desc: "If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. No accuracy check is done if the user hits an opponent switching out, and the user's turn is over; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn.",
+		shortDesc: "Hits foes before they switch out.",
 	},
 	kaleidostorm: {
 		accuracy: 100,
@@ -1246,7 +1239,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Normal",
 		contestType: "Beautiful",
-		desc: "This move's type depends on the user's primary type. If the user's primary type is typeless, this move's type is the user's secondary type if it has one, otherwise the added type from Forest's Curse or Trick-or-Treat. This move is typeless if the user's type is typeless alone.",
 		shortDesc: "Type varies based on the user's primary type.",
 	},
 	yinyangblast: {
@@ -1272,7 +1264,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		contestType: "Cool",
-		desc: "This move's type effectiveness against Water is changed to be super effective no matter what this move's type is.",
 		shortDesc: "Super effective on Water.",
 	},
 	stackshield: {
@@ -1323,7 +1314,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		type: "Normal",
 		zMove: { effect: 'clearnegativeboost' },
 		contestType: "Cute",
-		desc: "Protects the user and flips its offenses and defenses.",
 		shortDesc: "Protects the user and flips its offenses and defenses.",
 	},
 	ribbonshift: {
@@ -1339,13 +1329,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		onEffectiveness(typeMod, target, type, move) {
 			return typeMod + this.dex.getEffectiveness('Psychic', type);
 		},
-		onHit(target, pokemon, move) {
-			if (pokemon.baseSpecies.baseSpecies === 'Sylveon' && !pokemon.transformed) {
-				move.willChangeForme = true;
-			}
-		},
 		onAfterMoveSecondarySelf(pokemon, target, move) {
-			if (move.willChangeForme) {
+			if (pokemon.baseSpecies.baseSpecies === 'Sylveon' && !pokemon.transformed) {
 				const sylveForme = pokemon.species.id === 'sylveonlumineon' ? '' : '-Lumineon';
 				pokemon.formeChange('Sylveon' + sylveForme, this.effect, false, '0', '[msg]');
 			}
@@ -1354,7 +1339,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 			if (source.species.name === 'Sylveon') {
 				return;
 			}
-			this.hint("Only a Pokemon whose form is base Sylveon can use this move.");
+			this.hint("Only a Pokemon whose form is Sylveon-Base can use this move.");
 			if (source.species.name === 'Sylveon-Lumineon') {
 				this.attrLastMove('[still]');
 				this.add('-fail', source, 'move: Ribbon Shift', '[forme]');
@@ -1370,8 +1355,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		type: "Fairy",
 		zMove: { basePower: 170 },
 		contestType: "Cute",
-		desc: "Combined type effectiveness with Psychic. Sylveon transforms. Unusable in Lumineon forme.",
-		shortDesc: "Combined type effectiveness with Psychic. Sylveon transforms. Unusable in Lumineon forme.",
+		shortDesc: "Sylveon-Base: Combined type effectiveness with Psychic. Sylveon transforms.",
 	},
 	// generationalevolution: {
 	// 	accuracy: 100,
@@ -1439,25 +1423,21 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		onHit(target, pokemon, move) {
 			if (pokemon.species.id === 'landorus') this.boost({ spa: 2 }, pokemon);
 			else if (pokemon.species.id === 'landorustherian') this.boost({ atk: 2 }, pokemon);
-
-			if (pokemon.baseSpecies.baseSpecies === 'Landorus' && pokemon.species.name !== 'Landorus-Ancestral') {
-				move.willChangeForme = true;
-			}
 		},
 		onAfterMoveSecondarySelf(pokemon, target, move) {
-			if (move.willChangeForme) {
+			if (pokemon.baseSpecies.baseSpecies === 'Landorus' && pokemon.species.name !== 'Landorus-Ancestral') {
 				pokemon.formeChange('Landorus-Ancestral', this.effect, true);
+				pokemon.setAbility('Download', pokemon);
 			}
 		},
 		target: "normal",
 		type: "Normal",
 		contestType: "Cool",
-		desc: "Always does 40 damage. Boosts the user's Atk or SpA by 2 stages, depending on Landorus's current form. Landorus transforms.",
 		shortDesc: "Always does 40 damage. Boosts Atk/SpA by 2 based on form. Landorus transforms.",
 	},
 	soulboundslash: {
 		accuracy: 100,
-		basePower: 90,
+		basePower: 70,
 		category: "Physical",
 		name: "Soulbound Slash",
 		pp: 10,
@@ -1480,7 +1460,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		contestType: "Cool",
-		// shortDesc: "Before damage, user and target swap type combinations if they don't share any types.",
+		shortDesc: "Before damage, user becomes primary type of target. 2x dmg on pkmn that share a type w/user.",
 	},
 	glacierfang: { // placeholder but the move change would probably be coded elsewhere
 		accuracy: 100,
@@ -1496,7 +1476,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		secondary: undefined,
 		target: "normal",
 		type: "Ice",
-		// shortDesc: "Becomes Melting Maul if Beartic-Freshwater.",
+		shortDesc: "No additional effect.",
 	},
 	meltingmaul: { // placeholder but the move change would probably be coded elsewhere
 		accuracy: 100,
@@ -1516,7 +1496,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		secondary: undefined,
 		target: "normal",
 		type: "Water",
-		// shortDesc: "Both Water & Ice-type. Can't be used twice in a row. Becomes Glacier Fang if base Beartic.",
+		shortDesc: "Combined type effectiveness with Ice. Cannot be used consecutively.",
 	},
 	frostbittenreception: {
 		accuracy: true,
@@ -1550,7 +1530,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		secondary: undefined,
 		target: "allAdjacentFoes",
 		type: "Ice",
-		// shortDesc: "Sets Snow. Foes can't heal and statused foes lose 1/10 of their max HP each turn.",
+		shortDesc: "Sets Snow. Foes can't heal and statused foes lose 1/10 of their max HP each turn.",
 	},
 	// Old Moves
 	kingsshield: {
@@ -1580,13 +1560,13 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 					}
 				}
 				if (this.checkMoveMakesContact(move, source, target)) {
-					const boosts = this.ruleTable.tagRules.includes("+pokemontag:cap") ? { atk: -1 } : { atk: -1, spa: -1 };
+					const boosts = this.ruleTable.has("+tag:cap") ? { atk: -1 } : { atk: -1, spa: -1 };
 					this.boost(boosts, source, target, this.dex.getActiveMove("King's Shield"));
 				}
 				return this.NOT_FAIL;
 			},
 			onHit(target, source, move) {
-				const boosts = this.ruleTable.tagRules.includes("+pokemontag:cap") ? { atk: -1 } : { atk: -1, spa: -1 };
+				const boosts = this.ruleTable.has("+tag:cap") ? { atk: -1 } : { atk: -1, spa: -1 };
 				if (move.isZOrMaxPowered && this.checkMoveMakesContact(move, source, target)) {
 					this.boost(boosts, source, target, this.dex.getActiveMove("King's Shield"));
 				}
@@ -1629,7 +1609,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		priority: 0,
 		flags: { contact: 1, protect: 1, mirror: 1, metronome: 1, slicing: 1 },
 		onModifyMove(move, pokemon, target) {
-			if (!target || this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (!target || this.ruleTable.has("+tag:cap")) return;
 			const atk = pokemon.getStat('atk', false, true);
 			const spa = pokemon.getStat('spa', false, true);
 			const def = target.getStat('def', false, true);
@@ -1644,11 +1624,11 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		},
 		onHit(target, source, move) {
 			// Shell Side Arm normally reveals its category via animation on cart, but doesn't play either custom animation against allies
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (!source.isAlly(target)) this.hint(move.category + " Razor Shell");
 		},
 		onAfterSubDamage(damage, target, source, move) {
-			if (this.ruleTable.tagRules.includes("+pokemontag:cap")) return;
+			if (this.ruleTable.has("+tag:cap")) return;
 			if (!source.isAlly(target)) this.hint(move.category + " Razor Shell");
 		},
 		secondary: {
@@ -1660,8 +1640,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		contestType: "Cool",
-		desc: "Has a 50% chance to lower the target's Defense and a 50% chance to lower the target's Special Attack. This move becomes a special attack that doesn't make contact if the value of ((((2 * the user's level / 5 + 2) * 90 * X) / Y) / 50), where X is the user's Attack stat and Y is the target's Defense stat, is greater than the same value where X is the user's Special Attack stat and Y is the target's Special Defense stat. No stat modifiers other than stat stage changes are considered for this purpose. If the two values are equal, this move chooses a damage category at random.",
-		shortDesc: "50% -1 Def, -50% -SpD. Special+non-contact if it would be stronger.",
+		shortDesc: "50% -1 Def/SpD. Special + Non-Contact if it would be stronger.",
 	},
 	plasmafists: {
 		num: 721,
@@ -1674,25 +1653,21 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		priority: 0,
 		flags: { contact: 1, protect: 1, mirror: 1, punch: 1 },
 		pseudoWeather: 'iondeluge',
-		onHit(target, pokemon, move) {
-			if (this.effectState.bigZera) return;
-			if (pokemon.baseSpecies.baseSpecies === 'Zeraora' &&
-				pokemon.volatiles['charge'] &&
-				!pokemon.transformed && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
-				move.willChangeForme = true;
-				this.effectState.bigZera = true;
-			}
-		},
 		onAfterMoveSecondarySelf(pokemon, target, move) {
-			if (move.willChangeForme && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (!this.effectState.bigZera && !this.ruleTable.has("+tag:cap") &&
+				pokemon.baseSpecies.baseSpecies === 'Zeraora' && pokemon.volatiles['charge'] && !pokemon.transformed) {
 				const zeraForme = pokemon.species.id === 'zeraorabig' ? '' : '-Big';
 				pokemon.formeChange('Zeraora' + zeraForme, this.effect, false, '0', '[msg]');
+				this.add('-message', "Zeraora's energy is overflowing!");
+				pokemon.setAbility('electricsurge', pokemon);
+				this.effectState.bigZera = true;
 			}
 		},
 		secondary: undefined,
 		target: "normal",
 		type: "Electric",
 		contestType: "Cool",
+		shortDesc: "Zeraora: If used while Charge active, transforms.",
 	},
 	morningsun: {
 		num: 234,
@@ -1727,7 +1702,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		},
 		onAfterMoveSecondarySelf(pokemon, target, move) {
 			if (this.effectState.solStice) return;
-			if (pokemon.species.name === 'Volcarona' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Volcarona' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Volcarona-Solstice', null, true);
 				pokemon.setAbility('flamebody', pokemon);
 				this.effectState.solStice = true;
@@ -1761,7 +1736,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 				if (move.id !== 'chillyreception') return;
 				this.add('-prepare', source, 'Chilly Reception', '[premajor]');
 				if (this.effectState.frostKing) return;
-				if (source.species.name === 'Slowking' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+				if (source.species.name === 'Slowking' && !this.ruleTable.has("+tag:cap")) {
 					source.formeChange('Slowking-Frostking', null, true);
 					source.setAbility('regenerator', source);
 					this.effectState.frostKing = true;
@@ -1774,7 +1749,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	/* synthesis: {
 		inherit: true,
 		beforeMoveCallback(pokemon) {
-			if (pokemon.species.name === 'Shaymin' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Shaymin' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Shaymin-Sky', null, true);
 				pokemon.setAbility('serenegrace', pokemon);
 				return true;
@@ -1784,7 +1759,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	flowershield: {
 		inherit: true,
 		beforeMoveCallback(pokemon) {
-			if (pokemon.species.name === 'Shaymin' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Shaymin' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Shaymin-Sky', null, true);
 				pokemon.setAbility('serenegrace', pokemon);
 				return true;
@@ -1794,7 +1769,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	floralhealing: {
 		inherit: true,
 		beforeMoveCallback(pokemon) {
-			if (pokemon.species.name === 'Shaymin' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Shaymin' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Shaymin-Sky', null, true);
 				pokemon.setAbility('serenegrace', pokemon);
 				return true;
@@ -1804,7 +1779,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	strengthsap: {
 		inherit: true,
 		beforeMoveCallback(pokemon) {
-			if (pokemon.species.name === 'Shaymin' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Shaymin' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Shaymin-Sky', null, true);
 				pokemon.setAbility('serenegrace', pokemon);
 				return true;
@@ -1814,7 +1789,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	seedflare: {
 		inherit: true,
 		beforeMoveCallback(pokemon) {
-			if (pokemon.species.name === 'Shaymin-Sky' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Shaymin-Sky' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Shaymin', null, true);
 				pokemon.setAbility('flowerveil', pokemon);
 				return true;
@@ -1824,7 +1799,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	gigadrain: {
 		inherit: true,
 		beforeMoveCallback(pokemon) {
-			if (pokemon.species.name === 'Shaymin-Sky' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Shaymin-Sky' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Shaymin', null, true);
 				pokemon.setAbility('flowerveil', pokemon);
 				return true;
@@ -1834,7 +1809,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	flowertrick: {
 		inherit: true,
 		beforeMoveCallback(pokemon) {
-			if (pokemon.species.name === 'Shaymin-Sky' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Shaymin-Sky' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Shaymin', null, true);
 				pokemon.setAbility('flowerveil', pokemon);
 				return true;
@@ -1844,7 +1819,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	sappyseed: {
 		inherit: true,
 		beforeMoveCallback(pokemon) {
-			if (pokemon.species.name === 'Shaymin-Sky' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Shaymin-Sky' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Shaymin', null, true);
 				pokemon.setAbility('flowerveil', pokemon);
 				return true;
@@ -1867,19 +1842,19 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		},
 		onAfterMoveSecondarySelf(pokemon, target, move) {
 			if (this.effectState.geneSect) return;
-			if (pokemon.species.name === 'Genesect-Burn' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Genesect-Burn' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Genesect-Core', null, true);
 				pokemon.setAbility('martialize', pokemon);
 				this.effectState.geneSect = true;
-			} else if (pokemon.species.name === 'Genesect-Douse' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			} else if (pokemon.species.name === 'Genesect-Douse' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Genesect-Rust', null, true);
 				pokemon.setAbility('intoxicate', pokemon);
 				this.effectState.geneSect = true;
-			} else if (pokemon.species.name === 'Genesect-Shock' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			} else if (pokemon.species.name === 'Genesect-Shock' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Genesect-Airborne', null, true);
 				pokemon.setAbility('aerilate', pokemon);
 				this.effectState.geneSect = true;
-			} else if (pokemon.species.name === 'Genesect-Chill' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			} else if (pokemon.species.name === 'Genesect-Chill' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Genesect-Luminous', null, true);
 				pokemon.setAbility('pixilate', pokemon);
 				this.effectState.geneSect = true;
@@ -1889,6 +1864,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Normal",
 		contestType: "Cool",
+		shortDesc: "Type varies based on the held Drive. Genesect transforms.",
 	},
 	shellsmash: {
 		num: 504,
@@ -1901,7 +1877,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		flags: { snatch: 1, metronome: 1 },
 		onAfterMoveSecondarySelf(pokemon, target, move) {
 			if (this.effectState.rockInn) return;
-			if (pokemon.species.name === 'Crustle' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Crustle' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Crustle-Crawler', null, true);
 				pokemon.setAbility('sharpness', pokemon);
 				this.effectState.rockInn = true;
@@ -1949,13 +1925,29 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		onHit(target, source) {
 			this.directDamage(source.maxhp / 2, source, source);
 		},
-		onAfterMoveSecondarySelf(pokemon, target, move) {
+		onAfterMoveSecondarySelf(pokemon, target) {
 			// if (this.effectState.griGus) return;
-			if (pokemon.species.name === 'Cofagrigus' && !this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+			if (pokemon.species.name === 'Cofagrigus' && !this.ruleTable.has("+tag:cap")) {
 				pokemon.formeChange('Cofagrigus-Unchained', null, true);
-				// this.effectState.griGus = true;
-			}
+				pokemon.setAbility('darkmagic', pokemon);
+				// Switch Curse for Dragon's Curse
+				const curseIndex = pokemon.set.moves
+					.map(move => move.toLowerCase().replace(/[^a-z0-9]/g, '')).indexOf('curse' as ID);
+				const move = this.dex.moves.get('dragonscurse');
+				const sketchedMove = {
+					move: move.name,
+					id: move.id,
+					pp: move.pp,
+					maxpp: move.pp,
+					target: move.target,
+					disabled: false,
+					used: false,
+				};
+				pokemon.moveSlots[curseIndex] = sketchedMove;
+				pokemon.baseMoveSlots[curseIndex] = sketchedMove;
+			};
 		},
+		// this.effectState.griGus = true;
 		condition: {
 			onStart(pokemon, source) {
 				this.add('-start', pokemon, 'Curse', `[of] ${source}`);
@@ -1987,7 +1979,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 				return;
 			}
 			if (attacker.species.name === 'Dragapult' && !attacker.transformed &&
-				!this.ruleTable.tagRules.includes("+pokemontag:cap")) {
+				!this.ruleTable.has("+tag:cap")) {
 				attacker.formeChange('Dragapult-Manifest', move);
 				attacker.setAbility('analytic', attacker);
 			}
