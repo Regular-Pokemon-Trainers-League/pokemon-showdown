@@ -587,7 +587,11 @@ export class TeamValidator {
 			if (set.name === set.species) {
 				set.name = species.baseSpecies;
 			} else {
-				problems.push(`Nickname "${set.name}" too long (should be 18 characters or fewer)`);
+				problems.push(`${set.species}'s nickname "${set.name}" is too long.`);
+				problems.push(
+					`(It's ${set.name.length} characters long, but should be 18 or less. ` +
+					`Some characters, like emojis, may count as more than one.)`
+				);
 			}
 		}
 		set.name = dex.getName(set.name);
@@ -737,6 +741,7 @@ export class TeamValidator {
 			}
 		}
 
+		let rockHeadBasculin = false;
 		if (!set.ability) set.ability = 'No Ability';
 		if (ruleTable.has('obtainableabilities')) {
 			if (dex.gen <= 2 || dex.currentMod === 'gen7letsgo') {
@@ -776,6 +781,16 @@ export class TeamValidator {
 					}
 				} else {
 					setSources.isHidden = false;
+				}
+				if (dex.currentMod === 'gen5bw1' && species.id === 'basculinbluestriped' && set.ability === 'Rock Head') {
+					const eventData: EventInfo = {
+						generation: 5, level: 25, gender: "M", ivs: { hp: 20, atk: 31, def: 20, spa: 20, spd: 20, spe: 20 }, nature: "Adamant",
+					};
+					const eventProblems = this.validateEvent(
+						set, setSources, eventData, species, ` to have Rock Head`, `from an in-game trade`
+					);
+					if (eventProblems) problems.push(...eventProblems);
+					rockHeadBasculin = true;
 				}
 			}
 		}
@@ -1057,7 +1072,7 @@ export class TeamValidator {
 				problems.push(`${name} has a Hidden Ability - it can't use moves from before Gen 5.`);
 			}
 			if (
-				species.maleOnlyHidden && setSources.isHidden && setSources.sourcesBefore < 5 &&
+				((species.maleOnlyHidden && setSources.isHidden) || rockHeadBasculin) && setSources.sourcesBefore < 5 &&
 				setSources.sources.every(source => source.charAt(1) === 'E')
 			) {
 				problems.push(`${name} has an unbreedable Hidden Ability - it can't use egg moves.`);
@@ -1910,6 +1925,9 @@ export class TeamValidator {
 				// placeholder at this step of validation. It's not impossible for
 				// this to happen with an unusual ruleset, though, so we won't throw.
 				return `${displayName} is a placeholder for a Gigantamax sprite, not a real Pokémon. (This message is likely a validator bug.)`;
+			}
+			if (thing.effectType === 'Move' && thing.isNonstandard === 'Gmax') {
+				return `${displayName} is a placeholder for the Gigantamax version of ${thing.isMax}. It can't actually exist on a normal moveset.`;
 			}
 			if (thing.isNonstandard === 'Past' || thing.isNonstandard === 'Future') {
 				return `${displayName} does not exist in Gen ${dex.gen}.`;
