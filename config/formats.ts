@@ -716,6 +716,44 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		},
 	},
 	{
+		name: "[Gen 9] Metronome Singles",
+		teraPreviewDefault: false,
+		mod: 'doubmetro',
+		gameType: 'singles',
+		bestOfDefault: true,
+		ruleset: ['[Gen 9] Custom Game', 'Open Team Sheets'],
+		checkCanLearn(move, species, lsetData, set) {
+			if (move.id === 'metronome') {
+				return null;
+			}
+			return [`${set.name || set.species} has illegal moves.`, `(Pok\u00e9mon can only have one Metronome in their moveset)`];
+		},
+		onValidateSet(set) {
+			const species = this.dex.species.get(set.species);
+			const item = this.dex.items.get(set.item);
+			if (species.isMega) {
+				if (!item.megaStone) {
+					return [
+						`${set.name || set.species}'s item must be it's mega stone.`,
+					];
+				}
+				else {
+					if (set.species !== item.megaStone[species.baseSpecies]) {
+						return [
+							`${set.name || set.species} is holding the wrong megastone.`,
+						];
+					}
+				}
+			}
+			if (set.moves.length !== 1 || this.dex.moves.get(set.moves[0]).id !== 'metronome') {
+				return [`${set.name || set.species} has illegal moves.`, `(Pok\u00e9mon can only have one Metronome in their moveset)`];
+			}
+			if (!set.gender) {
+				set.gender = species.gender || ['M', 'F'][Math.floor(Math.random() * 2)];
+			}
+		},
+	},
+	{
 		name: "[Gen 9] Metronome Doubles",
 		teraPreviewDefault: false,
 		mod: 'doubmetro',

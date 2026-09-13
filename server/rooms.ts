@@ -2109,7 +2109,7 @@ export class GameRoom extends BasicRoom {
 		}
 
 		// Otherwise, (we're probably a side server), upload the replay through LoginServer
-
+		connection?.popup(`Your replay is being uploaded to the main server. Please wait...`);
 		const [result] = await LoginServer.request('addreplay', {
 			id,
 			log,
