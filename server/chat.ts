@@ -1159,7 +1159,7 @@ export class CommandContext extends MessageContext {
 			throw new Chat.ErrorMessage(this.TL`You must choose a name before you can talk.`);
 		}
 		if (!user.registered) {
-			throw new Chat.ErrorMessage(this.tr`To chat you must be a registered user.`);
+			throw new Chat.ErrorMessage(this.TL`To chat you must be a registered user.`);
 		}
 		if (!user.can('bypassall')) {
 			const lockType = (user.namelocked ? this.TL`namelocked` : user.locked ? this.TL`locked` : ``);
